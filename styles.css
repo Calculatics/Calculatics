@@ -137,3 +137,133 @@
   }
 
 }
+/* ===== Enhanced category cards ===== */
+
+.category-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.category-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-title h2 {
+  margin: 0;
+}
+
+.category-icon {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.enhanced-card {
+  min-height: 104px;
+  display: grid;
+  grid-template-columns: 58px 1fr 20px;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+}
+
+.card-icon {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.card-content strong {
+  font-size: 16px;
+  color: var(--text);
+}
+
+.card-content > span {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.card-arrow {
+  font-size: 27px;
+  font-weight: 300;
+  color: #64748b;
+  justify-self: end;
+}
+
+/* Finance — green */
+
+.category-finance .category-icon {
+  color: #07883f;
+  background: #eaf8ef;
+}
+
+.category-finance .card-icon {
+  color: #07883f;
+  background: #eaf8ef;
+}
+
+/* Property — blue */
+
+.category-property .category-icon {
+  color: #1769e0;
+  background: #eaf2ff;
+}
+
+.category-property .card-icon {
+  color: #1769e0;
+  background: #eaf2ff;
+}
+
+/* Card polish */
+
+.enhanced-card:hover {
+  transform: translateY(-2px);
+  border-color: #d5dae2;
+  box-shadow: 0 10px 30px rgba(16, 24, 40, .07);
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .enhanced-card {
+    grid-template-columns: 48px 1fr 16px;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 21px;
+  }
+
+  .card-content strong {
+    font-size: 15px;
+  }
+
+  .card-content > span {
+    font-size: 13px;
+  }
+}
