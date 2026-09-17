@@ -106,3 +106,34 @@
     gap: 9px 16px;
   }
 }
+/* ===== Desktop hero layout fix ===== */
+
+@media (min-width: 900px) {
+
+  .hero .container.hero-layout {
+    width: min(1220px, calc(100% - 32px));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 55px;
+    align-items: center;
+  }
+
+  .hero-content {
+    width: 100%;
+  }
+
+  .hero-visual {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 18px;
+  }
+
+  .hero-visual img {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    display: block;
+    border-radius: 18px;
+  }
+
+}
