@@ -267,4 +267,32 @@
     font-size: 13px;
   }
 }
+/* ===== Remaining category colours ===== */
 
+/* Cars — orange */
+.category-cars .category-icon,
+.category-cars .card-icon {
+  color: #d97706;
+  background: #fff3df;
+}
+
+/* Business — purple */
+.category-business .category-icon,
+.category-business .card-icon {
+  color: #7c3aed;
+  background: #f2eafe;
+}
+
+/* Investing — teal */
+.category-investing .category-icon,
+.category-investing .card-icon {
+  color: #0f766e;
+  background: #e6f6f3;
+}
+
+/* Trading — indigo */
+.category-trading .category-icon,
+.category-trading .card-icon {
+  color: #4f46e5;
+  background: #eeedff;
+}
