@@ -325,19 +325,20 @@
   font-weight: 800;
   line-height: 1;
 }
-/* ===== Larger category heading icons ===== */
+/* ===== Final category icon sizing ===== */
 
 .category-icon {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
 }
 
 .category-icon svg {
-  width: 31px;
-  height: 31px;
+  width: 34px;
+  height: 34px;
 }
 
 .category-icon.finance-symbol,
 .category-icon.crypto-symbol {
-  font-size: 31px;
+  font-size: 34px;
 }
