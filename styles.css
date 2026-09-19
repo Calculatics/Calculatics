@@ -315,3 +315,13 @@
   width: 26px;
   height: 26px;
 }
+.finance-symbol {
+  font-size: 27px;
+  font-weight: 800;
+  line-height: 1;
+}
+.crypto-symbol {
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1;
+}
