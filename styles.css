@@ -328,17 +328,18 @@
 /* ===== Final category icon sizing ===== */
 
 .category-icon {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
+  width: 88px;
+  height: 88px;
+  flex: 0 0 88px;
+  border-radius: 18px;
 }
 
 .category-icon svg {
-  width: 34px;
-  height: 34px;
+  width: 68px;
+  height: 68px;
 }
 
 .category-icon.finance-symbol,
 .category-icon.crypto-symbol {
-  font-size: 34px;
+  font-size: 68px;
 }
