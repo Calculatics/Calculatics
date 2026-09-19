@@ -296,3 +296,9 @@
   color: #4f46e5;
   background: #eeedff;
 }
+/* Crypto — amber */
+.category-crypto .category-icon,
+.category-crypto .card-icon {
+  color: #b45309;
+  background: #fff7e6;
+}
