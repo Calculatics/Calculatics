@@ -302,3 +302,16 @@
   color: #b45309;
   background: #fff7e6;
 }
+/* ===== SVG icons ===== */
+
+.category-icon svg,
+.card-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.card-icon svg {
+  width: 26px;
+  height: 26px;
+}
