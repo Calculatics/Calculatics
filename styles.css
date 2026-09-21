@@ -348,3 +348,70 @@
 .category-title h2 {
   font-size: 26px;
 }
+/* ===== New full-width homepage hero ===== */
+
+.hero {
+  padding: 32px 0 34px;
+}
+
+.hero .container.hero-layout {
+  width: min(1120px, calc(100% - 32px));
+  display: block;
+}
+
+.hero-visual {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.hero-visual img {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  border-radius: 18px;
+}
+
+.hero-content {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.hero .search {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hero-benefits {
+  justify-content: center;
+  margin-top: 18px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .hero {
+    padding: 20px 0 28px;
+  }
+
+  .hero .container.hero-layout {
+    width: min(100% - 24px, 1120px);
+  }
+
+  .hero-visual {
+    padding: 0;
+    border-radius: 14px;
+  }
+
+  .hero-visual img {
+    border-radius: 14px;
+  }
+
+  .hero-content {
+    margin-top: 18px;
+  }
+
+  .hero-benefits {
+    justify-content: flex-start;
+  }
+}
