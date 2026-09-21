@@ -415,3 +415,39 @@
     justify-content: flex-start;
   }
 }
+/* ===== Desktop hero: image left, search right ===== */
+
+@media (min-width: 900px) {
+  .hero .container.hero-layout {
+    width: min(1500px, calc(100% - 64px));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .hero-visual {
+    width: 100%;
+  }
+
+  .hero-visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .hero-content {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .hero .search {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .hero-benefits {
+    justify-content: flex-start;
+  }
+}
