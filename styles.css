@@ -451,3 +451,27 @@
     justify-content: flex-start;
   }
 }
+/* ===== Hero search messaging ===== */
+
+.hero-content .hero-benefits {
+  margin: 0 0 24px;
+  font-size: 16px;
+  font-weight: 700;
+  gap: 14px 28px;
+}
+
+.browse-prompt {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Keep mobile compact */
+@media (max-width: 899px) {
+  .hero-content .hero-benefits {
+    margin-bottom: 16px;
+    font-size: 14px;
+    gap: 8px 16px;
+  }
+}
