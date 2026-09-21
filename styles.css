@@ -475,3 +475,35 @@
     gap: 8px 16px;
   }
 }
+/* ===== Larger desktop hero benefits ===== */
+
+@media (min-width: 900px) {
+
+  .hero-content .hero-benefits {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0 0 28px;
+    font-size: 21px;
+    font-weight: 700;
+  }
+
+  .hero-content .hero-benefits span {
+    display: block;
+  }
+
+  .hero .search {
+    height: 64px;
+  }
+
+  .hero .search input {
+    font-size: 18px;
+  }
+
+  .browse-prompt {
+    margin-top: 18px;
+    font-size: 17px;
+    text-align: center;
+  }
+}
