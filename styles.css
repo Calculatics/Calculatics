@@ -557,3 +557,8 @@
     color: var(--muted);
   }
 }
+@media (min-width: 900px) {
+  .hero-content .hero-benefits {
+    transform: translateY(-25px);
+  }
+}
