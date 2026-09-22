@@ -687,3 +687,86 @@
   font-weight: 700;
   color: #475467;
 }
+/* ===== Final mobile category cards ===== */
+
+@media (max-width: 700px) {
+
+  /* Category spacing */
+  .category {
+    padding: 18px 0 4px;
+  }
+
+  /* Large white category rectangle */
+  .category-card {
+    display: block;
+    width: 100%;
+    padding: 24px 20px;
+
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+
+    color: var(--text);
+    text-decoration: none;
+
+    box-shadow: 0 4px 18px rgba(16, 24, 40, 0.04);
+  }
+
+  /* Prevent purple link styling */
+  .category-card:link,
+  .category-card:visited,
+  .category-card:hover,
+  .category-card:active {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  /* Icon + category title */
+  .category-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .category-card-heading h2 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 750;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  /* Calculator list */
+  .category-calculators {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+
+    font-size: 16px;
+    font-weight: 550;
+    line-height: 1.4;
+    color: #475467;
+  }
+
+  .category-calculators span {
+    display: block;
+    color: #475467;
+    text-decoration: none;
+  }
+
+  /* Only show first 3 calculators on mobile */
+  .category-calculators span:nth-child(n+4) {
+    display: none;
+  }
+
+  /* Bottom link */
+  .category-view {
+    margin-top: 18px;
+
+    font-size: 15px;
+    font-weight: 700;
+    color: #475467;
+    text-decoration: none;
+  }
+}
