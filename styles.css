@@ -507,3 +507,53 @@
     text-align: center;
   }
 }
+/* ===== Final desktop hero right side ===== */
+
+@media (min-width: 900px) {
+
+  /* Benefits */
+  .hero-content .hero-benefits {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    margin: 0 0 38px;
+  }
+
+  .hero-content .hero-benefits span {
+    display: block;
+    font-size: 28px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #16a34a;
+  }
+
+  /* Search box */
+  .hero .search {
+    width: 100%;
+    max-width: none;
+    height: 72px;
+    padding: 0 22px;
+    gap: 18px;
+  }
+
+  /* Magnifying glass */
+  .hero .search > span {
+    font-size: 32px;
+  }
+
+  /* Search text */
+  .hero .search input {
+    font-size: 24px;
+    font-weight: 650;
+  }
+
+  /* Scroll-down message */
+  .browse-prompt {
+    margin: 28px 0 0;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 650;
+    color: var(--muted);
+  }
+}
