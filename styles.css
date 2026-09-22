@@ -562,3 +562,14 @@
     transform: translateY(-25px);
   }
 }
+/* Highlight hero search bar */
+.hero .search {
+  border: 2px solid #cbd5e1;
+  box-shadow: 0 6px 22px rgba(16, 24, 40, 0.10);
+  background: #ffffff;
+}
+
+.hero .search:focus-within {
+  border-color: #64748b;
+  box-shadow: 0 8px 26px rgba(16, 24, 40, 0.14);
+}
