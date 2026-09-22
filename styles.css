@@ -669,3 +669,21 @@
     margin-top: 24px;
   }
 }
+/* ===== Category card refinements ===== */
+
+.category-card-heading h2 {
+  font-size: 30px;
+  font-weight: 750;
+}
+
+.category-calculators {
+  font-size: 16px;
+  font-weight: 550;
+  color: #475467;
+}
+
+.category-view {
+  font-size: 15px;
+  font-weight: 700;
+  color: #475467;
+}
