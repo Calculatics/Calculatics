@@ -152,3 +152,43 @@
     margin: 0;
   }
 }
+/* ===== Shared Property calculator result sizing ===== */
+
+.property-results {
+  background: #1769e0;
+  color: #ffffff;
+}
+
+.property-results span {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Standard result labels */
+.property-results .result-grid span,
+.property-results .property-tax-result-grid span,
+.property-results .mortgage-result-item span {
+  font-size: 15px;
+}
+
+/* Standard result numbers */
+.property-results .result-grid strong,
+.property-results .property-tax-result-grid strong,
+.property-results .mortgage-result-item strong {
+  font-size: 21px;
+  color: #ffffff;
+}
+
+/* Large/main result labels */
+.property-results .main-result span,
+.property-results .property-tax-main-result span,
+.property-results .interest-saved-result span {
+  font-size: 16px;
+}
+
+/* Large/main result numbers */
+.property-results .main-result strong,
+.property-results .property-tax-main-result strong,
+.property-results .interest-saved-result strong {
+  font-size: 40px;
+  color: #ffffff;
+}
