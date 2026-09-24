@@ -192,3 +192,53 @@
   font-size: 40px;
   color: #ffffff;
 }
+/* ===== Rent vs Buy input layout ===== */
+
+.rent-buy-form {
+  display: block;
+}
+
+.rent-buy-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.rent-buy-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.rent-buy-column:first-child {
+  padding-right: 28px;
+  border-right: 1px solid var(--line);
+}
+
+.rent-buy-column h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.comparison-period {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 600px) {
+
+  .rent-buy-columns {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .rent-buy-column:first-child {
+    padding-right: 0;
+    padding-bottom: 24px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+}
