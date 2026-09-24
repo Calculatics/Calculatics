@@ -47,131 +47,159 @@
 
       <section class="calculator">
 
-        <!-- INPUTS -->
+       <!-- INPUTS -->
 
-        <div class="form">
+<div class="form rent-buy-form">
 
-          <label>
-            Home price ($)
-            <input
-              id="homePrice"
-              type="number"
-              value="400000"
-              min="0"
-              step="1000"
-            >
-          </label>
+  <div class="rent-buy-columns">
 
-          <label>
-            Down payment ($)
-            <input
-              id="downPayment"
-              type="number"
-              value="80000"
-              min="0"
-              step="1000"
-            >
-          </label>
+    <!-- BUY COLUMN -->
 
-          <label>
-            Mortgage interest rate (%)
-            <input
-              id="interestRate"
-              type="number"
-              value="6.5"
-              min="0"
-              step="0.01"
-            >
-          </label>
+    <div class="rent-buy-column">
 
-          <label>
-            Mortgage term (years)
-            <select id="mortgageTerm">
-              <option value="30">30 years</option>
-              <option value="20">20 years</option>
-              <option value="15">15 years</option>
-              <option value="10">10 years</option>
-            </select>
-          </label>
+      <h2>Buy</h2>
 
-          <label>
-            Annual property tax ($)
-            <input
-              id="propertyTax"
-              type="number"
-              value="4800"
-              min="0"
-              step="100"
-            >
-          </label>
+      <label>
+        Home price ($)
+        <input
+          id="homePrice"
+          type="number"
+          value="400000"
+          min="0"
+          step="1000"
+        >
+      </label>
 
-          <label>
-            Annual home insurance ($)
-            <input
-              id="insurance"
-              type="number"
-              value="1800"
-              min="0"
-              step="100"
-            >
-          </label>
+      <label>
+        Down payment ($)
+        <input
+          id="downPayment"
+          type="number"
+          value="80000"
+          min="0"
+          step="1000"
+        >
+      </label>
 
-          <label>
-            Annual maintenance (% of home value)
-            <input
-              id="maintenanceRate"
-              type="number"
-              value="1"
-              min="0"
-              step="0.1"
-            >
-          </label>
+      <label>
+        Mortgage interest rate (%)
+        <input
+          id="interestRate"
+          type="number"
+          value="6.5"
+          min="0"
+          step="0.01"
+        >
+      </label>
 
-          <label>
-            Monthly rent ($)
-            <input
-              id="monthlyRent"
-              type="number"
-              value="2200"
-              min="0"
-              step="50"
-            >
-          </label>
+      <label>
+        Mortgage term (years)
+        <select id="mortgageTerm">
+          <option value="30">30 years</option>
+          <option value="20">20 years</option>
+          <option value="15">15 years</option>
+          <option value="10">10 years</option>
+        </select>
+      </label>
 
-          <label>
-            Annual rent increase (%)
-            <input
-              id="rentIncrease"
-              type="number"
-              value="3"
-              min="0"
-              step="0.1"
-            >
-          </label>
+      <label>
+        Annual property tax ($)
+        <input
+          id="propertyTax"
+          type="number"
+          value="4800"
+          min="0"
+          step="100"
+        >
+      </label>
 
-          <label>
-            Annual home appreciation (%)
-            <input
-              id="appreciationRate"
-              type="number"
-              value="3"
-              step="0.1"
-            >
-          </label>
+      <label>
+        Annual home insurance ($)
+        <input
+          id="insurance"
+          type="number"
+          value="1800"
+          min="0"
+          step="100"
+        >
+      </label>
 
-          <label>
-            Comparison period (years)
-            <input
-              id="comparisonYears"
-              type="number"
-              value="5"
-              min="1"
-              max="30"
-              step="1"
-            >
-          </label>
+      <label>
+        Annual maintenance (% of home value)
+        <input
+          id="maintenanceRate"
+          type="number"
+          value="1"
+          min="0"
+          step="0.1"
+        >
+      </label>
 
-        </div>
+      <label>
+        Annual home appreciation (%)
+        <input
+          id="appreciationRate"
+          type="number"
+          value="3"
+          step="0.1"
+        >
+      </label>
+
+    </div>
+
+
+    <!-- RENT COLUMN -->
+
+    <div class="rent-buy-column">
+
+      <h2>Rent</h2>
+
+      <label>
+        Monthly rent ($)
+        <input
+          id="monthlyRent"
+          type="number"
+          value="2200"
+          min="0"
+          step="50"
+        >
+      </label>
+
+      <label>
+        Annual rent increase (%)
+        <input
+          id="rentIncrease"
+          type="number"
+          value="3"
+          min="0"
+          step="0.1"
+        >
+      </label>
+
+    </div>
+
+  </div>
+
+
+  <!-- APPLIES TO BOTH -->
+
+  <div class="comparison-period">
+
+    <label>
+      Comparison period (years)
+      <input
+        id="comparisonYears"
+        type="number"
+        value="5"
+        min="1"
+        max="30"
+        step="1"
+      >
+    </label>
+
+  </div>
+
+</div>
 
 
         <!-- RESULTS -->
