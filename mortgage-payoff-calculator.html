@@ -1,1 +1,442 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mortgage Payoff Calculator — Calculatics</title><link rel="stylesheet" href="styles.css"></head><body><header class="site-header"><div class="container nav"><a class="brand" href="index.html">Calculatics</a><a href="index.html" class="back">All calculators</a></div></header><main class="calc-page"><div class="container"><a class="backlink" href="index.html">← All calculators</a><h1>Mortgage Payoff Calculator</h1><p class="intro">See how extra payments can change your mortgage payoff timeline.</p><section class="info"><h2>Coming next</h2><p>This calculator is part of the Calculatics build. The mortgage calculator is currently the first fully working calculator in this prototype.</p></section></div></main></body></html>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Mortgage Payoff Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Calculate the monthly payment needed to pay off your mortgage sooner and estimate the interest and time you could save."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+
+      <a class="brand" href="index.html">Calculatics.com</a>
+
+      <a class="back" href="index.html">← All calculators</a>
+
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Property calculators
+      </a>
+
+      <h1>Mortgage Payoff Calculator</h1>
+
+      <p class="intro">
+        Calculate the monthly payment needed to pay off your mortgage
+        sooner and see how much time and interest you could save.
+        <br><br>
+        Enter your current mortgage balance, interest rate, remaining
+        term and desired payoff term in the white box. The blue box
+        shows the monthly payment required to reach your payoff goal
+        and how it compares with your current repayment schedule.
+      </p>
+
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Current mortgage balance ($)
+            <input
+              id="balance"
+              type="number"
+              value="300000"
+              min="0"
+              step="1000"
+            >
+          </label>
+
+
+          <label>
+            Interest rate (%)
+            <input
+              id="rate"
+              type="number"
+              value="6.5"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+
+          <label>
+            Remaining mortgage term (years)
+            <input
+              id="remainingTerm"
+              type="number"
+              value="30"
+              min="1"
+              step="1"
+            >
+          </label>
+
+
+          <label>
+            Desired payoff term (years)
+            <input
+              id="targetTerm"
+              type="number"
+              value="15"
+              min="1"
+              step="1"
+            >
+          </label>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results property-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Current monthly payment</span>
+              <strong id="currentPayment">$0</strong>
+            </div>
+
+            <div>
+              <span>Extra needed each month</span>
+              <strong id="extraPayment">$0</strong>
+            </div>
+
+            <div>
+              <span>Interest at current term</span>
+              <strong id="currentInterest">$0</strong>
+            </div>
+
+            <div>
+              <span>Interest at target term</span>
+              <strong id="targetInterest">$0</strong>
+            </div>
+
+            <div>
+              <span>Time saved</span>
+              <strong id="timeSaved">—</strong>
+            </div>
+
+            <div>
+              <span>Interest saved</span>
+              <strong id="interestSaved">$0</strong>
+            </div>
+
+          </div>
+
+
+          <div class="main-result">
+
+            <span>Monthly payment needed</span>
+            <strong id="targetPayment">$0</strong>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- EXPLANATION -->
+
+      <section class="info">
+
+        <h2>How the mortgage payoff calculator works</h2>
+
+        <p>
+          This calculator estimates the monthly principal and interest
+          payment required to pay off your remaining mortgage balance
+          within your chosen payoff term.
+        </p>
+
+        <p>
+          It compares that payment with the estimated payment required
+          over your current remaining mortgage term and shows the
+          additional monthly payment, time saved and estimated interest
+          savings.
+        </p>
+
+        <p>
+          The calculation assumes a fixed interest rate and regular
+          monthly payments. It does not include property taxes,
+          insurance, mortgage insurance, HOA fees or other housing costs.
+        </p>
+
+        <p>
+          This calculator provides estimates for planning purposes only.
+          Your lender's payoff figures may differ.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+
+  <script>
+
+    const balanceInput =
+      document.getElementById("balance");
+
+    const rateInput =
+      document.getElementById("rate");
+
+    const remainingTermInput =
+      document.getElementById("remainingTerm");
+
+    const targetTermInput =
+      document.getElementById("targetTerm");
+
+
+    const currentPaymentEl =
+      document.getElementById("currentPayment");
+
+    const extraPaymentEl =
+      document.getElementById("extraPayment");
+
+    const currentInterestEl =
+      document.getElementById("currentInterest");
+
+    const targetInterestEl =
+      document.getElementById("targetInterest");
+
+    const timeSavedEl =
+      document.getElementById("timeSaved");
+
+    const interestSavedEl =
+      document.getElementById("interestSaved");
+
+    const targetPaymentEl =
+      document.getElementById("targetPayment");
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function monthlyPayment(
+      principal,
+      annualRate,
+      months
+    ) {
+
+      if (months <= 0) {
+        return 0;
+      }
+
+      const monthlyRate =
+        annualRate / 100 / 12;
+
+
+      if (monthlyRate === 0) {
+        return principal / months;
+      }
+
+
+      return (
+        principal *
+        monthlyRate *
+        Math.pow(1 + monthlyRate, months)
+      ) /
+      (
+        Math.pow(1 + monthlyRate, months) - 1
+      );
+
+    }
+
+
+    function formatYears(years) {
+
+      const wholeYears =
+        Math.floor(years);
+
+      const months =
+        Math.round((years - wholeYears) * 12);
+
+
+      if (wholeYears === 0) {
+        return `${months} ${months === 1 ? "month" : "months"}`;
+      }
+
+
+      if (months === 0) {
+        return `${wholeYears} ${wholeYears === 1 ? "year" : "years"}`;
+      }
+
+
+      return `${wholeYears} ${
+        wholeYears === 1 ? "year" : "years"
+      } ${months} ${
+        months === 1 ? "month" : "months"
+      }`;
+
+    }
+
+
+    function calculate() {
+
+      const balance =
+        Number(balanceInput.value);
+
+      const rate =
+        Number(rateInput.value);
+
+      const remainingTerm =
+        Number(remainingTermInput.value);
+
+      const targetTerm =
+        Number(targetTermInput.value);
+
+
+      if (
+        !Number.isFinite(balance) ||
+        !Number.isFinite(rate) ||
+        !Number.isFinite(remainingTerm) ||
+        !Number.isFinite(targetTerm) ||
+        balance < 0 ||
+        rate < 0 ||
+        remainingTerm <= 0 ||
+        targetTerm <= 0
+      ) {
+        return;
+      }
+
+
+      const currentMonths =
+        remainingTerm * 12;
+
+      const targetMonths =
+        targetTerm * 12;
+
+
+      const currentPayment =
+        monthlyPayment(
+          balance,
+          rate,
+          currentMonths
+        );
+
+
+      const targetPayment =
+        monthlyPayment(
+          balance,
+          rate,
+          targetMonths
+        );
+
+
+      const currentInterest =
+        currentPayment * currentMonths - balance;
+
+
+      const targetInterest =
+        targetPayment * targetMonths - balance;
+
+
+      const extraPayment =
+        Math.max(
+          0,
+          targetPayment - currentPayment
+        );
+
+
+      const interestSaved =
+        Math.max(
+          0,
+          currentInterest - targetInterest
+        );
+
+
+      const yearsSaved =
+        Math.max(
+          0,
+          remainingTerm - targetTerm
+        );
+
+
+      currentPaymentEl.textContent =
+        money(currentPayment);
+
+      targetPaymentEl.textContent =
+        money(targetPayment);
+
+      extraPaymentEl.textContent =
+        money(extraPayment);
+
+      currentInterestEl.textContent =
+        money(currentInterest);
+
+      targetInterestEl.textContent =
+        money(targetInterest);
+
+      interestSavedEl.textContent =
+        money(interestSaved);
+
+      timeSavedEl.textContent =
+        formatYears(yearsSaved);
+
+    }
+
+
+    balanceInput.addEventListener(
+      "input",
+      calculate
+    );
+
+    rateInput.addEventListener(
+      "input",
+      calculate
+    );
+
+    remainingTermInput.addEventListener(
+      "input",
+      calculate
+    );
+
+    targetTermInput.addEventListener(
+      "input",
+      calculate
+    );
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
