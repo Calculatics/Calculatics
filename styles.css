@@ -940,3 +940,38 @@
   }
 
 }
+/* ===== Property Tax - blue results panel ===== */
+
+.property-tax-results {
+  background: #1769e0;
+  color: #ffffff;
+}
+
+.property-tax-result-grid div {
+  border-top-color: rgba(255, 255, 255, 0.22);
+}
+
+.property-tax-result-grid div:nth-child(odd) {
+  border-right-color: rgba(255, 255, 255, 0.22);
+}
+
+.property-tax-result-grid span {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.property-tax-result-grid strong {
+  color: #ffffff;
+}
+
+.property-tax-main-result {
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  background: #1769e0;
+}
+
+.property-tax-main-result span {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.property-tax-main-result strong {
+  color: #ffffff;
+}
