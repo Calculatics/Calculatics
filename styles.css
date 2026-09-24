@@ -120,13 +120,31 @@
 /* Mortgage results layout */
 
 .property-results .result-grid div {
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.property-results .result-grid span {
+  font-size: 15px;
+}
+
+.property-results .result-grid strong {
+  font-size: 21px;
 }
 
 .property-results .main-result {
   margin: 0;
+  padding: 30px 28px;
   border-top: 1px solid rgba(255, 255, 255, 0.28);
   background: #1769e0;
+}
+
+.property-results .main-result span {
+  font-size: 16px;
+}
+
+.property-results .main-result strong {
+  font-size: 40px;
 }
 
 @media (min-width: 800px) {
