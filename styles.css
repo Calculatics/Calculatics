@@ -783,3 +783,85 @@
   }
 
 }
+/* ===== Extra mortgage payment results ===== */
+
+.mortgage-extra-results {
+  padding: 0;
+  overflow: hidden;
+}
+
+.mortgage-result-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.mortgage-result-column {
+  padding: 22px;
+}
+
+.mortgage-result-column:first-child {
+  border-right: 1px solid var(--line);
+}
+
+.result-section-title {
+  margin-bottom: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+}
+
+.mortgage-result-item {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 22px;
+}
+
+.mortgage-result-item:last-child {
+  margin-bottom: 0;
+}
+
+.mortgage-result-item span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.mortgage-result-item strong {
+  font-size: 18px;
+}
+
+.interest-saved-result {
+  display: grid;
+  gap: 5px;
+  padding: 22px;
+
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.interest-saved-result span {
+  font-size: 13px;
+  opacity: .75;
+}
+
+.interest-saved-result strong {
+  font-size: 32px;
+  letter-spacing: -.04em;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .mortgage-result-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .mortgage-result-column:first-child {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+}
