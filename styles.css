@@ -117,13 +117,20 @@
 .property-results .result-grid strong {
   color: #ffffff;
 }
-/* Mortgage main result at bottom */
-
-.property-results .main-result {
-  border-top: 1px solid rgba(255, 255, 255, 0.28);
-}
+/* Mortgage results layout */
 
 .property-results .result-grid div {
-  border-top: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.property-results .main-result {
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  background: #1769e0;
+}
+
+@media (min-width: 800px) {
+  .property-results .result-grid {
+    margin: 0;
+  }
 }
