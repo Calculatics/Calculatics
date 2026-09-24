@@ -94,3 +94,26 @@
 .property-tax-result-grid{grid-template-columns:1fr}
 .property-tax-result-grid div:nth-child(odd){border-right:0}
 }
+/* ===== Property calculator results ===== */
+
+.property-results {
+  background: #1769e0;
+  color: #ffffff;
+}
+
+.property-results .main-result {
+  background: #1769e0;
+  color: #ffffff;
+}
+
+.property-results .result-grid div {
+  border-top-color: rgba(255, 255, 255, 0.22);
+}
+
+.property-results .result-grid span {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.property-results .result-grid strong {
+  color: #ffffff;
+}
