@@ -117,3 +117,13 @@
 .property-results .result-grid strong {
   color: #ffffff;
 }
+/* Mortgage main result at bottom */
+
+.property-results .main-result {
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.property-results .result-grid div {
+  border-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
