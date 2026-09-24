@@ -1,1 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Property Tax Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Use our free property tax calculator to estimate annual, monthly, quarterly and daily property taxes based on your home value and property tax rate."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+
+      <a class="brand" href="index.html">Calculatics.com</a>
+
+      <a class="back" href="index.html">← All calculators</a>
+
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">← Property calculators</a>
+
+      <h1>Property Tax Calculator</h1>
+
+      <p class="intro">
+        Estimate how much you could pay in property taxes based on your
+        home's value and property tax rate.
+        <br><br>
+        Enter your home value and property tax rate in the left box.
+        The calculator shows your estimated property tax costs in the
+        right box, broken down annually, monthly, quarterly and daily.
+      </p>
+
+
+      <div class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Home value ($)
+            <input
+              id="homeValue"
+              type="number"
+              min="0"
+              step="1000"
+              value="400000"
+            >
+          </label>
+
+
+          <label>
+            Property tax rate (%)
+            <input
+              id="taxRate"
+              type="number"
+              min="0"
+              step="0.01"
+              value="1.10"
+            >
+          </label>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results property-tax-results">
+
+          <div class="property-tax-main-result">
+
+            <span>Estimated annual property tax</span>
+            <strong id="annualTax">$0</strong>
+
+          </div>
+
+
+          <div class="property-tax-result-grid">
+
+            <div>
+              <span>Monthly property tax</span>
+              <strong id="monthlyTax">$0</strong>
+            </div>
+
+            <div>
+              <span>Quarterly property tax</span>
+              <strong id="quarterlyTax">$0</strong>
+            </div>
+
+            <div>
+              <span>Daily property tax</span>
+              <strong id="dailyTax">$0</strong>
+            </div>
+
+            <div>
+              <span>Property tax rate</span>
+              <strong id="displayRate">0%</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- EXPLANATION -->
+
+      <section class="info">
+
+        <h2>How property tax is calculated</h2>
+
+        <p>
+          This calculator estimates property tax by multiplying the home
+          value you enter by the property tax rate.
+        </p>
+
+        <p>
+          For example, a $400,000 home with a 1.10% property tax rate would
+          have an estimated annual property tax of $4,400.
+        </p>
+
+        <p>
+          Actual property taxes can differ because local governments may use
+          an assessed value rather than the property's market value. Exemptions,
+          assessment rules, local tax districts and other charges can also
+          affect the amount due.
+        </p>
+
+        <p>
+          This calculator provides estimates only. Check with your local tax
+          authority or assessor for the property tax rules and rates that apply
+          to a specific property.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    const homeValueInput = document.getElementById("homeValue");
+    const taxRateInput = document.getElementById("taxRate");
+
+    const annualTaxEl = document.getElementById("annualTax");
+    const monthlyTaxEl = document.getElementById("monthlyTax");
+    const quarterlyTaxEl = document.getElementById("quarterlyTax");
+    const dailyTaxEl = document.getElementById("dailyTax");
+    const displayRateEl = document.getElementById("displayRate");
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function calculate() {
+
+      const homeValue = Number(homeValueInput.value);
+      const taxRate = Number(taxRateInput.value);
+
+
+      if (
+        !Number.isFinite(homeValue) ||
+        !Number.isFinite(taxRate) ||
+        homeValue < 0 ||
+        taxRate < 0
+      ) {
+        return;
+      }
+
+
+      const annualTax =
+        homeValue * (taxRate / 100);
+
+      const monthlyTax =
+        annualTax / 12;
+
+      const quarterlyTax =
+        annualTax / 4;
+
+      const dailyTax =
+        annualTax / 365;
+
+
+      annualTaxEl.textContent =
+        money(annualTax);
+
+      monthlyTaxEl.textContent =
+        money(monthlyTax);
+
+      quarterlyTaxEl.textContent =
+        money(quarterlyTax);
+
+      dailyTaxEl.textContent =
+        money(dailyTax);
+
+      displayRateEl.textContent =
+        `${taxRate.toFixed(2)}%`;
+
+    }
+
+
+    homeValueInput.addEventListener("input", calculate);
+    taxRateInput.addEventListener("input", calculate);
+
+
+    calculate();
+
+  </script>
+
+</body>
+</html>
