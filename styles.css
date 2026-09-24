@@ -975,3 +975,38 @@
 .property-tax-main-result strong {
   color: #ffffff;
 }
+/* ===== Extra Mortgage Payment - blue results panel ===== */
+
+.mortgage-extra-results {
+  background: #1769e0;
+  color: #ffffff;
+}
+
+.mortgage-result-column:first-child {
+  border-right-color: rgba(255, 255, 255, 0.22);
+}
+
+.result-section-title {
+  color: #ffffff;
+}
+
+.mortgage-result-item span {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.mortgage-result-item strong {
+  color: #ffffff;
+}
+
+.interest-saved-result {
+  background: #1769e0;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .mortgage-result-column:first-child {
+    border-right: 0;
+    border-bottom-color: rgba(255, 255, 255, 0.22);
+  }
+}
