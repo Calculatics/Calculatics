@@ -1,1 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Extra Mortgage Payment Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Use our free extra mortgage payment calculator to estimate how much time and interest you could save by making additional monthly mortgage payments."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+
+      <a class="brand" href="index.html">Calculatics.com</a>
+
+      <a class="back" href="index.html">← All calculators</a>
+
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">← Property calculators</a>
+
+      <h1>Extra Mortgage Payment Calculator</h1>
+
+      <p class="intro">
+        See how making extra monthly mortgage payments could reduce your
+        payoff time and the total interest you pay.
+      </p>
+
+
+      <div class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Mortgage balance ($)
+            <input
+              id="balance"
+              type="number"
+              min="0"
+              step="1000"
+              value="300000"
+            >
+          </label>
+
+
+          <label>
+            Interest rate (%)
+            <input
+              id="rate"
+              type="number"
+              min="0"
+              step="0.01"
+              value="6.5"
+            >
+          </label>
+
+
+          <label>
+            Remaining mortgage term (years)
+            <input
+              id="years"
+              type="number"
+              min="1"
+              max="50"
+              step="1"
+              value="30"
+            >
+          </label>
+
+
+          <label>
+            Extra monthly payment ($)
+            <input
+              id="extra"
+              type="number"
+              min="0"
+              step="25"
+              value="200"
+            >
+          </label>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results">
+
+          <div class="main-result">
+
+            <span>Interest saved</span>
+
+            <strong id="interestSaved">$0</strong>
+
+          </div>
+
+
+          <div class="result-grid">
+
+            <div>
+              <span>Normal monthly payment</span>
+              <strong id="normalPayment">$0</strong>
+            </div>
+
+
+            <div>
+              <span>New monthly payment</span>
+              <strong id="newPayment">$0</strong>
+            </div>
+
+
+            <div>
+              <span>Original payoff time</span>
+              <strong id="originalTime">—</strong>
+            </div>
+
+
+            <div>
+              <span>New payoff time</span>
+              <strong id="newTime">—</strong>
+            </div>
+
+
+            <div>
+              <span>Time saved</span>
+              <strong id="timeSaved">—</strong>
+            </div>
+
+
+            <div>
+              <span>Total interest with extra payments</span>
+              <strong id="newInterest">$0</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- EXPLANATION -->
+
+      <section class="info">
+
+        <h2>How extra mortgage payments can help</h2>
+
+        <p>
+          Making additional payments toward your mortgage principal can reduce
+          the amount of interest charged over the life of the loan and may allow
+          you to pay off your mortgage earlier.
+        </p>
+
+        <p>
+          Enter your current mortgage balance, interest rate, remaining term
+          and the amount you plan to pay extra each month. The calculator
+          compares your normal repayment schedule with the accelerated
+          repayment schedule.
+        </p>
+
+        <p>
+          This calculator provides estimates only. Your actual mortgage terms,
+          payment schedule and lender rules may affect the results.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    const balanceInput = document.getElementById("balance");
+    const rateInput = document.getElementById("rate");
+    const yearsInput = document.getElementById("years");
+    const extraInput = document.getElementById("extra");
+
+
+    const normalPaymentEl = document.getElementById("normalPayment");
+    const newPaymentEl = document.getElementById("newPayment");
+
+    const originalTimeEl = document.getElementById("originalTime");
+    const newTimeEl = document.getElementById("newTime");
+
+    const timeSavedEl = document.getElementById("timeSaved");
+
+    const interestSavedEl = document.getElementById("interestSaved");
+    const newInterestEl = document.getElementById("newInterest");
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function formatMonths(months) {
+
+      const years = Math.floor(months / 12);
+      const remainingMonths = months % 12;
+
+      if (years === 0) {
+        return `${remainingMonths} months`;
+      }
+
+      if (remainingMonths === 0) {
+        return `${years} years`;
+      }
+
+      return `${years} years ${remainingMonths} months`;
+
+    }
+
+
+    function calculate() {
+
+      const balance = Number(balanceInput.value);
+      const annualRate = Number(rateInput.value);
+      const years = Number(yearsInput.value);
+      const extra = Number(extraInput.value);
+
+
+      if (
+        balance <= 0 ||
+        annualRate < 0 ||
+        years <= 0 ||
+        extra < 0
+      ) {
+        return;
+      }
+
+
+      const months = years * 12;
+      const monthlyRate = annualRate / 100 / 12;
+
+
+      let normalPayment;
+
+
+      if (monthlyRate === 0) {
+
+        normalPayment = balance / months;
+
+      } else {
+
+        normalPayment =
+          balance *
+          monthlyRate *
+          Math.pow(1 + monthlyRate, months) /
+          (Math.pow(1 + monthlyRate, months) - 1);
+
+      }
+
+
+      const originalInterest =
+        normalPayment * months - balance;
+
+
+      const paymentWithExtra =
+        normalPayment + extra;
+
+
+      let remainingBalance = balance;
+      let totalInterest = 0;
+      let acceleratedMonths = 0;
+
+
+      while (
+        remainingBalance > 0.01 &&
+        acceleratedMonths < 1200
+      ) {
+
+        const interest =
+          remainingBalance * monthlyRate;
+
+        let principal =
+          paymentWithExtra - interest;
+
+
+        if (principal <= 0) {
+          break;
+        }
+
+
+        if (principal > remainingBalance) {
+          principal = remainingBalance;
+        }
+
+
+        totalInterest += interest;
+
+        remainingBalance -= principal;
+
+        acceleratedMonths++;
+
+      }
+
+
+      const monthsSaved =
+        Math.max(0, months - acceleratedMonths);
+
+
+      const interestSaved =
+        Math.max(0, originalInterest - totalInterest);
+
+
+      normalPaymentEl.textContent =
+        money(normalPayment);
+
+
+      newPaymentEl.textContent =
+        money(paymentWithExtra);
+
+
+      originalTimeEl.textContent =
+        formatMonths(months);
+
+
+      newTimeEl.textContent =
+        formatMonths(acceleratedMonths);
+
+
+      timeSavedEl.textContent =
+        formatMonths(monthsSaved);
+
+
+      interestSavedEl.textContent =
+        money(interestSaved);
+
+
+      newInterestEl.textContent =
+        money(totalInterest);
+
+    }
+
+
+    balanceInput.addEventListener("input", calculate);
+    rateInput.addEventListener("input", calculate);
+    yearsInput.addEventListener("input", calculate);
+    extraInput.addEventListener("input", calculate);
+
+
+    calculate();
+
+  </script>
+
+</body>
+</html>
