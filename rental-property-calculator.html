@@ -1,1 +1,516 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rental Property Calculator — Calculatics</title><link rel="stylesheet" href="styles.css"></head><body><header class="site-header"><div class="container nav"><a class="brand" href="index.html">Calculatics</a><a href="index.html" class="back">All calculators</a></div></header><main class="calc-page"><div class="container"><a class="backlink" href="index.html">← All calculators</a><h1>Rental Property Calculator</h1><p class="intro">Explore rental income, expenses and cash flow.</p><section class="info"><h2>Coming next</h2><p>This calculator is part of the Calculatics build. The mortgage calculator is currently the first fully working calculator in this prototype.</p></section></div></main></body></html>
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Rental Property Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Calculate rental property cash flow, expenses, cap rate and cash-on-cash return."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+
+      <a class="brand" href="index.html">Calculatics.com</a>
+
+      <a class="back" href="index.html">
+        ← All calculators
+      </a>
+
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Property calculators
+      </a>
+
+      <h1>Rental Property Calculator</h1>
+
+      <p class="intro">
+        Estimate the potential cash flow and returns from a rental property.
+        <br><br>
+        Enter the property purchase details, expected rental income and
+        expenses in the white box. The blue box shows your estimated
+        mortgage payment, expenses, cash flow and investment returns.
+      </p>
+
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Purchase price ($)
+            <input
+              id="price"
+              type="number"
+              value="300000"
+              min="0"
+              step="1000"
+            >
+          </label>
+
+
+          <label>
+            Down payment ($)
+            <input
+              id="downPayment"
+              type="number"
+              value="60000"
+              min="0"
+              step="1000"
+            >
+          </label>
+
+
+          <label>
+            Interest rate (%)
+            <input
+              id="interestRate"
+              type="number"
+              value="6.5"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+
+          <label>
+            Loan term (years)
+            <select id="loanTerm">
+              <option value="30">30 years</option>
+              <option value="20">20 years</option>
+              <option value="15">15 years</option>
+              <option value="10">10 years</option>
+            </select>
+          </label>
+
+
+          <label>
+            Monthly rent ($)
+            <input
+              id="monthlyRent"
+              type="number"
+              value="2500"
+              min="0"
+              step="50"
+            >
+          </label>
+
+
+          <label>
+            Annual property tax ($)
+            <input
+              id="propertyTax"
+              type="number"
+              value="3600"
+              min="0"
+              step="100"
+            >
+          </label>
+
+
+          <label>
+            Annual insurance ($)
+            <input
+              id="insurance"
+              type="number"
+              value="1500"
+              min="0"
+              step="100"
+            >
+          </label>
+
+
+          <label>
+            Maintenance (% of rent)
+            <input
+              id="maintenance"
+              type="number"
+              value="5"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+
+          <label>
+            Vacancy (% of rent)
+            <input
+              id="vacancy"
+              type="number"
+              value="5"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+
+          <label>
+            Other monthly expenses ($)
+            <input
+              id="otherExpenses"
+              type="number"
+              value="100"
+              min="0"
+              step="10"
+            >
+          </label>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results property-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Mortgage payment</span>
+              <strong id="mortgagePayment">$0</strong>
+            </div>
+
+            <div>
+              <span>Operating expenses</span>
+              <strong id="operatingExpenses">$0</strong>
+            </div>
+
+            <div>
+              <span>Total monthly expenses</span>
+              <strong id="totalExpenses">$0</strong>
+            </div>
+
+            <div>
+              <span>Annual cash flow</span>
+              <strong id="annualCashFlow">$0</strong>
+            </div>
+
+            <div>
+              <span>Cap rate</span>
+              <strong id="capRate">0%</strong>
+            </div>
+
+            <div>
+              <span>Cash-on-cash return</span>
+              <strong id="cashOnCash">0%</strong>
+            </div>
+
+          </div>
+
+
+          <div class="main-result">
+
+            <span>Estimated monthly cash flow</span>
+            <strong id="monthlyCashFlow">$0</strong>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- EXPLANATION -->
+
+      <section class="info">
+
+        <h2>How the rental property calculator works</h2>
+
+        <p>
+          This calculator estimates the potential monthly and annual
+          cash flow from a rental property after mortgage payments and
+          estimated operating expenses.
+        </p>
+
+        <p>
+          Operating expenses include property tax, insurance,
+          maintenance, vacancy and any other monthly expenses you enter.
+        </p>
+
+        <p>
+          The cap rate is calculated using estimated annual net operating
+          income before mortgage payments, divided by the property
+          purchase price.
+        </p>
+
+        <p>
+          Cash-on-cash return compares estimated annual cash flow with
+          the down payment entered. This is a simplified estimate and
+          does not include closing costs, renovation costs, appreciation,
+          income taxes or selling costs.
+        </p>
+
+        <p>
+          This calculator provides estimates for planning purposes only.
+          Actual rental income, expenses and investment returns can vary.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+
+  <script>
+
+    const inputs = {
+      price: document.getElementById("price"),
+      downPayment: document.getElementById("downPayment"),
+      interestRate: document.getElementById("interestRate"),
+      loanTerm: document.getElementById("loanTerm"),
+      monthlyRent: document.getElementById("monthlyRent"),
+      propertyTax: document.getElementById("propertyTax"),
+      insurance: document.getElementById("insurance"),
+      maintenance: document.getElementById("maintenance"),
+      vacancy: document.getElementById("vacancy"),
+      otherExpenses: document.getElementById("otherExpenses")
+    };
+
+
+    const results = {
+      mortgagePayment: document.getElementById("mortgagePayment"),
+      operatingExpenses: document.getElementById("operatingExpenses"),
+      totalExpenses: document.getElementById("totalExpenses"),
+      annualCashFlow: document.getElementById("annualCashFlow"),
+      capRate: document.getElementById("capRate"),
+      cashOnCash: document.getElementById("cashOnCash"),
+      monthlyCashFlow: document.getElementById("monthlyCashFlow")
+    };
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function percent(value) {
+
+      if (!Number.isFinite(value)) {
+        return "0%";
+      }
+
+      return `${value.toFixed(2)}%`;
+
+    }
+
+
+    function calculateMortgage(
+      principal,
+      annualRate,
+      years
+    ) {
+
+      const months = years * 12;
+
+      if (principal <= 0 || months <= 0) {
+        return 0;
+      }
+
+
+      const monthlyRate =
+        annualRate / 100 / 12;
+
+
+      if (monthlyRate === 0) {
+        return principal / months;
+      }
+
+
+      return (
+        principal *
+        monthlyRate *
+        Math.pow(1 + monthlyRate, months)
+      ) /
+      (
+        Math.pow(1 + monthlyRate, months) - 1
+      );
+
+    }
+
+
+    function calculate() {
+
+      const price =
+        Math.max(0, Number(inputs.price.value) || 0);
+
+      const downPayment =
+        Math.max(0, Number(inputs.downPayment.value) || 0);
+
+      const interestRate =
+        Math.max(0, Number(inputs.interestRate.value) || 0);
+
+      const loanTerm =
+        Math.max(0, Number(inputs.loanTerm.value) || 0);
+
+      const monthlyRent =
+        Math.max(0, Number(inputs.monthlyRent.value) || 0);
+
+      const annualPropertyTax =
+        Math.max(0, Number(inputs.propertyTax.value) || 0);
+
+      const annualInsurance =
+        Math.max(0, Number(inputs.insurance.value) || 0);
+
+      const maintenanceRate =
+        Math.max(0, Number(inputs.maintenance.value) || 0);
+
+      const vacancyRate =
+        Math.max(0, Number(inputs.vacancy.value) || 0);
+
+      const otherExpenses =
+        Math.max(0, Number(inputs.otherExpenses.value) || 0);
+
+
+      const loanAmount =
+        Math.max(0, price - downPayment);
+
+
+      const mortgagePayment =
+        calculateMortgage(
+          loanAmount,
+          interestRate,
+          loanTerm
+        );
+
+
+      const monthlyPropertyTax =
+        annualPropertyTax / 12;
+
+      const monthlyInsurance =
+        annualInsurance / 12;
+
+      const monthlyMaintenance =
+        monthlyRent * (maintenanceRate / 100);
+
+      const monthlyVacancy =
+        monthlyRent * (vacancyRate / 100);
+
+
+      const operatingExpenses =
+        monthlyPropertyTax +
+        monthlyInsurance +
+        monthlyMaintenance +
+        monthlyVacancy +
+        otherExpenses;
+
+
+      const totalExpenses =
+        operatingExpenses +
+        mortgagePayment;
+
+
+      const monthlyCashFlow =
+        monthlyRent -
+        totalExpenses;
+
+
+      const annualCashFlow =
+        monthlyCashFlow * 12;
+
+
+      const annualEffectiveRent =
+        monthlyRent * 12 *
+        (1 - vacancyRate / 100);
+
+
+      const annualOperatingExpensesForNOI =
+        annualPropertyTax +
+        annualInsurance +
+        (monthlyMaintenance * 12) +
+        (otherExpenses * 12);
+
+
+      const annualNOI =
+        annualEffectiveRent -
+        annualOperatingExpensesForNOI;
+
+
+      const capRate =
+        price > 0
+          ? (annualNOI / price) * 100
+          : 0;
+
+
+      const cashOnCash =
+        downPayment > 0
+          ? (annualCashFlow / downPayment) * 100
+          : 0;
+
+
+      results.mortgagePayment.textContent =
+        money(mortgagePayment);
+
+      results.operatingExpenses.textContent =
+        money(operatingExpenses);
+
+      results.totalExpenses.textContent =
+        money(totalExpenses);
+
+      results.annualCashFlow.textContent =
+        money(annualCashFlow);
+
+      results.capRate.textContent =
+        percent(capRate);
+
+      results.cashOnCash.textContent =
+        percent(cashOnCash);
+
+      results.monthlyCashFlow.textContent =
+        money(monthlyCashFlow);
+
+    }
+
+
+    Object.values(inputs).forEach(input => {
+
+      input.addEventListener(
+        "input",
+        calculate
+      );
+
+      input.addEventListener(
+        "change",
+        calculate
+      );
+
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
