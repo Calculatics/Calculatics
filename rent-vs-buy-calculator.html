@@ -1,1 +1,630 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Rent vs Buy Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Compare the estimated financial cost of renting versus buying a home over time."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Property calculators
+      </a>
+
+      <h1>Rent vs Buy Calculator</h1>
+
+      <p class="intro">
+        Compare the estimated financial cost of renting versus buying a home.
+        <br><br>
+        Enter the home purchase and rental details in the white box.
+        The blue box compares the estimated costs over your chosen
+        comparison period and shows the financial difference between
+        renting and buying.
+      </p>
+
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Home price ($)
+            <input
+              id="homePrice"
+              type="number"
+              value="400000"
+              min="0"
+              step="1000"
+            >
+          </label>
+
+          <label>
+            Down payment ($)
+            <input
+              id="downPayment"
+              type="number"
+              value="80000"
+              min="0"
+              step="1000"
+            >
+          </label>
+
+          <label>
+            Mortgage interest rate (%)
+            <input
+              id="interestRate"
+              type="number"
+              value="6.5"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+          <label>
+            Mortgage term (years)
+            <select id="mortgageTerm">
+              <option value="30">30 years</option>
+              <option value="20">20 years</option>
+              <option value="15">15 years</option>
+              <option value="10">10 years</option>
+            </select>
+          </label>
+
+          <label>
+            Annual property tax ($)
+            <input
+              id="propertyTax"
+              type="number"
+              value="4800"
+              min="0"
+              step="100"
+            >
+          </label>
+
+          <label>
+            Annual home insurance ($)
+            <input
+              id="insurance"
+              type="number"
+              value="1800"
+              min="0"
+              step="100"
+            >
+          </label>
+
+          <label>
+            Annual maintenance (% of home value)
+            <input
+              id="maintenanceRate"
+              type="number"
+              value="1"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+          <label>
+            Monthly rent ($)
+            <input
+              id="monthlyRent"
+              type="number"
+              value="2200"
+              min="0"
+              step="50"
+            >
+          </label>
+
+          <label>
+            Annual rent increase (%)
+            <input
+              id="rentIncrease"
+              type="number"
+              value="3"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+          <label>
+            Annual home appreciation (%)
+            <input
+              id="appreciationRate"
+              type="number"
+              value="3"
+              step="0.1"
+            >
+          </label>
+
+          <label>
+            Comparison period (years)
+            <input
+              id="comparisonYears"
+              type="number"
+              value="5"
+              min="1"
+              max="30"
+              step="1"
+            >
+          </label>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results property-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Initial monthly ownership cost</span>
+              <strong id="monthlyOwnership">$0</strong>
+            </div>
+
+            <div>
+              <span>Initial monthly rent</span>
+              <strong id="displayRent">$0</strong>
+            </div>
+
+            <div>
+              <span>Total buying cost</span>
+              <strong id="buyingCost">$0</strong>
+            </div>
+
+            <div>
+              <span>Total renting cost</span>
+              <strong id="rentingCost">$0</strong>
+            </div>
+
+            <div>
+              <span>Estimated home value</span>
+              <strong id="futureHomeValue">$0</strong>
+            </div>
+
+            <div>
+              <span>Estimated home equity</span>
+              <strong id="homeEquity">$0</strong>
+            </div>
+
+          </div>
+
+
+          <div class="main-result">
+            <span id="differenceLabel">Financial difference</span>
+            <strong id="financialDifference">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="info">
+
+        <h2>How the Rent vs Buy Calculator works</h2>
+
+        <p>
+          This calculator compares estimated housing costs over the
+          comparison period you choose.
+        </p>
+
+        <p>
+          Buying costs include the down payment, mortgage interest,
+          property tax, home insurance and estimated maintenance.
+          Mortgage principal payments are treated as equity rather than
+          a housing cost.
+        </p>
+
+        <p>
+          The estimated value of the home is calculated using the annual
+          home appreciation rate entered. Estimated home equity includes
+          the projected home value minus the remaining mortgage balance.
+        </p>
+
+        <p>
+          Renting costs are calculated using the starting monthly rent
+          and the annual rent increase entered.
+        </p>
+
+        <p>
+          This is a simplified comparison for planning purposes. It does
+          not include every possible cost or financial factor, such as
+          closing costs, selling costs, HOA fees, mortgage insurance,
+          investment returns, tax deductions or changes in property tax
+          and insurance.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+
+  <script>
+
+    const inputs = {
+      homePrice: document.getElementById("homePrice"),
+      downPayment: document.getElementById("downPayment"),
+      interestRate: document.getElementById("interestRate"),
+      mortgageTerm: document.getElementById("mortgageTerm"),
+      propertyTax: document.getElementById("propertyTax"),
+      insurance: document.getElementById("insurance"),
+      maintenanceRate: document.getElementById("maintenanceRate"),
+      monthlyRent: document.getElementById("monthlyRent"),
+      rentIncrease: document.getElementById("rentIncrease"),
+      appreciationRate: document.getElementById("appreciationRate"),
+      comparisonYears: document.getElementById("comparisonYears")
+    };
+
+
+    const results = {
+      monthlyOwnership: document.getElementById("monthlyOwnership"),
+      displayRent: document.getElementById("displayRent"),
+      buyingCost: document.getElementById("buyingCost"),
+      rentingCost: document.getElementById("rentingCost"),
+      futureHomeValue: document.getElementById("futureHomeValue"),
+      homeEquity: document.getElementById("homeEquity"),
+      differenceLabel: document.getElementById("differenceLabel"),
+      financialDifference: document.getElementById("financialDifference")
+    };
+
+
+    function money(value) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+
+    function mortgagePayment(principal, annualRate, months) {
+
+      if (principal <= 0 || months <= 0) {
+        return 0;
+      }
+
+      const monthlyRate = annualRate / 100 / 12;
+
+      if (monthlyRate === 0) {
+        return principal / months;
+      }
+
+      return (
+        principal *
+        monthlyRate *
+        Math.pow(1 + monthlyRate, months)
+      ) /
+      (
+        Math.pow(1 + monthlyRate, months) - 1
+      );
+    }
+
+
+    function remainingBalance(
+      principal,
+      annualRate,
+      totalMonths,
+      paymentsMade
+    ) {
+
+      if (principal <= 0) {
+        return 0;
+      }
+
+      paymentsMade = Math.min(
+        paymentsMade,
+        totalMonths
+      );
+
+      const monthlyRate = annualRate / 100 / 12;
+
+      if (monthlyRate === 0) {
+        return Math.max(
+          0,
+          principal *
+          (1 - paymentsMade / totalMonths)
+        );
+      }
+
+      const payment = mortgagePayment(
+        principal,
+        annualRate,
+        totalMonths
+      );
+
+      return Math.max(
+        0,
+        principal *
+        Math.pow(1 + monthlyRate, paymentsMade) -
+        payment *
+        (
+          (
+            Math.pow(1 + monthlyRate, paymentsMade) - 1
+          ) /
+          monthlyRate
+        )
+      );
+    }
+
+
+    function calculate() {
+
+      const homePrice =
+        Math.max(0, Number(inputs.homePrice.value) || 0);
+
+      const downPayment =
+        Math.max(0, Number(inputs.downPayment.value) || 0);
+
+      const interestRate =
+        Math.max(0, Number(inputs.interestRate.value) || 0);
+
+      const mortgageTerm =
+        Math.max(1, Number(inputs.mortgageTerm.value) || 30);
+
+      const propertyTax =
+        Math.max(0, Number(inputs.propertyTax.value) || 0);
+
+      const insurance =
+        Math.max(0, Number(inputs.insurance.value) || 0);
+
+      const maintenanceRate =
+        Math.max(0, Number(inputs.maintenanceRate.value) || 0);
+
+      const monthlyRent =
+        Math.max(0, Number(inputs.monthlyRent.value) || 0);
+
+      const rentIncrease =
+        Math.max(0, Number(inputs.rentIncrease.value) || 0);
+
+      const appreciationRate =
+        Number(inputs.appreciationRate.value) || 0;
+
+      const comparisonYears =
+        Math.max(1, Number(inputs.comparisonYears.value) || 1);
+
+
+      const loanAmount =
+        Math.max(0, homePrice - downPayment);
+
+      const mortgageMonths =
+        mortgageTerm * 12;
+
+      const comparisonMonths =
+        comparisonYears * 12;
+
+
+      const monthlyMortgage =
+        mortgagePayment(
+          loanAmount,
+          interestRate,
+          mortgageMonths
+        );
+
+
+      const monthlyTax =
+        propertyTax / 12;
+
+      const monthlyInsurance =
+        insurance / 12;
+
+      const monthlyMaintenance =
+        homePrice *
+        (maintenanceRate / 100) /
+        12;
+
+
+      const initialMonthlyOwnership =
+        monthlyMortgage +
+        monthlyTax +
+        monthlyInsurance +
+        monthlyMaintenance;
+
+
+      const balanceAfterPeriod =
+        remainingBalance(
+          loanAmount,
+          interestRate,
+          mortgageMonths,
+          comparisonMonths
+        );
+
+
+      const monthsPaid =
+        Math.min(
+          comparisonMonths,
+          mortgageMonths
+        );
+
+
+      const mortgagePaymentsMade =
+        monthlyMortgage * monthsPaid;
+
+
+      const principalPaid =
+        Math.max(
+          0,
+          loanAmount - balanceAfterPeriod
+        );
+
+
+      const mortgageInterestPaid =
+        Math.max(
+          0,
+          mortgagePaymentsMade - principalPaid
+        );
+
+
+      const ownershipRunningCosts =
+        (
+          propertyTax +
+          insurance +
+          homePrice * (maintenanceRate / 100)
+        ) *
+        comparisonYears;
+
+
+      const totalBuyingCost =
+        downPayment +
+        mortgageInterestPaid +
+        ownershipRunningCosts;
+
+
+      let totalRentingCost = 0;
+      let yearlyRent = monthlyRent;
+
+
+      for (
+        let year = 0;
+        year < comparisonYears;
+        year++
+      ) {
+
+        totalRentingCost +=
+          yearlyRent * 12;
+
+        yearlyRent *=
+          1 + rentIncrease / 100;
+      }
+
+
+      const futureHomeValue =
+        homePrice *
+        Math.pow(
+          1 + appreciationRate / 100,
+          comparisonYears
+        );
+
+
+      const homeEquity =
+        Math.max(
+          0,
+          futureHomeValue - balanceAfterPeriod
+        );
+
+
+      /*
+        Net buying cost:
+        cash spent on down payment + interest +
+        ownership running costs, minus equity created.
+
+        This allows the comparison to recognise
+        that part of the money spent buying remains
+        as an asset.
+      */
+
+      const netBuyingCost =
+        totalBuyingCost - homeEquity;
+
+
+      const difference =
+        Math.abs(
+          netBuyingCost - totalRentingCost
+        );
+
+
+      results.monthlyOwnership.textContent =
+        money(initialMonthlyOwnership);
+
+      results.displayRent.textContent =
+        money(monthlyRent);
+
+      results.buyingCost.textContent =
+        money(netBuyingCost);
+
+      results.rentingCost.textContent =
+        money(totalRentingCost);
+
+      results.futureHomeValue.textContent =
+        money(futureHomeValue);
+
+      results.homeEquity.textContent =
+        money(homeEquity);
+
+
+      if (netBuyingCost < totalRentingCost) {
+
+        results.differenceLabel.textContent =
+          `Buying costs less over ${comparisonYears} ${
+            comparisonYears === 1 ? "year" : "years"
+          }`;
+
+        results.financialDifference.textContent =
+          money(difference);
+
+      } else if (totalRentingCost < netBuyingCost) {
+
+        results.differenceLabel.textContent =
+          `Renting costs less over ${comparisonYears} ${
+            comparisonYears === 1 ? "year" : "years"
+          }`;
+
+        results.financialDifference.textContent =
+          money(difference);
+
+      } else {
+
+        results.differenceLabel.textContent =
+          "Estimated costs are equal";
+
+        results.financialDifference.textContent =
+          money(0);
+      }
+
+    }
+
+
+    Object.values(inputs).forEach(input => {
+
+      input.addEventListener(
+        "input",
+        calculate
+      );
+
+      input.addEventListener(
+        "change",
+        calculate
+      );
+
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
