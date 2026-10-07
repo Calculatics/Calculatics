@@ -311,3 +311,49 @@
   }
 
 }
+/* ===== Shared Finance calculator results ===== */
+
+.finance-results {
+  background: #15803d;
+  color: #ffffff;
+}
+
+.finance-results span {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.finance-results .result-grid div {
+  border-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.finance-results .result-grid span {
+  font-size: 15px;
+}
+
+.finance-results .result-grid strong {
+  font-size: 21px;
+  color: #ffffff;
+}
+
+.finance-results .main-result {
+  margin: 0;
+  padding: 30px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  background: #15803d;
+}
+
+.finance-results .main-result span {
+  font-size: 16px;
+}
+
+.finance-results .main-result strong {
+  font-size: 40px;
+  color: #ffffff;
+}
+
+@media (min-width: 800px) {
+  .finance-results .result-grid {
+    margin: 0;
+  }
+}
