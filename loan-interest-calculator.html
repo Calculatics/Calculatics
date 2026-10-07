@@ -1,1 +1,347 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Loan Interest Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Calculate how much interest you will pay on a fixed-rate loan, including monthly payments and total repayment."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Finance calculators
+      </a>
+
+      <h1>Loan Interest Calculator</h1>
+
+      <p class="intro">
+        Calculate how much interest you could pay over the life of a
+        fixed-rate loan.
+        <br><br>
+        Enter the loan amount, interest rate and loan term in the white
+        box. The green box shows your estimated interest cost, monthly
+        payment and total amount repaid.
+      </p>
+
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Loan amount ($)
+            <input
+              id="loanAmount"
+              type="number"
+              value="20000"
+              min="0"
+              step="500"
+            >
+          </label>
+
+
+          <label>
+            Interest rate (%)
+            <input
+              id="interestRate"
+              type="number"
+              value="8"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+
+          <label>
+            Loan term (years)
+            <input
+              id="loanTerm"
+              type="number"
+              value="5"
+              min="1"
+              step="1"
+            >
+          </label>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results finance-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Monthly payment</span>
+              <strong id="monthlyPayment">$0</strong>
+            </div>
+
+            <div>
+              <span>Total amount repaid</span>
+              <strong id="totalRepayment">$0</strong>
+            </div>
+
+            <div>
+              <span>Interest as % of amount borrowed</span>
+              <strong id="interestPercentage">0%</strong>
+            </div>
+
+            <div>
+              <span>Number of payments</span>
+              <strong id="numberPayments">0</strong>
+            </div>
+
+          </div>
+
+
+          <div class="main-result">
+            <span>Total interest paid</span>
+            <strong id="totalInterest">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="info">
+
+        <h2>How the Loan Interest Calculator works</h2>
+
+        <p>
+          This calculator estimates the total interest paid on a
+          fixed-rate loan using the loan amount, annual interest rate
+          and repayment term you enter.
+        </p>
+
+        <p>
+          Interest is calculated using a standard amortizing loan,
+          where each monthly payment contains both principal and
+          interest. As the outstanding balance falls, the amount of
+          interest charged each month also falls.
+        </p>
+
+        <p>
+          The interest percentage shows the total estimated interest
+          paid as a percentage of the original amount borrowed. This
+          can help show the overall cost of borrowing beyond the
+          headline interest rate.
+        </p>
+
+        <p>
+          Results are estimates for planning purposes only and do not
+          include origination fees, late charges or other lender costs.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+
+  <script>
+
+    const loanAmountInput =
+      document.getElementById("loanAmount");
+
+    const interestRateInput =
+      document.getElementById("interestRate");
+
+    const loanTermInput =
+      document.getElementById("loanTerm");
+
+
+    const monthlyPaymentEl =
+      document.getElementById("monthlyPayment");
+
+    const totalRepaymentEl =
+      document.getElementById("totalRepayment");
+
+    const interestPercentageEl =
+      document.getElementById("interestPercentage");
+
+    const numberPaymentsEl =
+      document.getElementById("numberPayments");
+
+    const totalInterestEl =
+      document.getElementById("totalInterest");
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function calculate() {
+
+      const loanAmount =
+        Math.max(
+          0,
+          Number(loanAmountInput.value) || 0
+        );
+
+      const annualRate =
+        Math.max(
+          0,
+          Number(interestRateInput.value) || 0
+        );
+
+      const years =
+        Math.max(
+          0,
+          Number(loanTermInput.value) || 0
+        );
+
+
+      const numberPayments =
+        Math.round(years * 12);
+
+
+      if (
+        loanAmount <= 0 ||
+        numberPayments <= 0
+      ) {
+
+        monthlyPaymentEl.textContent =
+          money(0);
+
+        totalRepaymentEl.textContent =
+          money(0);
+
+        interestPercentageEl.textContent =
+          "0%";
+
+        numberPaymentsEl.textContent =
+          "0";
+
+        totalInterestEl.textContent =
+          money(0);
+
+        return;
+      }
+
+
+      const monthlyRate =
+        annualRate / 100 / 12;
+
+
+      let monthlyPayment;
+
+
+      if (monthlyRate === 0) {
+
+        monthlyPayment =
+          loanAmount / numberPayments;
+
+      } else {
+
+        monthlyPayment =
+          (
+            loanAmount *
+            monthlyRate *
+            Math.pow(
+              1 + monthlyRate,
+              numberPayments
+            )
+          ) /
+          (
+            Math.pow(
+              1 + monthlyRate,
+              numberPayments
+            ) - 1
+          );
+
+      }
+
+
+      const totalRepayment =
+        monthlyPayment * numberPayments;
+
+
+      const totalInterest =
+        totalRepayment - loanAmount;
+
+
+      const interestPercentage =
+        loanAmount > 0
+          ? (totalInterest / loanAmount) * 100
+          : 0;
+
+
+      monthlyPaymentEl.textContent =
+        money(monthlyPayment);
+
+      totalRepaymentEl.textContent =
+        money(totalRepayment);
+
+      interestPercentageEl.textContent =
+        `${interestPercentage.toFixed(1)}%`;
+
+      numberPaymentsEl.textContent =
+        numberPayments.toLocaleString("en-US");
+
+      totalInterestEl.textContent =
+        money(totalInterest);
+
+    }
+
+
+    [
+      loanAmountInput,
+      interestRateInput,
+      loanTermInput
+    ].forEach(input => {
+
+      input.addEventListener(
+        "input",
+        calculate
+      );
+
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
