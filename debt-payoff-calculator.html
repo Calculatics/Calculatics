@@ -1,1 +1,540 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Debt Payoff Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="See how extra monthly payments could help you pay off debt sooner and reduce the total interest you pay."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Finance calculators
+      </a>
+
+      <h1>Debt Payoff Calculator</h1>
+
+      <p class="intro">
+        See how making extra monthly payments could help you pay off
+        your debt sooner and reduce the interest you pay.
+        <br><br>
+        Enter your debt balance, interest rate, current monthly payment
+        and extra monthly payment in the white box. The green box
+        compares your current repayment plan with the faster payoff plan.
+      </p>
+
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Debt balance ($)
+            <input
+              id="balance"
+              type="number"
+              value="10000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+
+          <label>
+            Interest rate / APR (%)
+            <input
+              id="apr"
+              type="number"
+              value="15"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+
+          <label>
+            Current monthly payment ($)
+            <input
+              id="currentPayment"
+              type="number"
+              value="300"
+              min="0"
+              step="10"
+            >
+          </label>
+
+
+          <label>
+            Extra monthly payment ($)
+            <input
+              id="extraPayment"
+              type="number"
+              value="100"
+              min="0"
+              step="10"
+            >
+          </label>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results finance-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Current payoff time</span>
+              <strong id="currentPayoff">—</strong>
+            </div>
+
+            <div>
+              <span>New payoff time</span>
+              <strong id="newPayoff">—</strong>
+            </div>
+
+            <div>
+              <span>Current total interest</span>
+              <strong id="currentInterest">$0</strong>
+            </div>
+
+            <div>
+              <span>New total interest</span>
+              <strong id="newInterest">$0</strong>
+            </div>
+
+            <div>
+              <span>Time saved</span>
+              <strong id="timeSaved">—</strong>
+            </div>
+
+            <div>
+              <span>Total monthly payment</span>
+              <strong id="totalPayment">$0</strong>
+            </div>
+
+          </div>
+
+
+          <div class="main-result">
+            <span>Estimated interest saved</span>
+            <strong id="interestSaved">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="info">
+
+        <h2>How the Debt Payoff Calculator works</h2>
+
+        <p>
+          This calculator compares paying your debt using your current
+          monthly payment with making an additional payment each month.
+        </p>
+
+        <p>
+          Interest is calculated monthly using the APR entered. Each
+          payment covers the interest charged first, with the remaining
+          amount reducing the outstanding balance.
+        </p>
+
+        <p>
+          The calculator estimates how much sooner the debt could be
+          repaid and how much interest could be saved by making the
+          additional monthly payment.
+        </p>
+
+        <p>
+          This calculator is designed for a single combined debt balance
+          and interest rate. If you have several debts with different
+          interest rates, the results should be treated as a simplified
+          estimate.
+        </p>
+
+        <p>
+          Results are for planning purposes only. Actual interest and
+          repayment schedules may vary between lenders.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+
+  <script>
+
+    const balanceInput =
+      document.getElementById("balance");
+
+    const aprInput =
+      document.getElementById("apr");
+
+    const currentPaymentInput =
+      document.getElementById("currentPayment");
+
+    const extraPaymentInput =
+      document.getElementById("extraPayment");
+
+
+    const currentPayoffEl =
+      document.getElementById("currentPayoff");
+
+    const newPayoffEl =
+      document.getElementById("newPayoff");
+
+    const currentInterestEl =
+      document.getElementById("currentInterest");
+
+    const newInterestEl =
+      document.getElementById("newInterest");
+
+    const timeSavedEl =
+      document.getElementById("timeSaved");
+
+    const totalPaymentEl =
+      document.getElementById("totalPayment");
+
+    const interestSavedEl =
+      document.getElementById("interestSaved");
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function formatMonths(months) {
+
+      const years =
+        Math.floor(months / 12);
+
+      const remainingMonths =
+        months % 12;
+
+
+      const yearText =
+        years === 1 ? "year" : "years";
+
+      const monthText =
+        remainingMonths === 1
+          ? "month"
+          : "months";
+
+
+      if (years === 0) {
+        return `${remainingMonths} ${monthText}`;
+      }
+
+
+      if (remainingMonths === 0) {
+        return `${years} ${yearText}`;
+      }
+
+
+      return `${years} ${yearText} ${remainingMonths} ${monthText}`;
+
+    }
+
+
+    function payoffPlan(
+      startingBalance,
+      apr,
+      monthlyPayment
+    ) {
+
+      if (
+        startingBalance <= 0 ||
+        monthlyPayment <= 0
+      ) {
+        return null;
+      }
+
+
+      const monthlyRate =
+        apr / 100 / 12;
+
+
+      const firstMonthInterest =
+        startingBalance * monthlyRate;
+
+
+      if (
+        monthlyRate > 0 &&
+        monthlyPayment <= firstMonthInterest
+      ) {
+        return null;
+      }
+
+
+      let balance =
+        startingBalance;
+
+      let totalInterest =
+        0;
+
+      let months =
+        0;
+
+
+      const maxMonths = 1200;
+
+
+      while (
+        balance > 0.005 &&
+        months < maxMonths
+      ) {
+
+        const interest =
+          balance * monthlyRate;
+
+
+        totalInterest += interest;
+
+
+        const amountDue =
+          balance + interest;
+
+
+        const payment =
+          Math.min(
+            monthlyPayment,
+            amountDue
+          );
+
+
+        balance =
+          amountDue - payment;
+
+        months++;
+
+      }
+
+
+      if (months >= maxMonths) {
+        return null;
+      }
+
+
+      return {
+        months,
+        totalInterest
+      };
+
+    }
+
+
+    function showInvalid() {
+
+      currentPayoffEl.textContent =
+        "Payment too low";
+
+      newPayoffEl.textContent =
+        "—";
+
+      currentInterestEl.textContent =
+        "—";
+
+      newInterestEl.textContent =
+        "—";
+
+      timeSavedEl.textContent =
+        "—";
+
+      totalPaymentEl.textContent =
+        "—";
+
+      interestSavedEl.textContent =
+        "—";
+
+    }
+
+
+    function calculate() {
+
+      const balance =
+        Math.max(
+          0,
+          Number(balanceInput.value) || 0
+        );
+
+      const apr =
+        Math.max(
+          0,
+          Number(aprInput.value) || 0
+        );
+
+      const currentPayment =
+        Math.max(
+          0,
+          Number(currentPaymentInput.value) || 0
+        );
+
+      const extraPayment =
+        Math.max(
+          0,
+          Number(extraPaymentInput.value) || 0
+        );
+
+
+      if (balance === 0) {
+
+        currentPayoffEl.textContent =
+          "Already paid off";
+
+        newPayoffEl.textContent =
+          "Already paid off";
+
+        currentInterestEl.textContent =
+          money(0);
+
+        newInterestEl.textContent =
+          money(0);
+
+        timeSavedEl.textContent =
+          "0 months";
+
+        totalPaymentEl.textContent =
+          money(0);
+
+        interestSavedEl.textContent =
+          money(0);
+
+        return;
+      }
+
+
+      const acceleratedPayment =
+        currentPayment + extraPayment;
+
+
+      const currentPlan =
+        payoffPlan(
+          balance,
+          apr,
+          currentPayment
+        );
+
+
+      const acceleratedPlan =
+        payoffPlan(
+          balance,
+          apr,
+          acceleratedPayment
+        );
+
+
+      if (
+        !currentPlan ||
+        !acceleratedPlan
+      ) {
+
+        showInvalid();
+        return;
+
+      }
+
+
+      const monthsSaved =
+        Math.max(
+          0,
+          currentPlan.months -
+          acceleratedPlan.months
+        );
+
+
+      const interestSaved =
+        Math.max(
+          0,
+          currentPlan.totalInterest -
+          acceleratedPlan.totalInterest
+        );
+
+
+      currentPayoffEl.textContent =
+        formatMonths(currentPlan.months);
+
+      newPayoffEl.textContent =
+        formatMonths(acceleratedPlan.months);
+
+      currentInterestEl.textContent =
+        money(currentPlan.totalInterest);
+
+      newInterestEl.textContent =
+        money(acceleratedPlan.totalInterest);
+
+      timeSavedEl.textContent =
+        formatMonths(monthsSaved);
+
+      totalPaymentEl.textContent =
+        money(acceleratedPayment);
+
+      interestSavedEl.textContent =
+        money(interestSaved);
+
+    }
+
+
+    [
+      balanceInput,
+      aprInput,
+      currentPaymentInput,
+      extraPaymentInput
+    ].forEach(input => {
+
+      input.addEventListener(
+        "input",
+        calculate
+      );
+
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
