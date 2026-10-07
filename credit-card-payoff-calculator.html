@@ -1,1 +1,432 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Credit Card Payoff Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Calculate how long it could take to pay off your credit card balance and how much interest you could pay."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Finance calculators
+      </a>
+
+      <h1>Credit Card Payoff Calculator</h1>
+
+      <p class="intro">
+        See how long it could take to pay off your credit card balance
+        and how much interest you could pay.
+        <br><br>
+        Enter your current balance, interest rate and planned monthly
+        payment in the white box. The green box shows your estimated
+        payoff time, total interest and total amount repaid.
+      </p>
+
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Credit card balance ($)
+            <input
+              id="balance"
+              type="number"
+              value="5000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+
+          <label>
+            Interest rate / APR (%)
+            <input
+              id="apr"
+              type="number"
+              value="24"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+
+          <label>
+            Monthly payment ($)
+            <input
+              id="monthlyPayment"
+              type="number"
+              value="200"
+              min="0"
+              step="10"
+            >
+          </label>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results finance-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Total interest</span>
+              <strong id="totalInterest">$0</strong>
+            </div>
+
+            <div>
+              <span>Total amount repaid</span>
+              <strong id="totalRepaid">$0</strong>
+            </div>
+
+            <div>
+              <span>Number of payments</span>
+              <strong id="numberPayments">0</strong>
+            </div>
+
+            <div>
+              <span>Final payment</span>
+              <strong id="finalPayment">$0</strong>
+            </div>
+
+          </div>
+
+
+          <div class="main-result">
+            <span>Estimated payoff time</span>
+            <strong id="payoffTime">—</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="info">
+
+        <h2>How the Credit Card Payoff Calculator works</h2>
+
+        <p>
+          The calculator estimates how long it could take to repay your
+          credit card balance when you make the same payment each month.
+        </p>
+
+        <p>
+          Interest is calculated monthly using the APR you enter. Each
+          monthly payment first covers the interest charged, with the
+          remaining amount reducing the outstanding balance.
+        </p>
+
+        <p>
+          If your monthly payment is too low to cover the interest being
+          charged, the calculator will warn that the balance will not be
+          paid off at that payment amount.
+        </p>
+
+        <p>
+          This is a simplified estimate for planning purposes. Actual
+          credit card interest can vary because of daily interest
+          calculations, fees, purchases, promotional rates and changes
+          to your APR.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+
+  <script>
+
+    const balanceInput =
+      document.getElementById("balance");
+
+    const aprInput =
+      document.getElementById("apr");
+
+    const monthlyPaymentInput =
+      document.getElementById("monthlyPayment");
+
+
+    const totalInterestEl =
+      document.getElementById("totalInterest");
+
+    const totalRepaidEl =
+      document.getElementById("totalRepaid");
+
+    const numberPaymentsEl =
+      document.getElementById("numberPayments");
+
+    const finalPaymentEl =
+      document.getElementById("finalPayment");
+
+    const payoffTimeEl =
+      document.getElementById("payoffTime");
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function formatMonths(months) {
+
+      const years =
+        Math.floor(months / 12);
+
+      const remainingMonths =
+        months % 12;
+
+
+      const yearText =
+        years === 1 ? "year" : "years";
+
+      const monthText =
+        remainingMonths === 1
+          ? "month"
+          : "months";
+
+
+      if (years === 0) {
+        return `${remainingMonths} ${monthText}`;
+      }
+
+
+      if (remainingMonths === 0) {
+        return `${years} ${yearText}`;
+      }
+
+
+      return `${years} ${yearText} ${remainingMonths} ${monthText}`;
+
+    }
+
+
+    function clearResults(message) {
+
+      totalInterestEl.textContent = "—";
+      totalRepaidEl.textContent = "—";
+      numberPaymentsEl.textContent = "—";
+      finalPaymentEl.textContent = "—";
+      payoffTimeEl.textContent = message;
+
+    }
+
+
+    function calculate() {
+
+      const startingBalance =
+        Math.max(
+          0,
+          Number(balanceInput.value) || 0
+        );
+
+      const apr =
+        Math.max(
+          0,
+          Number(aprInput.value) || 0
+        );
+
+      const monthlyPayment =
+        Math.max(
+          0,
+          Number(monthlyPaymentInput.value) || 0
+        );
+
+
+      if (startingBalance === 0) {
+
+        totalInterestEl.textContent =
+          money(0);
+
+        totalRepaidEl.textContent =
+          money(0);
+
+        numberPaymentsEl.textContent =
+          "0";
+
+        finalPaymentEl.textContent =
+          money(0);
+
+        payoffTimeEl.textContent =
+          "Already paid off";
+
+        return;
+      }
+
+
+      if (monthlyPayment <= 0) {
+
+        clearResults(
+          "Enter a monthly payment"
+        );
+
+        return;
+      }
+
+
+      const monthlyRate =
+        apr / 100 / 12;
+
+
+      const firstMonthInterest =
+        startingBalance * monthlyRate;
+
+
+      if (
+        monthlyRate > 0 &&
+        monthlyPayment <= firstMonthInterest
+      ) {
+
+        clearResults(
+          "Payment too low"
+        );
+
+        return;
+      }
+
+
+      let balance =
+        startingBalance;
+
+      let totalInterest =
+        0;
+
+      let totalRepaid =
+        0;
+
+      let months =
+        0;
+
+      let finalPayment =
+        0;
+
+
+      const maxMonths = 1200;
+
+
+      while (
+        balance > 0.005 &&
+        months < maxMonths
+      ) {
+
+        const interest =
+          balance * monthlyRate;
+
+
+        totalInterest += interest;
+
+
+        const amountDue =
+          balance + interest;
+
+
+        const payment =
+          Math.min(
+            monthlyPayment,
+            amountDue
+          );
+
+
+        balance =
+          amountDue - payment;
+
+
+        totalRepaid += payment;
+
+        finalPayment = payment;
+
+        months++;
+
+      }
+
+
+      if (months >= maxMonths) {
+
+        clearResults(
+          "Payoff exceeds 100 years"
+        );
+
+        return;
+      }
+
+
+      totalInterestEl.textContent =
+        money(totalInterest);
+
+      totalRepaidEl.textContent =
+        money(totalRepaid);
+
+      numberPaymentsEl.textContent =
+        months.toLocaleString("en-US");
+
+      finalPaymentEl.textContent =
+        money(finalPayment);
+
+      payoffTimeEl.textContent =
+        formatMonths(months);
+
+    }
+
+
+    [
+      balanceInput,
+      aprInput,
+      monthlyPaymentInput
+    ].forEach(input => {
+
+      input.addEventListener(
+        "input",
+        calculate
+      );
+
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
