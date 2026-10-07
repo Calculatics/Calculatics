@@ -110,10 +110,10 @@
               <strong id="numberPayments">0</strong>
             </div>
 
-            <div>
-              <span>Final payment</span>
-              <strong id="finalPayment">$0</strong>
-            </div>
+           <div>
+  <span>Interest as % of original balance</span>
+  <strong id="interestPercentage">0%</strong>
+</div>
 
           </div>
 
@@ -191,8 +191,8 @@
     const numberPaymentsEl =
       document.getElementById("numberPayments");
 
-    const finalPaymentEl =
-      document.getElementById("finalPayment");
+    const interestPercentageEl =
+  document.getElementById("interestPercentage");
 
     const payoffTimeEl =
       document.getElementById("payoffTime");
@@ -247,7 +247,7 @@
       totalInterestEl.textContent = "—";
       totalRepaidEl.textContent = "—";
       numberPaymentsEl.textContent = "—";
-      finalPaymentEl.textContent = "—";
+     interestPercentageEl.textContent = "—";
       payoffTimeEl.textContent = message;
 
     }
@@ -285,8 +285,8 @@
         numberPaymentsEl.textContent =
           "0";
 
-        finalPaymentEl.textContent =
-          money(0);
+        interestPercentageEl.textContent =
+  "0%";
 
         payoffTimeEl.textContent =
           "Already paid off";
@@ -338,9 +338,6 @@
       let months =
         0;
 
-      let finalPayment =
-        0;
-
 
       const maxMonths = 1200;
 
@@ -374,7 +371,6 @@
 
         totalRepaid += payment;
 
-        finalPayment = payment;
 
         months++;
 
@@ -400,8 +396,13 @@
       numberPaymentsEl.textContent =
         months.toLocaleString("en-US");
 
-      finalPaymentEl.textContent =
-        money(finalPayment);
+     const interestPercentage =
+  startingBalance > 0
+    ? (totalInterest / startingBalance) * 100
+    : 0;
+
+interestPercentageEl.textContent =
+  `${interestPercentage.toFixed(1)}%`;
 
       payoffTimeEl.textContent =
         formatMonths(months);
