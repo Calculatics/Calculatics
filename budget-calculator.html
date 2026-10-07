@@ -1,1 +1,444 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Budget Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Calculate your monthly budget by comparing your income and expenses to see how much money you have remaining each month."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Finance calculators
+      </a>
+
+      <h1>Budget Calculator</h1>
+
+      <p class="intro">
+        Calculate your monthly budget and see how much of your income
+        is being spent each month.
+        <br><br>
+        Enter your monthly income and expenses in the white box.
+        The green box shows your total income, spending and how much
+        money you have remaining.
+      </p>
+
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form budget-form">
+
+          <div class="budget-section">
+
+            <h2>Monthly Income</h2>
+
+            <label>
+              Take-home income ($)
+              <input
+                id="takeHomeIncome"
+                type="number"
+                value="5000"
+                min="0"
+                step="100"
+              >
+            </label>
+
+            <label>
+              Other income ($)
+              <input
+                id="otherIncome"
+                type="number"
+                value="0"
+                min="0"
+                step="100"
+              >
+            </label>
+
+          </div>
+
+
+          <div class="budget-section">
+
+            <h2>Monthly Expenses</h2>
+
+            <label>
+              Housing ($)
+              <input
+                id="housing"
+                type="number"
+                value="1500"
+                min="0"
+                step="50"
+              >
+            </label>
+
+            <label>
+              Utilities ($)
+              <input
+                id="utilities"
+                type="number"
+                value="300"
+                min="0"
+                step="25"
+              >
+            </label>
+
+            <label>
+              Food ($)
+              <input
+                id="food"
+                type="number"
+                value="600"
+                min="0"
+                step="25"
+              >
+            </label>
+
+            <label>
+              Transport ($)
+              <input
+                id="transport"
+                type="number"
+                value="400"
+                min="0"
+                step="25"
+              >
+            </label>
+
+            <label>
+              Insurance ($)
+              <input
+                id="insurance"
+                type="number"
+                value="300"
+                min="0"
+                step="25"
+              >
+            </label>
+
+            <label>
+              Debt payments ($)
+              <input
+                id="debtPayments"
+                type="number"
+                value="400"
+                min="0"
+                step="25"
+              >
+            </label>
+
+            <label>
+              Entertainment ($)
+              <input
+                id="entertainment"
+                type="number"
+                value="300"
+                min="0"
+                step="25"
+              >
+            </label>
+
+            <label>
+              Other expenses ($)
+              <input
+                id="otherExpenses"
+                type="number"
+                value="200"
+                min="0"
+                step="25"
+              >
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results finance-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Total monthly income</span>
+              <strong id="monthlyIncome">$0</strong>
+            </div>
+
+            <div>
+              <span>Total monthly expenses</span>
+              <strong id="monthlyExpenses">$0</strong>
+            </div>
+
+            <div>
+              <span>Annual income</span>
+              <strong id="annualIncome">$0</strong>
+            </div>
+
+            <div>
+              <span>Annual expenses</span>
+              <strong id="annualExpenses">$0</strong>
+            </div>
+
+            <div>
+              <span>Income spent</span>
+              <strong id="incomeSpent">0%</strong>
+            </div>
+
+            <div>
+              <span>Income remaining</span>
+              <strong id="incomeRemaining">0%</strong>
+            </div>
+
+          </div>
+
+
+          <div class="main-result">
+            <span>Monthly money remaining</span>
+            <strong id="moneyRemaining">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="info">
+
+        <h2>How the Budget Calculator works</h2>
+
+        <p>
+          This calculator compares your total monthly income with your
+          monthly expenses to estimate how much money you have remaining
+          each month.
+        </p>
+
+        <p>
+          Monthly income includes your take-home income plus any other
+          regular income you receive. Expenses include housing, utilities,
+          food, transport, insurance, debt payments, entertainment and
+          other regular spending.
+        </p>
+
+        <p>
+          Income spent shows the percentage of your monthly income used
+          to cover expenses. Income remaining shows the percentage left
+          after those expenses have been paid.
+        </p>
+
+        <p>
+          If your expenses are higher than your income, the monthly money
+          remaining figure will be negative, showing the estimated monthly
+          shortfall.
+        </p>
+
+        <p>
+          Results are estimates for budgeting and planning purposes only.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+
+  <script>
+
+    const takeHomeIncomeInput =
+      document.getElementById("takeHomeIncome");
+
+    const otherIncomeInput =
+      document.getElementById("otherIncome");
+
+    const housingInput =
+      document.getElementById("housing");
+
+    const utilitiesInput =
+      document.getElementById("utilities");
+
+    const foodInput =
+      document.getElementById("food");
+
+    const transportInput =
+      document.getElementById("transport");
+
+    const insuranceInput =
+      document.getElementById("insurance");
+
+    const debtPaymentsInput =
+      document.getElementById("debtPayments");
+
+    const entertainmentInput =
+      document.getElementById("entertainment");
+
+    const otherExpensesInput =
+      document.getElementById("otherExpenses");
+
+
+    const monthlyIncomeEl =
+      document.getElementById("monthlyIncome");
+
+    const monthlyExpensesEl =
+      document.getElementById("monthlyExpenses");
+
+    const annualIncomeEl =
+      document.getElementById("annualIncome");
+
+    const annualExpensesEl =
+      document.getElementById("annualExpenses");
+
+    const incomeSpentEl =
+      document.getElementById("incomeSpent");
+
+    const incomeRemainingEl =
+      document.getElementById("incomeRemaining");
+
+    const moneyRemainingEl =
+      document.getElementById("moneyRemaining");
+
+
+    function getValue(input) {
+
+      return Math.max(
+        0,
+        Number(input.value) || 0
+      );
+
+    }
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function calculate() {
+
+      const takeHomeIncome =
+        getValue(takeHomeIncomeInput);
+
+      const otherIncome =
+        getValue(otherIncomeInput);
+
+
+      const totalIncome =
+        takeHomeIncome +
+        otherIncome;
+
+
+      const totalExpenses =
+        getValue(housingInput) +
+        getValue(utilitiesInput) +
+        getValue(foodInput) +
+        getValue(transportInput) +
+        getValue(insuranceInput) +
+        getValue(debtPaymentsInput) +
+        getValue(entertainmentInput) +
+        getValue(otherExpensesInput);
+
+
+      const remaining =
+        totalIncome - totalExpenses;
+
+
+      const spentPercentage =
+        totalIncome > 0
+          ? (totalExpenses / totalIncome) * 100
+          : 0;
+
+
+      const remainingPercentage =
+        totalIncome > 0
+          ? (remaining / totalIncome) * 100
+          : 0;
+
+
+      monthlyIncomeEl.textContent =
+        money(totalIncome);
+
+      monthlyExpensesEl.textContent =
+        money(totalExpenses);
+
+      annualIncomeEl.textContent =
+        money(totalIncome * 12);
+
+      annualExpensesEl.textContent =
+        money(totalExpenses * 12);
+
+      incomeSpentEl.textContent =
+        `${spentPercentage.toFixed(1)}%`;
+
+      incomeRemainingEl.textContent =
+        `${remainingPercentage.toFixed(1)}%`;
+
+      moneyRemainingEl.textContent =
+        money(remaining);
+
+    }
+
+
+    [
+      takeHomeIncomeInput,
+      otherIncomeInput,
+      housingInput,
+      utilitiesInput,
+      foodInput,
+      transportInput,
+      insuranceInput,
+      debtPaymentsInput,
+      entertainmentInput,
+      otherExpensesInput
+    ].forEach(input => {
+
+      input.addEventListener(
+        "input",
+        calculate
+      );
+
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
