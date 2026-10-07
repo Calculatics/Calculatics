@@ -1,1 +1,383 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Savings Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Calculate how your savings could grow over time with regular monthly contributions and compound interest."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Finance calculators
+      </a>
+
+      <h1>Savings Calculator</h1>
+
+      <p class="intro">
+        Estimate how your savings could grow with regular contributions
+        and compound interest.
+        <br><br>
+        Enter your starting balance, monthly contribution, interest rate
+        and saving period in the white box. The green box shows your
+        contributions, estimated interest earned and future savings balance.
+      </p>
+
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Starting savings balance ($)
+            <input
+              id="startingBalance"
+              type="number"
+              value="5000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+
+          <label>
+            Monthly contribution ($)
+            <input
+              id="monthlyContribution"
+              type="number"
+              value="500"
+              min="0"
+              step="50"
+            >
+          </label>
+
+
+          <label>
+            Annual interest rate (%)
+            <input
+              id="interestRate"
+              type="number"
+              value="4"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+
+          <label>
+            Saving period (years)
+            <input
+              id="years"
+              type="number"
+              value="10"
+              min="1"
+              step="1"
+            >
+          </label>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="results finance-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Starting balance</span>
+              <strong id="displayStartingBalance">$0</strong>
+            </div>
+
+            <div>
+              <span>Monthly contribution</span>
+              <strong id="displayMonthlyContribution">$0</strong>
+            </div>
+
+            <div>
+              <span>Total contributions</span>
+              <strong id="totalContributions">$0</strong>
+            </div>
+
+            <div>
+              <span>Total amount deposited</span>
+              <strong id="totalDeposited">$0</strong>
+            </div>
+
+            <div>
+              <span>Estimated interest earned</span>
+              <strong id="interestEarned">$0</strong>
+            </div>
+
+            <div>
+              <span>Saving period</span>
+              <strong id="displayPeriod">—</strong>
+            </div>
+
+          </div>
+
+
+          <div class="main-result">
+            <span>Estimated future savings balance</span>
+            <strong id="futureBalance">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="info">
+
+        <h2>How the Savings Calculator works</h2>
+
+        <p>
+          This calculator estimates how your savings could grow from an
+          initial balance combined with regular monthly contributions.
+        </p>
+
+        <p>
+          Interest is compounded monthly using the annual interest rate
+          entered. Monthly contributions are assumed to be made at the
+          end of each month.
+        </p>
+
+        <p>
+          Total contributions shows how much you add during the saving
+          period, excluding your starting balance. Total amount deposited
+          combines your starting balance and all monthly contributions.
+        </p>
+
+        <p>
+          Estimated interest earned is the difference between the future
+          savings balance and the total amount you deposited.
+        </p>
+
+        <p>
+          Results are estimates for planning purposes only. Actual savings
+          returns can vary and interest rates may change over time.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+
+  <script>
+
+    const startingBalanceInput =
+      document.getElementById("startingBalance");
+
+    const monthlyContributionInput =
+      document.getElementById("monthlyContribution");
+
+    const interestRateInput =
+      document.getElementById("interestRate");
+
+    const yearsInput =
+      document.getElementById("years");
+
+
+    const displayStartingBalanceEl =
+      document.getElementById("displayStartingBalance");
+
+    const displayMonthlyContributionEl =
+      document.getElementById("displayMonthlyContribution");
+
+    const totalContributionsEl =
+      document.getElementById("totalContributions");
+
+    const totalDepositedEl =
+      document.getElementById("totalDeposited");
+
+    const interestEarnedEl =
+      document.getElementById("interestEarned");
+
+    const displayPeriodEl =
+      document.getElementById("displayPeriod");
+
+    const futureBalanceEl =
+      document.getElementById("futureBalance");
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function calculate() {
+
+      const startingBalance =
+        Math.max(
+          0,
+          Number(startingBalanceInput.value) || 0
+        );
+
+      const monthlyContribution =
+        Math.max(
+          0,
+          Number(monthlyContributionInput.value) || 0
+        );
+
+      const annualRate =
+        Math.max(
+          0,
+          Number(interestRateInput.value) || 0
+        );
+
+      const years =
+        Math.max(
+          0,
+          Number(yearsInput.value) || 0
+        );
+
+
+      const months =
+        Math.round(years * 12);
+
+      const monthlyRate =
+        annualRate / 100 / 12;
+
+
+      let futureStartingBalance;
+      let futureContributions;
+
+
+      if (monthlyRate === 0) {
+
+        futureStartingBalance =
+          startingBalance;
+
+        futureContributions =
+          monthlyContribution * months;
+
+      } else {
+
+        futureStartingBalance =
+          startingBalance *
+          Math.pow(
+            1 + monthlyRate,
+            months
+          );
+
+
+        futureContributions =
+          monthlyContribution *
+          (
+            (
+              Math.pow(
+                1 + monthlyRate,
+                months
+              ) - 1
+            ) /
+            monthlyRate
+          );
+
+      }
+
+
+      const futureBalance =
+        futureStartingBalance +
+        futureContributions;
+
+
+      const totalContributions =
+        monthlyContribution * months;
+
+
+      const totalDeposited =
+        startingBalance +
+        totalContributions;
+
+
+      const interestEarned =
+        Math.max(
+          0,
+          futureBalance - totalDeposited
+        );
+
+
+      displayStartingBalanceEl.textContent =
+        money(startingBalance);
+
+      displayMonthlyContributionEl.textContent =
+        money(monthlyContribution);
+
+      totalContributionsEl.textContent =
+        money(totalContributions);
+
+      totalDepositedEl.textContent =
+        money(totalDeposited);
+
+      interestEarnedEl.textContent =
+        money(interestEarned);
+
+      displayPeriodEl.textContent =
+        `${years} ${years === 1 ? "year" : "years"}`;
+
+      futureBalanceEl.textContent =
+        money(futureBalance);
+
+    }
+
+
+    [
+      startingBalanceInput,
+      monthlyContributionInput,
+      interestRateInput,
+      yearsInput
+    ].forEach(input => {
+
+      input.addEventListener(
+        "input",
+        calculate
+      );
+
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
