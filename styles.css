@@ -488,3 +488,52 @@
     margin: 0;
   }
 }
+
+/* ===== Lease vs Buy input layout ===== */
+
+.lease-buy-form {
+  display: block;
+}
+
+.lease-buy-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.lease-buy-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.lease-buy-column:first-child {
+  padding-right: 28px;
+  border-right: 1px solid var(--line);
+}
+
+.lease-buy-column h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.lease-buy-period {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 600px) {
+  .lease-buy-columns {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .lease-buy-column:first-child {
+    padding-right: 0;
+    padding-bottom: 24px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+}
