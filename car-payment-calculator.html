@@ -1,1 +1,224 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Car Payment Calculator | Calculatics</title>
+  <meta name="description" content="Calculate your estimated monthly car payment including sales tax, down payment, trade-in value and loan interest.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <a class="backlink" href="index.html">← Cars calculators</a>
+
+      <h1>Car Payment Calculator</h1>
+
+      <p class="intro">
+        Estimate your monthly car payment based on the vehicle price,
+        down payment, trade-in value, sales tax and loan terms.
+        <br><br>
+        Enter your details in the white box. The orange box shows
+        your estimated financing costs and monthly payment.
+      </p>
+
+      <section class="calculator">
+
+        <div class="form">
+
+          <label>
+            Vehicle price ($)
+            <input id="vehiclePrice" type="number" value="30000" min="0" step="100">
+          </label>
+
+          <label>
+            Down payment ($)
+            <input id="downPayment" type="number" value="3000" min="0" step="100">
+          </label>
+
+          <label>
+            Trade-in value ($)
+            <input id="tradeIn" type="number" value="5000" min="0" step="100">
+          </label>
+
+          <label>
+            Sales tax (%)
+            <input id="salesTax" type="number" value="6" min="0" step="0.1">
+          </label>
+
+          <label>
+            Interest rate / APR (%)
+            <input id="apr" type="number" value="7" min="0" step="0.1">
+          </label>
+
+          <label>
+            Loan term (months)
+            <input id="months" type="number" value="60" min="1" step="1">
+          </label>
+
+        </div>
+
+        <div class="results cars-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Vehicle price</span>
+              <strong id="resultVehiclePrice">$0</strong>
+            </div>
+
+            <div>
+              <span>Sales tax</span>
+              <strong id="resultSalesTax">$0</strong>
+            </div>
+
+            <div>
+              <span>Amount financed</span>
+              <strong id="amountFinanced">$0</strong>
+            </div>
+
+            <div>
+              <span>Total interest</span>
+              <strong id="totalInterest">$0</strong>
+            </div>
+
+            <div>
+              <span>Total loan payments</span>
+              <strong id="totalPayments">$0</strong>
+            </div>
+
+            <div>
+              <span>Loan term</span>
+              <strong id="loanTerm">—</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Estimated monthly car payment</span>
+            <strong id="monthlyPayment">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="info">
+
+        <h2>How the Car Payment Calculator works</h2>
+
+        <p>
+          This calculator estimates your monthly vehicle loan payment
+          using the vehicle price, down payment, trade-in value,
+          sales tax, interest rate and repayment term.
+        </p>
+
+        <p>
+          Sales tax is calculated as a percentage of the vehicle price.
+          Your down payment and trade-in value are then deducted to
+          estimate the amount financed.
+        </p>
+
+        <p>
+          Monthly payments are calculated using a standard fixed-rate
+          amortizing loan formula.
+        </p>
+
+        <p>
+          The estimate assumes sales tax is financed and the trade-in
+          has no outstanding loan balance. Actual sales tax treatment
+          varies by state, and dealer fees, registration, insurance
+          and other charges are not included.
+        </p>
+
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">© 2026 Calculatics</div>
+  </footer>
+
+  <script>
+    const fields = [
+      "vehiclePrice",
+      "downPayment",
+      "tradeIn",
+      "salesTax",
+      "apr",
+      "months"
+    ];
+
+    const money = value =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    const getValue = id => {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    };
+
+    function calculate() {
+      const price = getValue("vehiclePrice");
+      const down = getValue("downPayment");
+      const trade = getValue("tradeIn");
+      const taxRate = getValue("salesTax") / 100;
+      const apr = getValue("apr");
+      const months = Math.floor(getValue("months"));
+
+      const salesTax = price * taxRate;
+      const financed = Math.max(0, price + salesTax - down - trade);
+
+      let payment = 0;
+
+      if (months > 0 && financed > 0) {
+        const monthlyRate = apr / 100 / 12;
+
+        if (monthlyRate === 0) {
+          payment = financed / months;
+        } else {
+          const factor = Math.pow(1 + monthlyRate, months);
+          payment = financed * monthlyRate * factor / (factor - 1);
+        }
+      }
+
+      const totalPayments = payment * months;
+      const totalInterest = Math.max(0, totalPayments - financed);
+
+      document.getElementById("resultVehiclePrice").textContent = money(price);
+      document.getElementById("resultSalesTax").textContent = money(salesTax);
+      document.getElementById("amountFinanced").textContent = money(financed);
+      document.getElementById("totalInterest").textContent = money(totalInterest);
+      document.getElementById("totalPayments").textContent = money(totalPayments);
+      document.getElementById("loanTerm").textContent =
+        months > 0 ? `${months} months` : "Enter a term";
+      document.getElementById("monthlyPayment").textContent = money(payment);
+    }
+
+    fields.forEach(id => {
+      document.getElementById(id).addEventListener("input", calculate);
+    });
+
+    calculate();
+  </script>
+
+</body>
+</html>
+
