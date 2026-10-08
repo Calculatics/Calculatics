@@ -1,1 +1,297 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Auto Loan Calculator — Calculatics</title><link rel="stylesheet" href="styles.css"></head><body><header class="site-header"><div class="container nav"><a class="brand" href="index.html">Calculatics</a><a href="index.html" class="back">All calculators</a></div></header><main class="calc-page"><div class="container"><a class="backlink" href="index.html">← All calculators</a><h1>Auto Loan Calculator</h1><p class="intro">Estimate car payments and total interest.</p><section class="info"><h2>Coming next</h2><p>This calculator is part of the Calculatics build. The mortgage calculator is currently the first fully working calculator in this prototype.</p></section></div></main></body></html>
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Car Affordability Calculator | Calculatics</title>
+  <meta name="description" content="Find out how much car you can afford based on your monthly payment budget, down payment, trade-in value, interest rate and loan term.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <a class="backlink" href="index.html">← Cars calculators</a>
+
+      <h1>Car Affordability Calculator</h1>
+
+      <p class="intro">
+        Find out how much car you could afford based on your monthly
+        payment budget. Enter your details in the white box to see
+        your estimated maximum vehicle price in the orange box.
+      </p>
+
+      <section class="calculator">
+
+        <div class="form">
+
+          <label>
+            Monthly car payment budget ($)
+            <input
+              type="number"
+              id="monthlyBudget"
+              value="500"
+              min="0"
+              step="10"
+            >
+          </label>
+
+          <label>
+            Down payment ($)
+            <input
+              type="number"
+              id="downPayment"
+              value="3000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+          <label>
+            Trade-in value ($)
+            <input
+              type="number"
+              id="tradeIn"
+              value="5000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+          <label>
+            Annual interest rate (APR %)
+            <input
+              type="number"
+              id="interestRate"
+              value="7"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+          <label>
+            Loan term (months)
+            <input
+              type="number"
+              id="loanTerm"
+              value="60"
+              min="1"
+              max="600"
+              step="1"
+            >
+          </label>
+
+          <label>
+            Sales tax rate (%)
+            <input
+              type="number"
+              id="salesTax"
+              value="6"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+        </div>
+
+        <div class="results cars-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Monthly payment budget</span>
+              <strong id="budgetResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Maximum loan amount</span>
+              <strong id="loanAmountResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Down payment</span>
+              <strong id="downPaymentResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Trade-in value</span>
+              <strong id="tradeInResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Estimated sales tax</span>
+              <strong id="salesTaxResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Total loan interest</span>
+              <strong id="interestResult">$0</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Estimated maximum car price</span>
+            <strong id="affordablePriceResult">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="info">
+
+        <h2>How much car can I afford?</h2>
+
+        <p>
+          This calculator estimates the maximum vehicle purchase price
+          you could afford based on your chosen monthly loan payment.
+          It accounts for your down payment, trade-in value, loan
+          interest rate, repayment term and estimated sales tax.
+        </p>
+
+        <p>
+          A larger down payment or trade-in value can increase the
+          vehicle price you can afford. A longer loan term may also
+          increase your purchasing power, but it can mean paying
+          more interest over the life of the loan.
+        </p>
+
+        <p>
+          The calculation assumes sales tax is charged on the full
+          vehicle purchase price. Actual tax rules vary by state,
+          and some states provide trade-in tax credits.
+        </p>
+
+        <p>
+          Your monthly car payment is only part of the cost of owning
+          a vehicle. Remember to allow for insurance, fuel,
+          maintenance, registration and repairs when deciding
+          what fits your budget.
+        </p>
+
+        <p>
+          This is an estimate, not a lending decision or guarantee
+          of financing approval.
+        </p>
+
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">© 2026 Calculatics</div>
+  </footer>
+
+  <script>
+
+    const inputs = [
+      "monthlyBudget",
+      "downPayment",
+      "tradeIn",
+      "interestRate",
+      "loanTerm",
+      "salesTax"
+    ];
+
+    const money = value =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    function getValue(id) {
+      return Math.max(0, Number(document.getElementById(id).value) || 0);
+    }
+
+    function calculate() {
+
+      const monthlyBudget = getValue("monthlyBudget");
+      const downPayment = getValue("downPayment");
+      const tradeIn = getValue("tradeIn");
+      const annualRate = getValue("interestRate");
+      const loanTerm = Math.floor(getValue("loanTerm"));
+      const taxRate = getValue("salesTax") / 100;
+
+      let maxLoan = 0;
+
+      if (loanTerm > 0) {
+
+        const monthlyRate = annualRate / 100 / 12;
+
+        if (monthlyRate === 0) {
+          maxLoan = monthlyBudget * loanTerm;
+        } else {
+          maxLoan = monthlyBudget *
+            (1 - Math.pow(1 + monthlyRate, -loanTerm)) /
+            monthlyRate;
+        }
+
+      }
+
+      // Sales tax is assumed to apply to the full car price.
+      // Amount financed = car price + sales tax
+      //                   - down payment - trade-in.
+
+      const totalBuyingPower = maxLoan + downPayment + tradeIn;
+
+      const affordablePrice = totalBuyingPower / (1 + taxRate);
+
+      const estimatedTax = affordablePrice * taxRate;
+
+      const actualLoan = Math.max(
+        0,
+        affordablePrice + estimatedTax - downPayment - tradeIn
+      );
+
+      const totalInterest = loanTerm > 0
+        ? Math.max(0, monthlyBudget * loanTerm - actualLoan)
+        : 0;
+
+      document.getElementById("budgetResult").textContent =
+        money(monthlyBudget);
+
+      document.getElementById("loanAmountResult").textContent =
+        money(actualLoan);
+
+      document.getElementById("downPaymentResult").textContent =
+        money(downPayment);
+
+      document.getElementById("tradeInResult").textContent =
+        money(tradeIn);
+
+      document.getElementById("salesTaxResult").textContent =
+        money(estimatedTax);
+
+      document.getElementById("interestResult").textContent =
+        money(totalInterest);
+
+      document.getElementById("affordablePriceResult").textContent =
+        money(affordablePrice);
+
+    }
+
+    inputs.forEach(id => {
+      document.getElementById(id).addEventListener("input", calculate);
+    });
+
+    calculate();
+
+  </script>
+
+</body>
+</html>
