@@ -1,1 +1,272 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Auto Loan Calculator | Calculatics</title>
+  <meta name="description" content="Calculate your monthly auto loan payment, total interest, amount financed and total vehicle cost. Includes down payment, trade-in and sales tax.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <a class="backlink" href="index.html">← Cars calculators</a>
+
+      <h1>Auto Loan Calculator</h1>
+
+      <p class="intro">
+        Estimate your monthly auto loan payment and the total cost
+        of financing a vehicle. Enter your details in the white box.
+        The orange box updates automatically as you change the numbers.
+      </p>
+
+      <section class="calculator">
+
+        <div class="form">
+
+          <label>
+            Vehicle price ($)
+            <input id="vehiclePrice" type="number"
+              value="30000" min="0" step="100">
+          </label>
+
+          <label>
+            Down payment ($)
+            <input id="downPayment" type="number"
+              value="3000" min="0" step="100">
+          </label>
+
+          <label>
+            Trade-in value ($)
+            <input id="tradeIn" type="number"
+              value="5000" min="0" step="100">
+          </label>
+
+          <label>
+            Sales tax rate (%)
+            <input id="salesTax" type="number"
+              value="6" min="0" step="0.1">
+          </label>
+
+          <label>
+            Annual interest rate (APR %)
+            <input id="apr" type="number"
+              value="7" min="0" step="0.1">
+          </label>
+
+          <label>
+            Loan term (months)
+            <input id="term" type="number"
+              value="60" min="1" max="600" step="1">
+          </label>
+
+        </div>
+
+        <div class="results cars-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Vehicle purchase price</span>
+              <strong id="priceResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Estimated sales tax</span>
+              <strong id="taxResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Amount financed</span>
+              <strong id="financedResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Total loan interest</span>
+              <strong id="interestResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Total loan payments</span>
+              <strong id="paymentsResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Total vehicle cost including interest</span>
+              <strong id="costResult">$0</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Estimated monthly auto loan payment</span>
+            <strong id="monthlyResult">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="info">
+
+        <h2>How the Auto Loan Calculator works</h2>
+
+        <p>
+          The calculator starts with the vehicle purchase price,
+          adds estimated sales tax and subtracts your down payment
+          and trade-in value to calculate the amount financed.
+        </p>
+
+        <p>
+          It then calculates the monthly payment using a standard
+          fixed-rate loan repayment formula. Your monthly payment
+          includes both principal and interest.
+        </p>
+
+        <p>
+          A larger down payment reduces the amount borrowed.
+          A shorter loan term usually increases the monthly payment
+          but reduces the total interest paid.
+        </p>
+
+        <p>
+          This calculator assumes sales tax applies to the full
+          vehicle price and is included in the loan. Sales tax
+          rules vary by state, including whether a trade-in
+          reduces the taxable amount.
+        </p>
+
+        <p>
+          The estimated total vehicle cost includes the purchase
+          price, sales tax and loan interest. It excludes
+          registration, dealer fees, insurance, maintenance
+          and other ownership expenses.
+        </p>
+
+        <p>
+          Results are estimates and do not represent a financing
+          offer or guarantee of loan approval.
+        </p>
+
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">© 2026 Calculatics</div>
+  </footer>
+
+  <script>
+
+    const inputIds = [
+      "vehiclePrice",
+      "downPayment",
+      "tradeIn",
+      "salesTax",
+      "apr",
+      "term"
+    ];
+
+    const money = value =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    function getValue(id) {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    }
+
+    function calculate() {
+
+      const price = getValue("vehiclePrice");
+      const down = getValue("downPayment");
+      const trade = getValue("tradeIn");
+      const taxRate = getValue("salesTax") / 100;
+      const apr = getValue("apr");
+      const months = Math.floor(getValue("term"));
+
+      const salesTax = price * taxRate;
+
+      const financed = Math.max(
+        0,
+        price + salesTax - down - trade
+      );
+
+      const monthlyRate = apr / 100 / 12;
+
+      let monthlyPayment = 0;
+
+      if (months > 0 && financed > 0) {
+
+        if (monthlyRate === 0) {
+          monthlyPayment = financed / months;
+        } else {
+          monthlyPayment =
+            financed * monthlyRate /
+            (1 - Math.pow(1 + monthlyRate, -months));
+        }
+
+      }
+
+      const totalPayments = monthlyPayment * months;
+
+      const totalInterest = Math.max(
+        0,
+        totalPayments - financed
+      );
+
+      const totalVehicleCost =
+        price + salesTax + totalInterest;
+
+      document.getElementById("priceResult").textContent =
+        money(price);
+
+      document.getElementById("taxResult").textContent =
+        money(salesTax);
+
+      document.getElementById("financedResult").textContent =
+        money(financed);
+
+      document.getElementById("interestResult").textContent =
+        money(totalInterest);
+
+      document.getElementById("paymentsResult").textContent =
+        money(totalPayments);
+
+      document.getElementById("costResult").textContent =
+        money(totalVehicleCost);
+
+      document.getElementById("monthlyResult").textContent =
+        money(monthlyPayment);
+
+    }
+
+    inputIds.forEach(id => {
+      document.getElementById(id)
+        .addEventListener("input", calculate);
+    });
+
+    calculate();
+
+  </script>
+
+</body>
+</html>
+
