@@ -1,1 +1,426 @@
 
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Car Loan Payoff Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Calculate how extra monthly payments can help you pay off your car loan faster and save interest."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Cars calculators
+      </a>
+
+      <h1>Car Loan Payoff Calculator</h1>
+
+      <p class="intro">
+        See how making extra monthly payments could help you
+        pay off your car loan sooner and reduce your interest costs.
+        <br><br>
+        Enter your remaining loan balance, interest rate, remaining
+        loan term and extra monthly payment in the white box.
+        The orange box shows your estimated savings and payoff time.
+      </p>
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Remaining loan balance ($)
+            <input
+              id="balance"
+              type="number"
+              value="20000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+          <label>
+            Interest rate / APR (%)
+            <input
+              id="apr"
+              type="number"
+              value="7"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+          <label>
+            Remaining loan term (months)
+            <input
+              id="term"
+              type="number"
+              value="48"
+              min="1"
+              step="1"
+            >
+          </label>
+
+          <label>
+            Extra monthly payment ($)
+            <input
+              id="extraPayment"
+              type="number"
+              value="100"
+              min="0"
+              step="10"
+            >
+          </label>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div class="results cars-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Current monthly payment</span>
+              <strong id="currentPayment">$0</strong>
+            </div>
+
+            <div>
+              <span>New monthly payment</span>
+              <strong id="newPayment">$0</strong>
+            </div>
+
+            <div>
+              <span>Original payoff time</span>
+              <strong id="originalPayoff">—</strong>
+            </div>
+
+            <div>
+              <span>New payoff time</span>
+              <strong id="newPayoff">—</strong>
+            </div>
+
+            <div>
+              <span>Time saved</span>
+              <strong id="timeSaved">—</strong>
+            </div>
+
+            <div>
+              <span>Original total interest</span>
+              <strong id="originalInterest">$0</strong>
+            </div>
+
+            <div>
+              <span>New total interest</span>
+              <strong id="newInterest">$0</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Estimated interest saved</span>
+            <strong id="interestSaved">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="info">
+
+        <h2>How the Car Loan Payoff Calculator works</h2>
+
+        <p>
+          This calculator estimates how quickly you could pay off
+          your remaining car loan balance by making additional
+          monthly payments.
+        </p>
+
+        <p>
+          Your current monthly payment is estimated using your
+          remaining balance, interest rate and remaining loan term.
+          The extra monthly payment is added to this amount to
+          calculate your accelerated repayment schedule.
+        </p>
+
+        <p>
+          Interest is calculated monthly on the remaining balance.
+          Extra payments are assumed to go directly toward reducing
+          the principal, helping reduce future interest charges.
+        </p>
+
+        <p>
+          The calculator assumes a fixed interest rate, no early
+          repayment penalties and that your lender applies extra
+          payments to the principal. Actual loan terms and
+          repayment schedules may vary.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+  <script>
+
+    const balanceInput =
+      document.getElementById("balance");
+
+    const aprInput =
+      document.getElementById("apr");
+
+    const termInput =
+      document.getElementById("term");
+
+    const extraPaymentInput =
+      document.getElementById("extraPayment");
+
+
+    const currentPaymentEl =
+      document.getElementById("currentPayment");
+
+    const newPaymentEl =
+      document.getElementById("newPayment");
+
+    const originalPayoffEl =
+      document.getElementById("originalPayoff");
+
+    const newPayoffEl =
+      document.getElementById("newPayoff");
+
+    const timeSavedEl =
+      document.getElementById("timeSaved");
+
+    const originalInterestEl =
+      document.getElementById("originalInterest");
+
+    const newInterestEl =
+      document.getElementById("newInterest");
+
+    const interestSavedEl =
+      document.getElementById("interestSaved");
+
+
+    function money(value) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+
+    function formatMonths(months) {
+
+      const years = Math.floor(months / 12);
+      const remainingMonths = months % 12;
+
+      const yearText =
+        years === 1 ? "year" : "years";
+
+      const monthText =
+        remainingMonths === 1 ? "month" : "months";
+
+      if (years === 0) {
+        return `${remainingMonths} ${monthText}`;
+      }
+
+      if (remainingMonths === 0) {
+        return `${years} ${yearText}`;
+      }
+
+      return `${years} ${yearText} ${remainingMonths} ${monthText}`;
+    }
+
+
+    function calculateMonthlyPayment(balance, monthlyRate, months) {
+
+      if (balance <= 0 || months <= 0) {
+        return 0;
+      }
+
+      if (monthlyRate === 0) {
+        return balance / months;
+      }
+
+      const factor = Math.pow(1 + monthlyRate, months);
+
+      return balance * monthlyRate * factor / (factor - 1);
+    }
+
+
+    function calculatePayoff(balance, monthlyRate, payment) {
+
+      if (balance <= 0) {
+        return {
+          months: 0,
+          interest: 0
+        };
+      }
+
+      if (payment <= balance * monthlyRate) {
+        return null;
+      }
+
+      let remaining = balance;
+      let totalInterest = 0;
+      let months = 0;
+
+      const maxMonths = 1200;
+
+      while (remaining > 0.005 && months < maxMonths) {
+
+        const interest = remaining * monthlyRate;
+
+        totalInterest += interest;
+
+        const amountDue = remaining + interest;
+
+        const actualPayment = Math.min(payment, amountDue);
+
+        remaining = amountDue - actualPayment;
+
+        months++;
+      }
+
+      if (remaining > 0.005) {
+        return null;
+      }
+
+      return {
+        months,
+        interest: totalInterest
+      };
+    }
+
+
+    function calculate() {
+
+      const balance =
+        Math.max(0, Number(balanceInput.value) || 0);
+
+      const apr =
+        Math.max(0, Number(aprInput.value) || 0);
+
+      const term =
+        Math.floor(Math.max(0, Number(termInput.value) || 0));
+
+      const extraPayment =
+        Math.max(0, Number(extraPaymentInput.value) || 0);
+
+
+      if (term <= 0) {
+
+        currentPaymentEl.textContent = "—";
+        newPaymentEl.textContent = "—";
+        originalPayoffEl.textContent = "—";
+        newPayoffEl.textContent = "—";
+        timeSavedEl.textContent = "—";
+        originalInterestEl.textContent = "—";
+        newInterestEl.textContent = "—";
+        interestSavedEl.textContent = "—";
+
+        return;
+      }
+
+
+      const monthlyRate = apr / 100 / 12;
+
+      const currentPayment =
+        calculateMonthlyPayment(balance, monthlyRate, term);
+
+      const newPayment =
+        currentPayment + extraPayment;
+
+
+      const originalPlan =
+        calculatePayoff(balance, monthlyRate, currentPayment);
+
+      const acceleratedPlan =
+        calculatePayoff(balance, monthlyRate, newPayment);
+
+
+      if (!originalPlan || !acceleratedPlan) {
+        return;
+      }
+
+
+      const monthsSaved =
+        Math.max(0, originalPlan.months - acceleratedPlan.months);
+
+      const interestSaved =
+        Math.max(0, originalPlan.interest - acceleratedPlan.interest);
+
+
+      currentPaymentEl.textContent =
+        money(currentPayment);
+
+      newPaymentEl.textContent =
+        money(newPayment);
+
+      originalPayoffEl.textContent =
+        formatMonths(originalPlan.months);
+
+      newPayoffEl.textContent =
+        formatMonths(acceleratedPlan.months);
+
+      timeSavedEl.textContent =
+        formatMonths(monthsSaved);
+
+      originalInterestEl.textContent =
+        money(originalPlan.interest);
+
+      newInterestEl.textContent =
+        money(acceleratedPlan.interest);
+
+      interestSavedEl.textContent =
+        money(interestSaved);
+    }
+
+
+    [
+      balanceInput,
+      aprInput,
+      termInput,
+      extraPaymentInput
+    ].forEach(input => {
+      input.addEventListener("input", calculate);
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+</html>
+
