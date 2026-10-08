@@ -441,3 +441,50 @@
     padding: 22px 20px;
   }
 }
+
+/* ===== Shared Cars calculator results ===== */
+
+.cars-results {
+  background: #ea580c;
+  color: #ffffff;
+}
+
+.cars-results span {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cars-results .result-grid div {
+  border-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.cars-results .result-grid span {
+  font-size: 15px;
+}
+
+.cars-results .result-grid strong {
+  font-size: 21px;
+  color: #ffffff;
+}
+
+.cars-results .main-result {
+  margin: 0;
+  padding: 30px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  background: #ea580c;
+}
+
+.cars-results .main-result span {
+  font-size: 16px;
+}
+
+.cars-results .main-result strong {
+  font-size: 40px;
+  color: #ffffff;
+}
+
+@media (min-width: 800px) {
+  .cars-results .result-grid {
+    margin: 0;
+  }
+}
