@@ -1,1 +1,353 @@
 
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lease vs Buy Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Compare the cost of leasing versus buying a car, including monthly payments, upfront costs and estimated resale value."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Cars calculators
+      </a>
+
+      <h1>Lease vs Buy Calculator</h1>
+
+      <p class="intro">
+        Compare the estimated cost of leasing a car against buying
+        the same vehicle over a chosen period.
+        <br><br>
+        Enter your leasing and buying details in the white box.
+        The orange box compares the costs and shows which option
+        could be cheaper.
+      </p>
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form lease-buy-form">
+
+          <div class="lease-buy-columns">
+
+            <div class="lease-buy-column">
+
+              <h2>Lease</h2>
+
+              <label>
+                Monthly lease payment ($)
+                <input id="leasePayment" type="number" value="400" min="0" step="10">
+              </label>
+
+              <label>
+                Upfront lease payment ($)
+                <input id="leaseUpfront" type="number" value="2000" min="0" step="100">
+              </label>
+
+              <label>
+                Lease-end fees ($)
+                <input id="leaseFees" type="number" value="500" min="0" step="50">
+              </label>
+
+            </div>
+
+            <div class="lease-buy-column">
+
+              <h2>Buy</h2>
+
+              <label>
+                Vehicle price ($)
+                <input id="vehiclePrice" type="number" value="30000" min="0" step="100">
+              </label>
+
+              <label>
+                Down payment ($)
+                <input id="downPayment" type="number" value="3000" min="0" step="100">
+              </label>
+
+              <label>
+                Interest rate / APR (%)
+                <input id="apr" type="number" value="7" min="0" step="0.1">
+              </label>
+
+              <label>
+                Loan term (months)
+                <input id="loanTerm" type="number" value="60" min="1" step="1">
+              </label>
+
+              <label>
+                Estimated resale value ($)
+                <input id="resaleValue" type="number" value="18000" min="0" step="100">
+              </label>
+
+            </div>
+
+          </div>
+
+          <div class="lease-buy-period">
+
+            <label>
+              Comparison period (months)
+              <input id="comparisonMonths" type="number" value="36" min="1" step="1">
+            </label>
+
+          </div>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div class="results cars-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Total lease cost</span>
+              <strong id="totalLeaseCost">$0</strong>
+            </div>
+
+            <div>
+              <span>Monthly lease payment</span>
+              <strong id="displayLeasePayment">$0</strong>
+            </div>
+
+            <div>
+              <span>Monthly loan payment</span>
+              <strong id="monthlyLoanPayment">$0</strong>
+            </div>
+
+            <div>
+              <span>Loan balance at comparison end</span>
+              <strong id="remainingLoan">$0</strong>
+            </div>
+
+            <div>
+              <span>Estimated vehicle resale value</span>
+              <strong id="displayResaleValue">$0</strong>
+            </div>
+
+            <div>
+              <span>Net buying cost</span>
+              <strong id="netBuyCost">$0</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span id="comparisonLabel">Estimated cheaper option</span>
+            <strong id="comparisonResult">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="info">
+
+        <h2>How the Lease vs Buy Calculator works</h2>
+
+        <p>
+          This calculator compares the estimated cost of leasing a
+          vehicle with buying it over the same number of months.
+        </p>
+
+        <p>
+          The leasing cost includes the upfront payment, regular
+          monthly lease payments and any estimated lease-end fees.
+          The upfront payment is treated as an additional cost,
+          separate from the monthly payments.
+        </p>
+
+        <p>
+          The buying calculation includes the down payment and
+          loan payments made during the comparison period.
+          It then accounts for the estimated vehicle resale value
+          and any outstanding loan balance.
+        </p>
+
+        <p>
+          If the comparison period extends beyond the loan term,
+          the calculator assumes no further loan payments after
+          the loan has been fully repaid.
+        </p>
+
+        <p>
+          This is a simplified comparison. Sales tax, registration,
+          maintenance, insurance, mileage restrictions, excess wear
+          charges, financing fees and investment opportunity costs
+          are not included. Actual lease and loan terms may differ.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+  <script>
+
+    const inputIds = [
+      "leasePayment",
+      "leaseUpfront",
+      "leaseFees",
+      "vehiclePrice",
+      "downPayment",
+      "apr",
+      "loanTerm",
+      "resaleValue",
+      "comparisonMonths"
+    ];
+
+    function getValue(id) {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    }
+
+    function money(value) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+    function calculateMonthlyPayment(principal, rate, months) {
+
+      if (principal <= 0 || months <= 0) {
+        return 0;
+      }
+
+      if (rate === 0) {
+        return principal / months;
+      }
+
+      const factor = Math.pow(1 + rate, months);
+
+      return principal * rate * factor / (factor - 1);
+    }
+
+    function calculate() {
+
+      const leasePayment = getValue("leasePayment");
+      const leaseUpfront = getValue("leaseUpfront");
+      const leaseFees = getValue("leaseFees");
+
+      const vehiclePrice = getValue("vehiclePrice");
+      const downPayment = getValue("downPayment");
+      const apr = getValue("apr");
+      const loanTerm = Math.floor(getValue("loanTerm"));
+      const resaleValue = getValue("resaleValue");
+      const comparisonMonths = Math.floor(getValue("comparisonMonths"));
+
+      const totalLeaseCost =
+        leaseUpfront +
+        leasePayment * comparisonMonths +
+        leaseFees;
+
+      const principal =
+        Math.max(0, vehiclePrice - downPayment);
+
+      const monthlyRate = apr / 100 / 12;
+
+      const monthlyLoanPayment =
+        calculateMonthlyPayment(principal, monthlyRate, loanTerm);
+
+      const monthsPaid =
+        Math.min(comparisonMonths, loanTerm);
+
+      let remainingLoan = principal;
+      let totalLoanPayments = 0;
+
+      for (let month = 0; month < monthsPaid; month++) {
+
+        const interest = remainingLoan * monthlyRate;
+        const amountDue = remainingLoan + interest;
+        const payment = Math.min(monthlyLoanPayment, amountDue);
+
+        remainingLoan = Math.max(0, amountDue - payment);
+        totalLoanPayments += payment;
+      }
+
+      const netBuyCost =
+        downPayment +
+        totalLoanPayments +
+        remainingLoan -
+        resaleValue;
+
+      const difference =
+        Math.abs(totalLeaseCost - netBuyCost);
+
+      let comparisonLabel;
+
+      if (Math.abs(totalLeaseCost - netBuyCost) < 0.01) {
+        comparisonLabel = "Both options cost approximately the same";
+      } else if (totalLeaseCost < netBuyCost) {
+        comparisonLabel = "Leasing costs less over the comparison period";
+      } else {
+        comparisonLabel = "Buying costs less over the comparison period";
+      }
+
+      document.getElementById("totalLeaseCost").textContent =
+        money(totalLeaseCost);
+
+      document.getElementById("displayLeasePayment").textContent =
+        money(leasePayment);
+
+      document.getElementById("monthlyLoanPayment").textContent =
+        money(monthlyLoanPayment);
+
+      document.getElementById("remainingLoan").textContent =
+        money(remainingLoan);
+
+      document.getElementById("displayResaleValue").textContent =
+        money(resaleValue);
+
+      document.getElementById("netBuyCost").textContent =
+        money(netBuyCost);
+
+      document.getElementById("comparisonLabel").textContent =
+        comparisonLabel;
+
+      document.getElementById("comparisonResult").textContent =
+        money(difference);
+    }
+
+    inputIds.forEach(id => {
+      document.getElementById(id).addEventListener("input", calculate);
+    });
+
+    calculate();
+
+  </script>
+
+</body>
+</html>
+
