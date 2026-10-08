@@ -1,1 +1,402 @@
 
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Car Depreciation Calculator | Calculatics</title>
+
+  <meta
+    name="description"
+    content="Calculate how much your car could depreciate over time. Estimate future vehicle value, total depreciation and yearly value loss."
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">
+        ← Cars calculators
+      </a>
+
+      <h1>Car Depreciation Calculator</h1>
+
+      <p class="intro">
+        Estimate how much your car could lose in value over time
+        using an annual depreciation rate.
+        <br><br>
+        Enter the vehicle's purchase price, annual depreciation rate
+        and number of years in the white box. The orange box shows
+        your estimated vehicle value and depreciation.
+      </p>
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Vehicle purchase price ($)
+            <input
+              id="purchasePrice"
+              type="number"
+              value="30000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+          <label>
+            Annual depreciation rate (%)
+            <input
+              id="depreciationRate"
+              type="number"
+              value="15"
+              min="0"
+              max="100"
+              step="0.1"
+            >
+          </label>
+
+          <label>
+            Years owned
+            <input
+              id="years"
+              type="number"
+              value="5"
+              min="0"
+              max="50"
+              step="1"
+            >
+          </label>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div class="results cars-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Original vehicle value</span>
+              <strong id="originalValue">$0</strong>
+            </div>
+
+            <div>
+              <span>Total depreciation</span>
+              <strong id="totalDepreciation">$0</strong>
+            </div>
+
+            <div>
+              <span>Percentage of value lost</span>
+              <strong id="percentageLost">0%</strong>
+            </div>
+
+            <div>
+              <span>Average annual depreciation</span>
+              <strong id="annualDepreciation">$0</strong>
+            </div>
+
+            <div>
+              <span>Percentage of value retained</span>
+              <strong id="percentageRetained">0%</strong>
+            </div>
+
+            <div>
+              <span>Years owned</span>
+              <strong id="displayYears">0 years</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Estimated vehicle value</span>
+            <strong id="futureValue">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- YEAR-BY-YEAR BREAKDOWN -->
+
+      <section class="info">
+
+        <h2>Year-by-Year Depreciation</h2>
+
+        <p>
+          See how the estimated vehicle value decreases each year
+          based on the depreciation rate entered.
+        </p>
+
+        <div style="overflow-x: auto;">
+
+          <table style="width: 100%; border-collapse: collapse; text-align: left;">
+
+            <thead>
+              <tr>
+                <th style="padding: 12px; border-bottom: 2px solid #dce2ea;">Year</th>
+                <th style="padding: 12px; border-bottom: 2px solid #dce2ea;">Vehicle value</th>
+                <th style="padding: 12px; border-bottom: 2px solid #dce2ea;">Value lost that year</th>
+                <th style="padding: 12px; border-bottom: 2px solid #dce2ea;">Total depreciation</th>
+              </tr>
+            </thead>
+
+            <tbody id="depreciationTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+      <section class="info">
+
+        <h2>How the Car Depreciation Calculator works</h2>
+
+        <p>
+          This calculator estimates the future value of a vehicle
+          using a fixed annual depreciation rate.
+        </p>
+
+        <p>
+          Each year, the vehicle loses the selected percentage
+          of its value at the start of that year. This means
+          depreciation is calculated on a reducing balance,
+          rather than subtracting the same dollar amount each year.
+        </p>
+
+        <p>
+          For example, a $30,000 vehicle depreciating at 15% annually
+          would have an estimated value of $25,500 after one year.
+          In the second year, the 15% depreciation would apply
+          to $25,500 rather than the original $30,000.
+        </p>
+
+        <p>
+          Actual depreciation depends on the vehicle's make, model,
+          mileage, age, condition and market demand. This calculator
+          provides an estimate rather than a guaranteed resale value.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+  <script>
+
+    const purchasePriceInput =
+      document.getElementById("purchasePrice");
+
+    const depreciationRateInput =
+      document.getElementById("depreciationRate");
+
+    const yearsInput =
+      document.getElementById("years");
+
+
+    const originalValueEl =
+      document.getElementById("originalValue");
+
+    const totalDepreciationEl =
+      document.getElementById("totalDepreciation");
+
+    const percentageLostEl =
+      document.getElementById("percentageLost");
+
+    const annualDepreciationEl =
+      document.getElementById("annualDepreciation");
+
+    const percentageRetainedEl =
+      document.getElementById("percentageRetained");
+
+    const displayYearsEl =
+      document.getElementById("displayYears");
+
+    const futureValueEl =
+      document.getElementById("futureValue");
+
+    const depreciationTableEl =
+      document.getElementById("depreciationTable");
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function calculate() {
+
+      const purchasePrice =
+        Math.max(
+          0,
+          Number(purchasePriceInput.value) || 0
+        );
+
+      const rate =
+        Math.min(
+          100,
+          Math.max(
+            0,
+            Number(depreciationRateInput.value) || 0
+          )
+        ) / 100;
+
+      const years =
+        Math.min(
+          50,
+          Math.floor(
+            Math.max(
+              0,
+              Number(yearsInput.value) || 0
+            )
+          )
+        );
+
+
+      const futureValue =
+        purchasePrice * Math.pow(1 - rate, years);
+
+
+      const totalDepreciation =
+        purchasePrice - futureValue;
+
+
+      const percentageLost =
+        purchasePrice > 0
+          ? (totalDepreciation / purchasePrice) * 100
+          : 0;
+
+
+      const percentageRetained =
+        purchasePrice > 0
+          ? (futureValue / purchasePrice) * 100
+          : 0;
+
+
+      const averageAnnualDepreciation =
+        years > 0
+          ? totalDepreciation / years
+          : 0;
+
+
+      originalValueEl.textContent =
+        money(purchasePrice);
+
+      totalDepreciationEl.textContent =
+        money(totalDepreciation);
+
+      percentageLostEl.textContent =
+        `${percentageLost.toFixed(1)}%`;
+
+      annualDepreciationEl.textContent =
+        money(averageAnnualDepreciation);
+
+      percentageRetainedEl.textContent =
+        `${percentageRetained.toFixed(1)}%`;
+
+      displayYearsEl.textContent =
+        `${years} ${years === 1 ? "year" : "years"}`;
+
+      futureValueEl.textContent =
+        money(futureValue);
+
+
+      // Update year-by-year breakdown
+
+      let rows = "";
+
+      let previousValue = purchasePrice;
+
+      for (let year = 0; year <= years; year++) {
+
+        const value =
+          purchasePrice * Math.pow(1 - rate, year);
+
+        const yearlyLoss =
+          year === 0
+            ? 0
+            : previousValue - value;
+
+        const totalLoss =
+          purchasePrice - value;
+
+
+        rows += `
+          <tr>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">
+              ${year}
+            </td>
+
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">
+              ${money(value)}
+            </td>
+
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">
+              ${money(yearlyLoss)}
+            </td>
+
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">
+              ${money(totalLoss)}
+            </td>
+          </tr>
+        `;
+
+        previousValue = value;
+
+      }
+
+      depreciationTableEl.innerHTML = rows;
+
+    }
+
+
+    [
+      purchasePriceInput,
+      depreciationRateInput,
+      yearsInput
+    ].forEach(input => {
+
+      input.addEventListener("input", calculate);
+
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
+
