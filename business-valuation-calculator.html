@@ -1,0 +1,306 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Business Valuation Calculator | Calculatics</title>
+
+  <meta name="description" content="Free business valuation calculator. Estimate business enterprise value and equity value using annual EBITDA, an earnings multiple, outstanding debt and cash reserves.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <a class="backlink" href="index.html">← All calculators</a>
+
+      <h1>Business Valuation Calculator</h1>
+
+      <p class="intro">
+        Estimate how much a business could be worth using an
+        earnings multiple. Enter annual EBITDA, your chosen
+        valuation multiple, outstanding debt and cash reserves
+        in the white box. The purple box updates automatically
+        to show the estimated business value.
+      </p>
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Annual EBITDA ($)
+            <input
+              id="earnings"
+              type="number"
+              value="150000"
+              min="0"
+              step="1000"
+            >
+          </label>
+
+          <label>
+            Valuation multiple (×)
+            <input
+              id="multiple"
+              type="number"
+              value="4"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+          <label>
+            Outstanding business debt ($)
+            <input
+              id="debt"
+              type="number"
+              value="100000"
+              min="0"
+              step="1000"
+            >
+          </label>
+
+          <label>
+            Business cash reserves ($)
+            <input
+              id="cash"
+              type="number"
+              value="50000"
+              min="0"
+              step="1000"
+            >
+          </label>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div class="results business-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Annual EBITDA</span>
+              <strong id="earningsResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Valuation multiple</span>
+              <strong id="multipleResult">0×</strong>
+            </div>
+
+            <div>
+              <span>Enterprise value</span>
+              <strong id="enterpriseResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Outstanding debt</span>
+              <strong id="debtResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Cash reserves</span>
+              <strong id="cashResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Net debt adjustment</span>
+              <strong id="adjustmentResult">$0</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Estimated business equity value</span>
+            <strong id="valuationResult">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="info">
+
+        <h2>How the Business Valuation Calculator works</h2>
+
+        <p>
+          This calculator uses the EBITDA multiple method to
+          estimate the value of a business. EBITDA stands for
+          earnings before interest, taxes, depreciation and
+          amortization.
+        </p>
+
+        <p>
+          The first step is to multiply annual EBITDA by the
+          selected valuation multiple. This produces an
+          estimated enterprise value.
+        </p>
+
+        <h2>Business valuation formula</h2>
+
+        <p>
+          Enterprise value = Annual EBITDA × Valuation multiple.
+        </p>
+
+        <p>
+          Estimated equity value = Enterprise value −
+          Outstanding debt + Cash reserves.
+        </p>
+
+        <h2>Business valuation example</h2>
+
+        <p>
+          Suppose a business generates $150,000 in annual EBITDA
+          and is valued at four times EBITDA.
+        </p>
+
+        <p>
+          Its estimated enterprise value would be $600,000.
+          Subtracting $100,000 of debt and adding $50,000 of
+          cash gives an estimated equity value of $550,000.
+        </p>
+
+        <h2>Choosing a valuation multiple</h2>
+
+        <p>
+          Valuation multiples vary significantly depending on
+          the industry, business size, growth prospects,
+          profitability, customer concentration, recurring
+          revenue and overall business risk.
+        </p>
+
+        <p>
+          The multiple should ideally be informed by recent
+          sales of comparable businesses. A higher multiple
+          produces a higher estimated valuation, but does
+          not guarantee that a buyer would pay that amount.
+        </p>
+
+        <h2>Important limitations</h2>
+
+        <p>
+          This simplified model assumes the selected EBITDA
+          multiple represents enterprise value and that the
+          entered debt and cash are appropriate for the
+          enterprise-to-equity adjustment.
+        </p>
+
+        <p>
+          Actual transactions may require adjustments for
+          working capital, non-operating assets, lease
+          liabilities, one-off earnings, owner compensation
+          and other financial obligations.
+        </p>
+
+        <p>
+          A negative equity value indicates that the debt
+          adjustment exceeds the estimated enterprise value
+          plus cash. It is a mathematical estimate, not
+          necessarily the price or legal value of the
+          ownership interests.
+        </p>
+
+        <p>
+          Results are illustrative estimates, not a formal
+          business appraisal or investment recommendation.
+        </p>
+
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">© 2026 Calculatics</div>
+  </footer>
+
+  <script>
+
+    const inputIds = [
+      "earnings",
+      "multiple",
+      "debt",
+      "cash"
+    ];
+
+    const money = value =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    function getValue(id) {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    }
+
+    function calculate() {
+
+      const earnings = getValue("earnings");
+      const multiple = getValue("multiple");
+      const debt = getValue("debt");
+      const cash = getValue("cash");
+
+      // Earnings multiple valuation
+
+      const enterpriseValue = earnings * multiple;
+
+      // Cash reduces net debt; debt reduces equity value
+
+      const netDebt = debt - cash;
+
+      const equityValue = enterpriseValue - netDebt;
+
+      document.getElementById("earningsResult").textContent =
+        money(earnings);
+
+      document.getElementById("multipleResult").textContent =
+        `${multiple.toLocaleString("en-US", {
+          maximumFractionDigits: 2
+        })}×`;
+
+      document.getElementById("enterpriseResult").textContent =
+        money(enterpriseValue);
+
+      document.getElementById("debtResult").textContent =
+        money(debt);
+
+      document.getElementById("cashResult").textContent =
+        money(cash);
+
+      document.getElementById("adjustmentResult").textContent =
+        money(-netDebt);
+
+      document.getElementById("valuationResult").textContent =
+        money(equityValue);
+
+    }
+
+    inputIds.forEach(id => {
+      document.getElementById(id)
+        .addEventListener("input", calculate);
+    });
+
+    calculate();
+
+  </script>
+
+</body>
+</html>
