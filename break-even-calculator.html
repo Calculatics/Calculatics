@@ -1,1 +1,299 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Break-Even Calculator | Calculatics</title>
+  <meta name="description" content="Free break-even calculator. Calculate break-even units, break-even revenue, contribution margin and estimated profit based on fixed costs, variable costs and selling price.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+    <div class="container">
+
+      <a class="backlink" href="index.html">← All calculators</a>
+
+      <h1>Break-Even Calculator</h1>
+
+      <p class="intro">
+        Find out how many units your business needs to sell to cover
+        its costs. Enter your fixed costs, selling price and variable
+        cost per unit in the white box. The purple box shows your
+        break-even point and estimated profitability.
+      </p>
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Total fixed costs ($)
+            <input
+              id="fixedCosts"
+              type="number"
+              value="10000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+          <label>
+            Selling price per unit ($)
+            <input
+              id="sellingPrice"
+              type="number"
+              value="50"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+          <label>
+            Variable cost per unit ($)
+            <input
+              id="variableCost"
+              type="number"
+              value="20"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+          <label>
+            Expected units sold
+            <input
+              id="expectedUnits"
+              type="number"
+              value="500"
+              min="0"
+              step="1"
+            >
+          </label>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div class="results business-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Contribution margin per unit</span>
+              <strong id="contributionResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Contribution margin ratio</span>
+              <strong id="ratioResult">0%</strong>
+            </div>
+
+            <div>
+              <span>Break-even revenue</span>
+              <strong id="revenueResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Expected sales revenue</span>
+              <strong id="salesResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Expected total costs</span>
+              <strong id="costsResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Expected profit or loss</span>
+              <strong id="profitResult">$0</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Break-even units</span>
+            <strong id="breakEvenResult">0 units</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- EXPLANATION -->
+
+      <section class="info">
+
+        <h2>How the Break-Even Calculator works</h2>
+
+        <p>
+          Break-even analysis helps businesses determine how many
+          products or services they need to sell before their total
+          revenue covers their total costs.
+        </p>
+
+        <h2>What are fixed costs?</h2>
+
+        <p>
+          Fixed costs are expenses that generally do not change
+          with the number of units sold over the period being
+          analysed. Examples include rent, salaries and insurance.
+        </p>
+
+        <h2>What are variable costs?</h2>
+
+        <p>
+          Variable costs increase as more units are produced or
+          sold. Examples include raw materials, packaging and
+          certain transaction or production costs.
+        </p>
+
+        <h2>Break-even formula</h2>
+
+        <p>
+          Break-even units = Fixed costs ÷
+          (Selling price per unit − Variable cost per unit).
+        </p>
+
+        <p>
+          For example, if fixed costs are $10,000, the selling
+          price is $50 and the variable cost is $20 per unit,
+          each sale contributes $30 towards fixed costs.
+        </p>
+
+        <p>
+          The business must sell 334 whole units to cover
+          its costs. At that sales volume, revenue slightly
+          exceeds total costs.
+        </p>
+
+        <p>
+          This calculator assumes a constant selling price,
+          constant variable cost per unit and fixed costs
+          that remain unchanged across the sales volume.
+          Real-world costs and prices may vary.
+        </p>
+
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">© 2026 Calculatics</div>
+  </footer>
+
+  <script>
+
+    const inputIds = [
+      "fixedCosts",
+      "sellingPrice",
+      "variableCost",
+      "expectedUnits"
+    ];
+
+    const money = value =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+
+    function getValue(id) {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    }
+
+    function calculate() {
+
+      const fixedCosts = getValue("fixedCosts");
+      const sellingPrice = getValue("sellingPrice");
+      const variableCost = getValue("variableCost");
+      const expectedUnits = Math.floor(getValue("expectedUnits"));
+
+      const contribution = sellingPrice - variableCost;
+
+      const contributionRatio = sellingPrice > 0
+        ? (contribution / sellingPrice) * 100
+        : 0;
+
+      const expectedRevenue = expectedUnits * sellingPrice;
+
+      const expectedCosts =
+        fixedCosts + expectedUnits * variableCost;
+
+      const expectedProfit =
+        expectedRevenue - expectedCosts;
+
+      let breakEvenUnits = null;
+      let breakEvenRevenue = null;
+
+      if (contribution > 0) {
+
+        breakEvenUnits = Math.ceil(
+          fixedCosts / contribution
+        );
+
+        breakEvenRevenue =
+          breakEvenUnits * sellingPrice;
+
+      } else if (fixedCosts === 0 && contribution === 0) {
+
+        breakEvenUnits = 0;
+        breakEvenRevenue = 0;
+
+      }
+
+      document.getElementById("contributionResult").textContent =
+        money(contribution);
+
+      document.getElementById("ratioResult").textContent =
+        `${contributionRatio.toFixed(1)}%`;
+
+      document.getElementById("revenueResult").textContent =
+        breakEvenRevenue === null
+          ? "Not achievable"
+          : money(breakEvenRevenue);
+
+      document.getElementById("salesResult").textContent =
+        money(expectedRevenue);
+
+      document.getElementById("costsResult").textContent =
+        money(expectedCosts);
+
+      document.getElementById("profitResult").textContent =
+        money(expectedProfit);
+
+      document.getElementById("breakEvenResult").textContent =
+        breakEvenUnits === null
+          ? "Not achievable"
+          : `${breakEvenUnits.toLocaleString("en-US")} units`;
+
+    }
+
+    inputIds.forEach(id => {
+      document.getElementById(id)
+        .addEventListener("input", calculate);
+    });
+
+    calculate();
+
+  </script>
+
+</body>
+</html>
+
