@@ -593,3 +593,50 @@
     padding: 24px;
   }
 }
+
+/* ===== Shared Business calculator results ===== */
+
+.business-results {
+  background: #7c3aed;
+  color: #ffffff;
+}
+
+.business-results span {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.business-results .result-grid div {
+  border-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.business-results .result-grid span {
+  font-size: 15px;
+}
+
+.business-results .result-grid strong {
+  font-size: 21px;
+  color: #ffffff;
+}
+
+.business-results .main-result {
+  margin: 0;
+  padding: 30px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  background: #7c3aed;
+}
+
+.business-results .main-result span {
+  font-size: 16px;
+}
+
+.business-results .main-result strong {
+  font-size: 40px;
+  color: #ffffff;
+}
+
+@media (min-width: 800px) {
+  .business-results .result-grid {
+    margin: 0;
+  }
+}
