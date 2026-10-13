@@ -1,1 +1,306 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Markup Calculator | Calculatics</title>
+
+  <meta name="description" content="Free markup calculator. Calculate selling price, markup amount, gross profit and profit margin from your product cost and desired markup percentage.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">← All calculators</a>
+
+      <h1>Markup Calculator</h1>
+
+      <p class="intro">
+        Calculate the selling price of a product using its cost
+        and your desired markup percentage. Enter your figures
+        in the white box. The purple box shows your selling price,
+        profit and gross profit margin automatically.
+      </p>
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Product cost ($)
+            <input
+              id="productCost"
+              type="number"
+              value="100"
+              min="0"
+              step="0.01"
+            >
+          </label>
+
+          <label>
+            Markup percentage (%)
+            <input
+              id="markupPercentage"
+              type="number"
+              value="50"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+          <label>
+            Quantity sold
+            <input
+              id="quantity"
+              type="number"
+              value="100"
+              min="0"
+              step="1"
+            >
+          </label>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div class="results business-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Cost per unit</span>
+              <strong id="costResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Markup percentage</span>
+              <strong id="markupResult">0%</strong>
+            </div>
+
+            <div>
+              <span>Markup amount per unit</span>
+              <strong id="markupAmountResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Gross profit per unit</span>
+              <strong id="profitPerUnitResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Gross profit margin</span>
+              <strong id="marginResult">0%</strong>
+            </div>
+
+            <div>
+              <span>Total sales revenue</span>
+              <strong id="revenueResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Total product cost</span>
+              <strong id="totalCostResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Total gross profit</span>
+              <strong id="totalProfitResult">$0</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Selling price per unit</span>
+            <strong id="sellingPriceResult">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- EXPLANATION -->
+
+      <section class="info">
+
+        <h2>How the Markup Calculator works</h2>
+
+        <p>
+          Markup is the percentage added to the cost of a product
+          to determine its selling price.
+        </p>
+
+        <p>
+          This calculator uses the product cost and desired
+          markup percentage to calculate the selling price,
+          gross profit per unit and gross profit margin.
+        </p>
+
+        <h2>Markup formula</h2>
+
+        <p>
+          Markup amount = Product cost × (Markup percentage ÷ 100).
+        </p>
+
+        <p>
+          Selling price = Product cost + Markup amount.
+        </p>
+
+        <h2>Markup vs profit margin</h2>
+
+        <p>
+          Markup and profit margin are not the same.
+          Markup is calculated as a percentage of cost,
+          while profit margin is calculated as a percentage
+          of selling price.
+        </p>
+
+        <p>
+          For example, a product costing $100 with a 50% markup
+          sells for $150. The gross profit is $50, but the
+          gross profit margin is approximately 33.3%, not 50%.
+        </p>
+
+        <h2>Calculating total gross profit</h2>
+
+        <p>
+          Enter the quantity sold to estimate total sales
+          revenue, total product costs and total gross profit.
+        </p>
+
+        <p>
+          These calculations assume every unit has the same
+          cost and selling price. They exclude additional
+          expenses such as rent, wages, marketing, shipping,
+          payment processing and taxes unless those costs
+          are included in the product cost.
+        </p>
+
+        <p>
+          The calculated selling price is based on your chosen
+          markup and is not necessarily the price customers
+          will be willing to pay.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="container">© 2026 Calculatics</div>
+  </footer>
+
+  <script>
+
+    const inputIds = [
+      "productCost",
+      "markupPercentage",
+      "quantity"
+    ];
+
+    const money = value =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+
+    function getValue(id) {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    }
+
+    function calculate() {
+
+      const productCost = getValue("productCost");
+      const markupPercentage = getValue("markupPercentage");
+      const quantity = Math.floor(getValue("quantity"));
+
+      // Calculate markup and selling price
+
+      const markupAmount =
+        productCost * (markupPercentage / 100);
+
+      const sellingPrice =
+        productCost + markupAmount;
+
+      // Calculate gross profit
+
+      const profitPerUnit =
+        sellingPrice - productCost;
+
+      // Margin is based on selling price, not cost
+
+      const profitMargin = sellingPrice > 0
+        ? (profitPerUnit / sellingPrice) * 100
+        : 0;
+
+      // Calculate totals for quantity sold
+
+      const totalRevenue = sellingPrice * quantity;
+
+      const totalCost = productCost * quantity;
+
+      const totalProfit = totalRevenue - totalCost;
+
+      // Update results
+
+      document.getElementById("costResult").textContent =
+        money(productCost);
+
+      document.getElementById("markupResult").textContent =
+        `${markupPercentage.toFixed(1)}%`;
+
+      document.getElementById("markupAmountResult").textContent =
+        money(markupAmount);
+
+      document.getElementById("profitPerUnitResult").textContent =
+        money(profitPerUnit);
+
+      document.getElementById("marginResult").textContent =
+        `${profitMargin.toFixed(1)}%`;
+
+      document.getElementById("revenueResult").textContent =
+        money(totalRevenue);
+
+      document.getElementById("totalCostResult").textContent =
+        money(totalCost);
+
+      document.getElementById("totalProfitResult").textContent =
+        money(totalProfit);
+
+      document.getElementById("sellingPriceResult").textContent =
+        money(sellingPrice);
+
+    }
+
+    inputIds.forEach(id => {
+      document.getElementById(id)
+        .addEventListener("input", calculate);
+    });
+
+    calculate();
+
+  </script>
+
+</body>
+</html>
+
