@@ -1,1 +1,330 @@
 
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Business Loan Calculator | Calculatics</title>
+
+  <meta name="description" content="Free business loan calculator. Estimate monthly business loan payments, total interest, upfront loan fees and the overall cost of borrowing.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">← All calculators</a>
+
+      <h1>Business Loan Calculator</h1>
+
+      <p class="intro">
+        Estimate your monthly business loan repayments and the
+        total cost of borrowing. Enter your loan details in the
+        white box. The purple box updates automatically to show
+        your estimated repayments, interest and fees.
+      </p>
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Business loan amount ($)
+            <input
+              id="loanAmount"
+              type="number"
+              value="100000"
+              min="0"
+              step="1000"
+            >
+          </label>
+
+          <label>
+            Annual interest rate (%)
+            <input
+              id="interestRate"
+              type="number"
+              value="8"
+              min="0"
+              step="0.1"
+            >
+          </label>
+
+          <label>
+            Loan term (years)
+            <input
+              id="loanYears"
+              type="number"
+              value="5"
+              min="0.083333"
+              max="50"
+              step="1"
+            >
+          </label>
+
+          <label>
+            Upfront loan fees ($)
+            <input
+              id="loanFees"
+              type="number"
+              value="2000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div class="results business-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Loan amount</span>
+              <strong id="amountResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Loan term</span>
+              <strong id="termResult">0 months</strong>
+            </div>
+
+            <div>
+              <span>Total loan interest</span>
+              <strong id="interestResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Total loan repayments</span>
+              <strong id="repaymentsResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Upfront loan fees</span>
+              <strong id="feesResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Total borrowing cost (interest + fees)</span>
+              <strong id="borrowingCostResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Total paid including fees</span>
+              <strong id="totalPaidResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Average monthly cost including fees</span>
+              <strong id="averageCostResult">$0</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Monthly business loan payment</span>
+            <strong id="monthlyResult">$0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- EXPLANATION -->
+
+      <section class="info">
+
+        <h2>How the Business Loan Calculator works</h2>
+
+        <p>
+          This calculator estimates repayments for a standard
+          fixed-rate, fully amortizing business loan with equal
+          monthly payments.
+        </p>
+
+        <p>
+          Each monthly payment includes principal and interest.
+          As the outstanding loan balance decreases, the interest
+          portion of each payment generally falls while the
+          principal portion increases.
+        </p>
+
+        <h2>How are monthly business loan payments calculated?</h2>
+
+        <p>
+          Monthly payments depend on the loan amount, annual
+          interest rate and repayment term. A larger loan or
+          higher interest rate generally increases monthly
+          repayments.
+        </p>
+
+        <p>
+          A longer repayment term can reduce the monthly payment,
+          but usually increases the total interest paid over
+          the life of the loan.
+        </p>
+
+        <h2>What about business loan fees?</h2>
+
+        <p>
+          Some lenders charge origination, arrangement or other
+          upfront fees. This calculator assumes those fees are
+          paid separately at the start of the loan and are not
+          added to the loan balance.
+        </p>
+
+        <p>
+          Upfront fees therefore increase the overall borrowing
+          cost but do not change the calculated monthly payment.
+        </p>
+
+        <h2>Things to consider</h2>
+
+        <p>
+          Actual business loans may use variable interest rates,
+          balloon payments, interest-only periods, different
+          repayment schedules or additional fees.
+        </p>
+
+        <p>
+          This calculator provides an estimate for a conventional
+          fixed-rate loan. It is not a lending offer or a
+          guarantee of approval.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+  <script>
+
+    const inputIds = [
+      "loanAmount",
+      "interestRate",
+      "loanYears",
+      "loanFees"
+    ];
+
+    const money = value =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+
+    function getValue(id) {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    }
+
+    function calculate() {
+
+      const loanAmount = getValue("loanAmount");
+      const annualRate = getValue("interestRate");
+      const years = getValue("loanYears");
+      const fees = getValue("loanFees");
+
+      const months = Math.round(years * 12);
+      const monthlyRate = annualRate / 100 / 12;
+
+      let monthlyPayment = 0;
+
+      if (loanAmount > 0 && months > 0) {
+
+        if (monthlyRate === 0) {
+
+          monthlyPayment = loanAmount / months;
+
+        } else {
+
+          const factor = Math.pow(1 + monthlyRate, -months);
+
+          monthlyPayment =
+            (loanAmount * monthlyRate) / (1 - factor);
+
+        }
+
+      }
+
+      const totalRepayments = monthlyPayment * months;
+
+      const totalInterest = Math.max(
+        0,
+        totalRepayments - loanAmount
+      );
+
+      const borrowingCost = totalInterest + fees;
+
+      const totalPaid = totalRepayments + fees;
+
+      const averageMonthlyCost =
+        months > 0 ? totalPaid / months : 0;
+
+      document.getElementById("amountResult").textContent =
+        money(loanAmount);
+
+      document.getElementById("termResult").textContent =
+        `${months} ${months === 1 ? "month" : "months"}`;
+
+      document.getElementById("interestResult").textContent =
+        money(totalInterest);
+
+      document.getElementById("repaymentsResult").textContent =
+        money(totalRepayments);
+
+      document.getElementById("feesResult").textContent =
+        money(fees);
+
+      document.getElementById("borrowingCostResult").textContent =
+        money(borrowingCost);
+
+      document.getElementById("totalPaidResult").textContent =
+        money(totalPaid);
+
+      document.getElementById("averageCostResult").textContent =
+        money(averageMonthlyCost);
+
+      document.getElementById("monthlyResult").textContent =
+        money(monthlyPayment);
+
+    }
+
+    inputIds.forEach(id => {
+      document.getElementById(id)
+        .addEventListener("input", calculate);
+    });
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
+
