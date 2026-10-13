@@ -1,1 +1,293 @@
 
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Profit Margin Calculator | Calculatics</title>
+
+  <meta name="description" content="Free profit margin calculator. Calculate gross profit margin, net profit margin, gross profit and net profit from your business revenue and expenses.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Calculatics.com</a>
+      <a class="back" href="index.html">← All calculators</a>
+    </div>
+  </header>
+
+  <main class="calc-page">
+
+    <div class="container">
+
+      <a class="backlink" href="index.html">← All calculators</a>
+
+      <h1>Profit Margin Calculator</h1>
+
+      <p class="intro">
+        Calculate your business's gross and net profit margins.
+        Enter your revenue, cost of goods sold and other expenses
+        in the white box. The purple box updates automatically
+        to show your profitability.
+      </p>
+
+      <section class="calculator">
+
+        <!-- INPUTS -->
+
+        <div class="form">
+
+          <label>
+            Total revenue ($)
+            <input
+              id="revenue"
+              type="number"
+              value="100000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+          <label>
+            Cost of goods sold ($)
+            <input
+              id="cogs"
+              type="number"
+              value="40000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+          <label>
+            Other business expenses ($)
+            <input
+              id="expenses"
+              type="number"
+              value="30000"
+              min="0"
+              step="100"
+            >
+          </label>
+
+        </div>
+
+        <!-- RESULTS -->
+
+        <div class="results business-results">
+
+          <div class="result-grid">
+
+            <div>
+              <span>Total revenue</span>
+              <strong id="revenueResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Cost of goods sold</span>
+              <strong id="cogsResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Gross profit</span>
+              <strong id="grossProfitResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Gross profit margin</span>
+              <strong id="grossMarginResult">0%</strong>
+            </div>
+
+            <div>
+              <span>Other business expenses</span>
+              <strong id="expensesResult">$0</strong>
+            </div>
+
+            <div>
+              <span>Net profit</span>
+              <strong id="netProfitResult">$0</strong>
+            </div>
+
+          </div>
+
+          <div class="main-result">
+            <span>Net profit margin</span>
+            <strong id="netMarginResult">0%</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- EXPLANATION -->
+
+      <section class="info">
+
+        <h2>How the Profit Margin Calculator works</h2>
+
+        <p>
+          Profit margin measures how much of your business's revenue
+          remains after deducting costs. This calculator shows both
+          gross profit margin and net profit margin.
+        </p>
+
+        <h2>Gross profit margin</h2>
+
+        <p>
+          Gross profit is revenue minus the cost of goods sold (COGS).
+          Gross profit margin is calculated by dividing gross profit
+          by revenue and multiplying by 100.
+        </p>
+
+        <p>
+          For example, if your business generates $100,000 in revenue
+          and has $40,000 in direct costs, its gross profit is $60,000
+          and its gross profit margin is 60%.
+        </p>
+
+        <h2>Net profit margin</h2>
+
+        <p>
+          Net profit is calculated by subtracting both cost of goods
+          sold and other business expenses from revenue.
+        </p>
+
+        <p>
+          Net profit margin is net profit divided by revenue,
+          multiplied by 100.
+        </p>
+
+        <p>
+          A business with $100,000 in revenue, $40,000 in cost of
+          goods sold and $30,000 in other expenses has a net profit
+          of $30,000 and a net profit margin of 30%.
+        </p>
+
+        <p>
+          Include all relevant expenses, including taxes and interest
+          where applicable, to estimate a true net profit margin.
+          Otherwise, the result represents profit after only the
+          costs entered.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Calculatics
+    </div>
+  </footer>
+
+  <script>
+
+    const revenueInput =
+      document.getElementById("revenue");
+
+    const cogsInput =
+      document.getElementById("cogs");
+
+    const expensesInput =
+      document.getElementById("expenses");
+
+
+    function money(value) {
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(value);
+
+    }
+
+
+    function percentage(value) {
+      return `${value.toFixed(1)}%`;
+    }
+
+
+    function calculate() {
+
+      const revenue = Math.max(
+        0,
+        Number(revenueInput.value) || 0
+      );
+
+      const cogs = Math.max(
+        0,
+        Number(cogsInput.value) || 0
+      );
+
+      const expenses = Math.max(
+        0,
+        Number(expensesInput.value) || 0
+      );
+
+
+      const grossProfit = revenue - cogs;
+
+      const netProfit = grossProfit - expenses;
+
+
+      const grossMargin = revenue > 0
+        ? (grossProfit / revenue) * 100
+        : 0;
+
+      const netMargin = revenue > 0
+        ? (netProfit / revenue) * 100
+        : 0;
+
+
+      document.getElementById("revenueResult").textContent =
+        money(revenue);
+
+      document.getElementById("cogsResult").textContent =
+        money(cogs);
+
+      document.getElementById("grossProfitResult").textContent =
+        money(grossProfit);
+
+      document.getElementById("grossMarginResult").textContent =
+        percentage(grossMargin);
+
+      document.getElementById("expensesResult").textContent =
+        money(expenses);
+
+      document.getElementById("netProfitResult").textContent =
+        money(netProfit);
+
+      document.getElementById("netMarginResult").textContent =
+        percentage(netMargin);
+
+    }
+
+
+    [
+      revenueInput,
+      cogsInput,
+      expensesInput
+    ].forEach(input => {
+
+      input.addEventListener("input", calculate);
+
+    });
+
+
+    calculate();
+
+  </script>
+
+</body>
+
+</html>
+
