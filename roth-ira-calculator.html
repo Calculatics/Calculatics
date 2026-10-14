@@ -1,1 +1,387 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Roth IRA Calculator | Calculatics</title>
+
+  <meta name="description" content="Free Roth IRA calculator. Estimate Roth IRA investment growth, annual contributions, potential investment earnings and projected retirement account value.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="back" href="index.html">← All calculators</a>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div class="container">
+
+    <a class="backlink" href="index.html">← All calculators</a>
+
+    <h1>Roth IRA Calculator</h1>
+
+    <p class="intro">
+      Estimate how your Roth IRA could grow over time.
+      Enter your current balance, planned contributions
+      and expected investment return in the white box.
+      The teal box updates automatically to show your
+      projected retirement account value.
+    </p>
+
+    <section class="calculator">
+
+      <!-- INPUTS -->
+
+      <div class="form">
+
+        <label>
+          Current age
+          <input id="currentAge" type="number"
+                 value="30" min="0" max="120" step="1">
+        </label>
+
+        <label>
+          Retirement age
+          <input id="retirementAge" type="number"
+                 value="65" min="0" max="120" step="1">
+        </label>
+
+        <label>
+          Current Roth IRA balance ($)
+          <input id="currentBalance" type="number"
+                 value="20000" min="0" step="100">
+        </label>
+
+        <label>
+          Annual Roth IRA contribution ($)
+          <input id="annualContribution" type="number"
+                 value="7000" min="0" step="100">
+        </label>
+
+        <label>
+          Expected annual investment return (%)
+          <input id="annualReturn" type="number"
+                 value="7" min="-100" step="0.1">
+        </label>
+
+        <label>
+          Annual investment fees (%)
+          <input id="annualFees" type="number"
+                 value="0.2" min="0" step="0.1">
+        </label>
+
+      </div>
+
+      <!-- RESULTS -->
+
+      <div class="results investing-results">
+
+        <div class="result-grid">
+
+          <div>
+            <span>Years until retirement</span>
+            <strong id="yearsResult">0 years</strong>
+          </div>
+
+          <div>
+            <span>Current Roth IRA balance</span>
+            <strong id="balanceResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Total future contributions</span>
+            <strong id="contributionsResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Total starting balance and contributions</span>
+            <strong id="investedResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Estimated investment earnings</span>
+            <strong id="earningsResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Assumed net annual return</span>
+            <strong id="netReturnResult">0%</strong>
+          </div>
+
+          <div>
+            <span>Projected balance growth</span>
+            <strong id="growthResult">0%</strong>
+          </div>
+
+        </div>
+
+        <div class="main-result">
+          <span>Projected Roth IRA value</span>
+          <strong id="futureResult">$0</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- EXPLANATION -->
+
+    <section class="info">
+
+      <h2>What is a Roth IRA?</h2>
+
+      <p>
+        A Roth IRA is a US individual retirement account
+        funded with after-tax contributions. Qualified
+        withdrawals can be tax-free when the applicable
+        IRS requirements are satisfied.
+      </p>
+
+      <p>
+        Investments held within a Roth IRA may grow over
+        time through interest, dividends and changes
+        in investment value.
+      </p>
+
+      <h2>How does this Roth IRA Calculator work?</h2>
+
+      <p>
+        The calculator estimates future account value
+        using your current Roth IRA balance, annual
+        contributions, expected investment return,
+        investment fees and years until retirement.
+      </p>
+
+      <p>
+        Contributions are assumed to be made at the end
+        of each year. The calculator applies a constant
+        assumed net annual return throughout the
+        investment period.
+      </p>
+
+      <h2>How are investment fees included?</h2>
+
+      <p>
+        The calculator uses a simplified net annual
+        return equal to the expected annual investment
+        return minus the annual fee percentage.
+      </p>
+
+      <p>
+        For example, an expected annual return of 7%
+        and annual fees of 0.2% produce an assumed
+        net annual return of 6.8%.
+      </p>
+
+      <h2>Roth IRA contribution limits</h2>
+
+      <p>
+        Roth IRA contributions are subject to IRS rules,
+        including annual contribution limits, income
+        eligibility requirements and earned income
+        restrictions.
+      </p>
+
+      <p>
+        Certain eligible individuals aged 50 or older
+        may be able to make additional catch-up
+        contributions.
+      </p>
+
+      <p>
+        The calculator does not automatically enforce
+        annual contribution limits or income eligibility.
+        Users should confirm the applicable rules for
+        each tax year before making contributions.
+      </p>
+
+      <h2>Are Roth IRA withdrawals tax-free?</h2>
+
+      <p>
+        Qualified Roth IRA distributions are generally
+        tax-free. Eligibility depends on requirements
+        including the five-year rule and qualifying
+        circumstances, such as reaching age 59½.
+      </p>
+
+      <p>
+        Nonqualified distributions may be subject to
+        income tax or penalties, depending on the
+        circumstances and the type of funds withdrawn.
+      </p>
+
+      <p>
+        This calculator estimates account growth only.
+        It does not determine whether a withdrawal
+        qualifies for tax-free treatment.
+      </p>
+
+      <h2>Important considerations</h2>
+
+      <p>
+        Results assume fixed annual contributions and
+        a constant investment return. They do not
+        account for inflation, changing contribution
+        limits, market volatility or individual tax
+        circumstances.
+      </p>
+
+      <p>
+        Investment returns are not guaranteed and
+        actual results may differ.
+      </p>
+
+      <p>
+        For current contribution limits and eligibility
+        requirements, consult the
+        <a href="https://www.irs.gov/retirement-plans/roth-iras"
+           target="_blank" rel="noopener noreferrer">
+          IRS Roth IRA guidance
+        </a>.
+      </p>
+
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 Calculatics</div>
+</footer>
+
+<script>
+
+  const money = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  function getNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function calculate() {
+
+    const currentAge =
+      Math.min(120, Math.max(0, getNumber("currentAge")));
+
+    const retirementAge =
+      Math.min(120, Math.max(0, getNumber("retirementAge")));
+
+    const currentBalance =
+      Math.max(0, getNumber("currentBalance"));
+
+    const annualContribution =
+      Math.max(0, getNumber("annualContribution"));
+
+    const annualReturn =
+      Math.max(-100, getNumber("annualReturn"));
+
+    const annualFees =
+      Math.max(0, getNumber("annualFees"));
+
+    // Years remaining until retirement
+
+    const years =
+      Math.max(0, retirementAge - currentAge);
+
+    // Simplified annual return after fees
+
+    const netAnnualReturn =
+      Math.max(-100, annualReturn - annualFees);
+
+    const rate = netAnnualReturn / 100;
+
+    const annualFactor = 1 + rate;
+
+    // Future value of the current balance
+
+    const balanceFutureValue =
+      currentBalance * Math.pow(annualFactor, years);
+
+    // Future value of end-of-year contributions
+
+    let contributionsFutureValue = 0;
+
+    if (years > 0 && annualContribution > 0) {
+
+      const annuityFactor =
+        Math.abs(rate) < 1e-12
+          ? years
+          : (Math.pow(annualFactor, years) - 1) / rate;
+
+      contributionsFutureValue =
+        annualContribution * annuityFactor;
+
+    }
+
+    const futureValue =
+      balanceFutureValue + contributionsFutureValue;
+
+    const totalContributions =
+      annualContribution * years;
+
+    const totalInvested =
+      currentBalance + totalContributions;
+
+    const earnings =
+      futureValue - totalInvested;
+
+    const growth =
+      totalInvested > 0
+        ? (earnings / totalInvested) * 100
+        : null;
+
+    // Update results
+
+    document.getElementById("yearsResult").textContent =
+      `${years} ${years === 1 ? "year" : "years"}`;
+
+    document.getElementById("balanceResult").textContent =
+      money(currentBalance);
+
+    document.getElementById("contributionsResult").textContent =
+      money(totalContributions);
+
+    document.getElementById("investedResult").textContent =
+      money(totalInvested);
+
+    document.getElementById("earningsResult").textContent =
+      money(earnings);
+
+    document.getElementById("netReturnResult").textContent =
+      `${netAnnualReturn.toFixed(2)}%`;
+
+    document.getElementById("growthResult").textContent =
+      growth === null
+        ? "N/A"
+        : `${growth.toFixed(2)}%`;
+
+    document.getElementById("futureResult").textContent =
+      money(futureValue);
+
+  }
+
+  document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculate);
+  });
+
+  calculate();
+
+</script>
+
+</body>
+</html>
+
