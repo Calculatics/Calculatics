@@ -696,3 +696,50 @@
     padding: 24px;
   }
 }
+
+/* ===== Shared Investing calculator results ===== */
+
+.investing-results {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.investing-results span {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.investing-results .result-grid div {
+  border-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.investing-results .result-grid span {
+  font-size: 15px;
+}
+
+.investing-results .result-grid strong {
+  font-size: 21px;
+  color: #ffffff;
+}
+
+.investing-results .main-result {
+  margin: 0;
+  padding: 30px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  background: #0f766e;
+}
+
+.investing-results .main-result span {
+  font-size: 16px;
+}
+
+.investing-results .main-result strong {
+  font-size: 40px;
+  color: #ffffff;
+}
+
+@media (min-width: 800px) {
+  .investing-results .result-grid {
+    margin: 0;
+  }
+}
