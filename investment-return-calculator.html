@@ -1,1 +1,358 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Investment Return Calculator | Calculatics</title>
+
+  <meta name="description" content="Free investment return calculator. Calculate investment profit or loss, total return percentage and annualized return using starting value, ending value, contributions and withdrawals.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="back" href="index.html">← All calculators</a>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div class="container">
+
+    <a class="backlink" href="index.html">← All calculators</a>
+
+    <h1>Investment Return Calculator</h1>
+
+    <p class="intro">
+      Calculate how your investment has performed.
+      Enter the starting value, ending value, contributions
+      and withdrawals in the white box. The teal box
+      automatically calculates your investment gain or
+      loss and total percentage return.
+    </p>
+
+    <section class="calculator">
+
+      <!-- INPUTS -->
+
+      <div class="form">
+
+        <label>
+          Starting investment value ($)
+          <input id="startingValue" type="number"
+                 value="10000" min="0" step="100">
+        </label>
+
+        <label>
+          Ending investment value ($)
+          <input id="endingValue" type="number"
+                 value="15000" min="0" step="100">
+        </label>
+
+        <label>
+          Additional contributions ($)
+          <input id="contributions" type="number"
+                 value="2000" min="0" step="100">
+        </label>
+
+        <label>
+          Withdrawals ($)
+          <input id="withdrawals" type="number"
+                 value="500" min="0" step="100">
+        </label>
+
+        <label>
+          Investment period (years)
+          <input id="years" type="number"
+                 value="3" min="0" step="0.5">
+        </label>
+
+      </div>
+
+      <!-- RESULTS -->
+
+      <div class="results investing-results">
+
+        <div class="result-grid">
+
+          <div>
+            <span>Starting investment value</span>
+            <strong id="startingResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Additional contributions</span>
+            <strong id="contributionsResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Total capital contributed</span>
+            <strong id="capitalResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Withdrawals received</span>
+            <strong id="withdrawalsResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Ending investment value</span>
+            <strong id="endingResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Investment gain or loss</span>
+            <strong id="gainResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Annualized return (simplified)</span>
+            <strong id="annualizedResult">N/A</strong>
+          </div>
+
+          <div>
+            <span>Investment period</span>
+            <strong id="periodResult">0 years</strong>
+          </div>
+
+        </div>
+
+        <div class="main-result">
+          <span>Total investment return</span>
+          <strong id="returnResult">0%</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- EXPLANATION -->
+
+    <section class="info">
+
+      <h2>How the Investment Return Calculator works</h2>
+
+      <p>
+        This calculator measures the gain or loss on an
+        investment after accounting for additional
+        contributions and withdrawals.
+      </p>
+
+      <p>
+        It compares the value remaining in your investment,
+        plus withdrawals received, against the total
+        capital contributed.
+      </p>
+
+      <h2>Investment return formula</h2>
+
+      <p>
+        Investment gain or loss =
+        Ending value + Withdrawals
+        − Starting value − Additional contributions.
+      </p>
+
+      <p>
+        Total investment return (%) =
+        (Investment gain or loss ÷ Total capital contributed) × 100.
+      </p>
+
+      <p>
+        Total capital contributed =
+        Starting value + Additional contributions.
+      </p>
+
+      <h2>Investment return example</h2>
+
+      <p>
+        Suppose your investment starts at $10,000.
+        You contribute another $2,000 and withdraw
+        $500 during the investment period.
+      </p>
+
+      <p>
+        If your remaining investment is worth $15,000,
+        your investment gain is $3,500.
+      </p>
+
+      <p>
+        Your total capital contributed is $12,000,
+        giving a simple investment return of
+        approximately 29.17%.
+      </p>
+
+      <h2>What is annualized return?</h2>
+
+      <p>
+        Annualized return expresses an investment's
+        overall return as an equivalent compounded
+        annual rate.
+      </p>
+
+      <p>
+        This calculator annualizes the simple total
+        return percentage over the investment period.
+        It is an approximation when contributions or
+        withdrawals occur during the period.
+      </p>
+
+      <h2>Important: contributions and withdrawals</h2>
+
+      <p>
+        The dates of contributions and withdrawals
+        affect an investment's true annualized
+        performance.
+      </p>
+
+      <p>
+        This calculator uses aggregate cash-flow
+        amounts rather than individual transaction
+        dates. Its total return is a simple
+        capital-based return, not a time-weighted
+        investment return.
+      </p>
+
+      <p>
+        For investments with cash flows occurring
+        on different dates, an XIRR calculation
+        or time-weighted return calculation may
+        provide a more meaningful performance measure.
+      </p>
+
+      <h2>Important considerations</h2>
+
+      <p>
+        Enter the ending value after withdrawals
+        have been taken out. Do not include those
+        withdrawals again in the ending value.
+      </p>
+
+      <p>
+        Investment fees and taxes are not separately
+        calculated. If they have already reduced
+        the ending investment value, their effect
+        is reflected in the result.
+      </p>
+
+      <p>
+        This calculator is intended for estimating
+        investment performance and should not
+        replace detailed portfolio accounting
+        or professional financial advice.
+      </p>
+
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 Calculatics</div>
+</footer>
+
+<script>
+
+  const money = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  function getNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) ? Math.max(0, value) : 0;
+  }
+
+  function calculate() {
+
+    const starting = getNumber("startingValue");
+    const ending = getNumber("endingValue");
+    const contributions = getNumber("contributions");
+    const withdrawals = getNumber("withdrawals");
+    const years = getNumber("years");
+
+    // Total capital put into the investment
+
+    const capital =
+      starting + contributions;
+
+    // Investment profit or loss after cash flows
+
+    const gain =
+      ending + withdrawals - capital;
+
+    // Simple capital-based return
+
+    const totalReturn =
+      capital > 0
+        ? (gain / capital) * 100
+        : null;
+
+    // Simplified annualized return.
+    // This does not account for cash-flow timing.
+
+    let annualizedReturn = null;
+
+    if (capital > 0 && years > 0) {
+
+      const returnFactor =
+        (ending + withdrawals) / capital;
+
+      annualizedReturn =
+        (Math.pow(returnFactor, 1 / years) - 1) * 100;
+
+    }
+
+    // Update results
+
+    document.getElementById("startingResult").textContent =
+      money(starting);
+
+    document.getElementById("contributionsResult").textContent =
+      money(contributions);
+
+    document.getElementById("capitalResult").textContent =
+      money(capital);
+
+    document.getElementById("withdrawalsResult").textContent =
+      money(withdrawals);
+
+    document.getElementById("endingResult").textContent =
+      money(ending);
+
+    document.getElementById("gainResult").textContent =
+      money(gain);
+
+    document.getElementById("annualizedResult").textContent =
+      annualizedReturn === null
+        ? "N/A"
+        : `${annualizedReturn.toFixed(2)}%`;
+
+    document.getElementById("periodResult").textContent =
+      `${years} ${years === 1 ? "year" : "years"}`;
+
+    document.getElementById("returnResult").textContent =
+      totalReturn === null
+        ? "N/A"
+        : `${totalReturn.toFixed(2)}%`;
+
+  }
+
+  document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculate);
+  });
+
+  calculate();
+
+</script>
+
+</body>
+</html>
+
