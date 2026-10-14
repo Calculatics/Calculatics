@@ -1,1 +1,412 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Retirement Calculator | Calculatics</title>
+
+  <meta name="description" content="Free retirement calculator. Estimate retirement savings, monthly contributions, investment growth, retirement income targets and progress towards your retirement goal.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="back" href="index.html">← All calculators</a>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div class="container">
+
+    <a class="backlink" href="index.html">← All calculators</a>
+
+    <h1>Retirement Calculator</h1>
+
+    <p class="intro">
+      Estimate how much you could save for retirement and
+      compare your projected savings with your retirement
+      income goal. Enter your details in the white box.
+      The teal box updates automatically.
+    </p>
+
+    <section class="calculator">
+
+      <!-- INPUTS -->
+
+      <div class="form">
+
+        <label>
+          Current age
+          <input id="currentAge" type="number"
+                 value="35" min="0" max="120" step="1">
+        </label>
+
+        <label>
+          Planned retirement age
+          <input id="retirementAge" type="number"
+                 value="65" min="0" max="120" step="1">
+        </label>
+
+        <label>
+          Current retirement savings ($)
+          <input id="currentSavings" type="number"
+                 value="50000" min="0" step="1000">
+        </label>
+
+        <label>
+          Monthly retirement contribution ($)
+          <input id="monthlyContribution" type="number"
+                 value="500" min="0" step="50">
+        </label>
+
+        <label>
+          Expected annual investment return (%)
+          <input id="annualReturn" type="number"
+                 value="7" min="-100" step="0.1">
+        </label>
+
+        <label>
+          Target annual retirement income ($)
+          <input id="targetIncome" type="number"
+                 value="50000" min="0" step="1000">
+        </label>
+
+        <label>
+          Assumed annual withdrawal rate (%)
+          <input id="withdrawalRate" type="number"
+                 value="4" min="0.1" max="100" step="0.1">
+        </label>
+
+      </div>
+
+      <!-- RESULTS -->
+
+      <div class="results investing-results">
+
+        <div class="result-grid">
+
+          <div>
+            <span>Years until retirement</span>
+            <strong id="yearsResult">0 years</strong>
+          </div>
+
+          <div>
+            <span>Current retirement savings</span>
+            <strong id="savingsResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Total future contributions</span>
+            <strong id="contributionsResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Estimated investment growth</span>
+            <strong id="growthResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Retirement savings target</span>
+            <strong id="targetResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Progress towards target</span>
+            <strong id="progressResult">0%</strong>
+          </div>
+
+          <div>
+            <span>Estimated first-year withdrawal</span>
+            <strong id="incomeResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Projected savings surplus or shortfall</span>
+            <strong id="differenceResult">$0</strong>
+          </div>
+
+        </div>
+
+        <div class="main-result">
+          <span>Projected retirement savings</span>
+          <strong id="retirementResult">$0</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- EXPLANATION -->
+
+    <section class="info">
+
+      <h2>How the Retirement Calculator works</h2>
+
+      <p>
+        This calculator estimates the value of your retirement
+        savings at your planned retirement age using your
+        current savings, monthly contributions and an assumed
+        annual investment return.
+      </p>
+
+      <p>
+        Contributions are assumed to be invested at the end
+        of each month. The annual return is converted into
+        an equivalent monthly compounded growth rate.
+      </p>
+
+      <h2>How much should you save for retirement?</h2>
+
+      <p>
+        The amount needed for retirement depends on your
+        spending needs, other income sources, retirement
+        duration, investment returns, inflation and taxes.
+      </p>
+
+      <p>
+        This calculator estimates a retirement savings
+        target by dividing your desired annual retirement
+        income by your chosen withdrawal rate.
+      </p>
+
+      <h2>Retirement savings target example</h2>
+
+      <p>
+        If your desired annual retirement income is
+        $50,000 and you use an assumed withdrawal
+        rate of 4%, the estimated savings target
+        would be $1,250,000.
+      </p>
+
+      <p>
+        This assumes the entire target income must
+        come from your retirement savings. It does
+        not subtract Social Security, pensions or
+        other retirement income.
+      </p>
+
+      <h2>What is the withdrawal rate?</h2>
+
+      <p>
+        A withdrawal rate is the percentage of your
+        retirement savings used to estimate an initial
+        annual withdrawal.
+      </p>
+
+      <p>
+        For example, a 4% withdrawal rate applied to
+        a $1,000,000 retirement portfolio gives an
+        estimated first-year withdrawal of $40,000.
+      </p>
+
+      <p>
+        The 4% rate is a commonly discussed retirement
+        planning guideline, not a guaranteed safe
+        withdrawal rate. The appropriate rate depends
+        on personal circumstances, market conditions
+        and retirement duration.
+      </p>
+
+      <h2>Does this calculator account for inflation?</h2>
+
+      <p>
+        No. All projected amounts are expressed in
+        future nominal dollars. The calculation does
+        not adjust your retirement income target
+        for inflation between today and retirement.
+      </p>
+
+      <p>
+        It also assumes fixed monthly contributions
+        and a constant annual investment return.
+      </p>
+
+      <h2>Important considerations</h2>
+
+      <p>
+        This is a simplified retirement planning tool.
+        It does not model market volatility, taxes,
+        investment fees, inflation, retirement spending
+        patterns or how long your savings may last
+        after retirement.
+      </p>
+
+      <p>
+        Actual investment returns are uncertain,
+        and retirement income is not guaranteed.
+        Consider professional financial advice
+        for decisions involving retirement planning.
+      </p>
+
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 Calculatics</div>
+</footer>
+
+<script>
+
+  const money = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  function getNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function calculate() {
+
+    const currentAge =
+      Math.min(120, Math.max(0, getNumber("currentAge")));
+
+    const retirementAge =
+      Math.min(120, Math.max(0, getNumber("retirementAge")));
+
+    const currentSavings =
+      Math.max(0, getNumber("currentSavings"));
+
+    const monthlyContribution =
+      Math.max(0, getNumber("monthlyContribution"));
+
+    const annualReturn =
+      Math.max(-100, getNumber("annualReturn")) / 100;
+
+    const targetIncome =
+      Math.max(0, getNumber("targetIncome"));
+
+    const withdrawalRate =
+      Math.min(100, Math.max(0, getNumber("withdrawalRate")));
+
+    // Retirement cannot be earlier than current age
+    // for this accumulation calculation.
+
+    const years =
+      Math.max(0, retirementAge - currentAge);
+
+    const months = Math.round(years * 12);
+
+    // Convert effective annual return to monthly growth.
+
+    const monthlyFactor =
+      Math.pow(1 + annualReturn, 1 / 12);
+
+    const monthlyRate = monthlyFactor - 1;
+
+    // Future value of current savings
+
+    const savingsFutureValue =
+      currentSavings * Math.pow(1 + annualReturn, years);
+
+    // Future value of monthly contributions
+
+    let contributionsFutureValue = 0;
+
+    if (months > 0 && monthlyContribution > 0) {
+
+      const annuityFactor =
+        Math.abs(monthlyRate) < 1e-12
+          ? months
+          : (Math.pow(monthlyFactor, months) - 1)
+            / monthlyRate;
+
+      contributionsFutureValue =
+        monthlyContribution * annuityFactor;
+
+    }
+
+    const projectedSavings =
+      savingsFutureValue + contributionsFutureValue;
+
+    const totalContributions =
+      monthlyContribution * months;
+
+    const totalInvested =
+      currentSavings + totalContributions;
+
+    const investmentGrowth =
+      projectedSavings - totalInvested;
+
+    // Estimate target using the chosen withdrawal rate.
+
+    const retirementTarget =
+      withdrawalRate > 0
+        ? targetIncome / (withdrawalRate / 100)
+        : null;
+
+    const progress =
+      retirementTarget > 0
+        ? (projectedSavings / retirementTarget) * 100
+        : retirementTarget === 0
+          ? 100
+          : null;
+
+    const estimatedIncome =
+      projectedSavings * (withdrawalRate / 100);
+
+    const difference =
+      retirementTarget === null
+        ? null
+        : projectedSavings - retirementTarget;
+
+    // Update results
+
+    document.getElementById("yearsResult").textContent =
+      `${years} ${years === 1 ? "year" : "years"}`;
+
+    document.getElementById("savingsResult").textContent =
+      money(currentSavings);
+
+    document.getElementById("contributionsResult").textContent =
+      money(totalContributions);
+
+    document.getElementById("growthResult").textContent =
+      money(investmentGrowth);
+
+    document.getElementById("targetResult").textContent =
+      retirementTarget === null
+        ? "N/A"
+        : money(retirementTarget);
+
+    document.getElementById("progressResult").textContent =
+      progress === null
+        ? "N/A"
+        : `${progress.toFixed(2)}%`;
+
+    document.getElementById("incomeResult").textContent =
+      money(estimatedIncome);
+
+    document.getElementById("differenceResult").textContent =
+      difference === null
+        ? "N/A"
+        : money(difference);
+
+    document.getElementById("retirementResult").textContent =
+      money(projectedSavings);
+
+  }
+
+  document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculate);
+  });
+
+  calculate();
+
+</script>
+
+</body>
+</html>
+
