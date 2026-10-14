@@ -1,1 +1,387 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Future Value Calculator | Calculatics</title>
+  <meta name="description" content="Free future value calculator. Estimate how much an investment or savings balance could grow with compound interest, regular payments and different compounding frequencies.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="back" href="index.html">← All calculators</a>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div class="container">
+
+    <a class="backlink" href="index.html">← All calculators</a>
+
+    <h1>Future Value Calculator</h1>
+
+    <p class="intro">
+      Calculate what money invested today could be worth in the
+      future. Enter your figures in the white box to estimate
+      your future balance, investment growth and contributions
+      in the teal box.
+    </p>
+
+    <section class="calculator">
+
+      <!-- INPUTS -->
+
+      <div class="form">
+
+        <label>
+          Present value ($)
+          <input id="presentValue" type="number"
+                 value="10000" min="0" step="100">
+        </label>
+
+        <label>
+          Regular payment ($)
+          <input id="payment" type="number"
+                 value="200" min="0" step="10">
+        </label>
+
+        <label>
+          Payment frequency
+          <select id="paymentFrequency">
+            <option value="12" selected>Monthly</option>
+            <option value="4">Quarterly</option>
+            <option value="1">Annually</option>
+          </select>
+        </label>
+
+        <label>
+          Annual interest rate (%)
+          <input id="rate" type="number"
+                 value="6" min="-100" step="0.1">
+        </label>
+
+        <label>
+          Number of years
+          <input id="years" type="number"
+                 value="10" min="0" step="1">
+        </label>
+
+        <label>
+          Compounding frequency
+          <select id="compounding">
+            <option value="365">Daily</option>
+            <option value="12" selected>Monthly</option>
+            <option value="4">Quarterly</option>
+            <option value="1">Annually</option>
+          </select>
+        </label>
+
+        <label>
+          Payment timing
+          <select id="timing">
+            <option value="end" selected>End of each period</option>
+            <option value="beginning">Beginning of each period</option>
+          </select>
+        </label>
+
+      </div>
+
+      <!-- RESULTS -->
+
+      <div class="results investing-results">
+
+        <div class="result-grid">
+
+          <div>
+            <span>Present value</span>
+            <strong id="presentResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Total regular payments</span>
+            <strong id="paymentsResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Total amount invested</span>
+            <strong id="investedResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Interest earned</span>
+            <strong id="interestResult">$0</strong>
+          </div>
+
+          <div>
+            <span>Effective annual rate</span>
+            <strong id="effectiveRateResult">0%</strong>
+          </div>
+
+          <div>
+            <span>Growth on invested money</span>
+            <strong id="growthResult">0%</strong>
+          </div>
+
+        </div>
+
+        <div class="main-result">
+          <span>Estimated future value</span>
+          <strong id="futureResult">$0</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- EXPLANATION -->
+
+    <section class="info">
+
+      <h2>What is future value?</h2>
+
+      <p>
+        Future value (FV) is the estimated value of money
+        at a future date, assuming a particular interest
+        rate or rate of return.
+      </p>
+
+      <p>
+        Future value calculations can help with savings
+        goals, investment planning and comparing financial
+        scenarios.
+      </p>
+
+      <h2>Future value formula</h2>
+
+      <p>
+        For a single initial investment without additional
+        payments, the formula is:
+      </p>
+
+      <p>
+        FV = PV × (1 + r/n)^(n × t)
+      </p>
+
+      <p>
+        PV is the present value, r is the annual interest
+        rate expressed as a decimal, n is the number of
+        compounding periods per year and t is the number
+        of years.
+      </p>
+
+      <h2>How do regular payments affect future value?</h2>
+
+      <p>
+        Making additional payments increases the amount
+        invested. Earlier payments also have more time
+        to earn interest.
+      </p>
+
+      <p>
+        This calculator lets you choose whether payments
+        occur at the beginning or end of each payment
+        period.
+      </p>
+
+      <h2>What is the effective annual rate?</h2>
+
+      <p>
+        The effective annual rate shows the annual growth
+        rate after accounting for the selected compounding
+        frequency.
+      </p>
+
+      <p>
+        More frequent compounding generally increases
+        the effective annual rate when the nominal
+        annual interest rate is positive.
+      </p>
+
+      <h2>How this calculator handles payments</h2>
+
+      <p>
+        When payment frequency differs from compounding
+        frequency, the calculator converts the interest
+        rate into an equivalent growth rate for each
+        payment period.
+      </p>
+
+      <p>
+        Payments are assumed to occur at regular intervals.
+        Only complete payment periods are counted.
+      </p>
+
+      <h2>Important considerations</h2>
+
+      <p>
+        Results assume a constant annual interest rate.
+        They do not include taxes, fees, inflation or
+        changes in market conditions.
+      </p>
+
+      <p>
+        Future investment returns are not guaranteed.
+        Actual results may differ from these estimates.
+      </p>
+
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 Calculatics</div>
+</footer>
+
+<script>
+
+  const money = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  function getNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function calculate() {
+
+    const presentValue = Math.max(0, getNumber("presentValue"));
+    const payment = Math.max(0, getNumber("payment"));
+    const rate = Math.max(-100, getNumber("rate")) / 100;
+    const years = Math.max(0, getNumber("years"));
+
+    const paymentFrequency =
+      Number(document.getElementById("paymentFrequency").value);
+
+    const compounding =
+      Number(document.getElementById("compounding").value);
+
+    const timing =
+      document.getElementById("timing").value;
+
+    // Growth factor for one compounding period
+
+    const compoundingFactor = 1 + rate / compounding;
+
+    // Effective annual growth factor
+
+    const annualFactor =
+      Math.pow(compoundingFactor, compounding);
+
+    const effectiveRate = (annualFactor - 1) * 100;
+
+    // Equivalent growth factor per payment period
+
+    const paymentFactor =
+      Math.pow(annualFactor, 1 / paymentFrequency);
+
+    const paymentRate = paymentFactor - 1;
+
+    // Count completed payment periods
+
+    const periods =
+      Math.floor(years * paymentFrequency + 1e-9);
+
+    const remainingYears =
+      years - periods / paymentFrequency;
+
+    // Future value of original investment
+
+    const presentFutureValue =
+      presentValue * Math.pow(annualFactor, years);
+
+    // Future value of regular payments
+
+    let paymentsFutureValue = 0;
+
+    if (periods > 0 && payment > 0) {
+
+      const annuityFactor =
+        Math.abs(paymentRate) < 1e-12
+          ? periods
+          : (Math.pow(paymentFactor, periods) - 1)
+            / paymentRate;
+
+      paymentsFutureValue = payment * annuityFactor;
+
+      // Beginning-of-period payments earn one
+      // additional payment period of growth.
+
+      if (timing === "beginning") {
+        paymentsFutureValue *= paymentFactor;
+      }
+
+      // Grow payments through any remaining
+      // fraction of a year.
+
+      paymentsFutureValue *=
+        Math.pow(annualFactor, remainingYears);
+
+    }
+
+    const futureValue =
+      presentFutureValue + paymentsFutureValue;
+
+    const totalPayments =
+      payment * periods;
+
+    const totalInvested =
+      presentValue + totalPayments;
+
+    const interestEarned =
+      futureValue - totalInvested;
+
+    const growth =
+      totalInvested > 0
+        ? (interestEarned / totalInvested) * 100
+        : null;
+
+    // Display results
+
+    document.getElementById("presentResult").textContent =
+      money(presentValue);
+
+    document.getElementById("paymentsResult").textContent =
+      money(totalPayments);
+
+    document.getElementById("investedResult").textContent =
+      money(totalInvested);
+
+    document.getElementById("interestResult").textContent =
+      money(interestEarned);
+
+    document.getElementById("effectiveRateResult").textContent =
+      `${effectiveRate.toFixed(2)}%`;
+
+    document.getElementById("growthResult").textContent =
+      growth === null ? "N/A" : `${growth.toFixed(2)}%`;
+
+    document.getElementById("futureResult").textContent =
+      money(futureValue);
+
+  }
+
+  document.querySelectorAll("input, select").forEach(element => {
+    element.addEventListener("input", calculate);
+    element.addEventListener("change", calculate);
+  });
+
+  calculate();
+
+</script>
+
+</body>
+</html>
+
