@@ -1,1 +1,352 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Crypto Investment Calculator | Calculatics</title>
+  <meta name="description" content="Free crypto investment calculator. Estimate future cryptocurrency value, investment profit or loss, trading fees, percentage returns and break-even prices.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="back" href="index.html">← All calculators</a>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div class="container">
+
+    <a class="backlink" href="index.html">← All calculators</a>
+
+    <h1>Crypto Investment Calculator</h1>
+
+    <p class="intro">
+      Estimate the future value of a cryptocurrency investment.
+      Enter your investment amount, purchase price, expected
+      future price and trading fees to see your potential
+      profit or loss.
+    </p>
+
+    <section class="calculator">
+
+      <div class="form">
+
+        <label>
+          Cryptocurrency purchase price ($)
+          <input id="buyPrice" type="number"
+                 value="50000" min="0.00000001" step="any">
+        </label>
+
+        <label>
+          Amount invested ($)
+          <input id="investment" type="number"
+                 value="1000" min="0" step="any">
+        </label>
+
+        <label>
+          Expected future price ($)
+          <input id="futurePrice" type="number"
+                 value="75000" min="0" step="any">
+        </label>
+
+        <label>
+          Buying fee (%)
+          <input id="buyFee" type="number"
+                 value="0.5" min="0" max="100" step="0.1">
+        </label>
+
+        <label>
+          Selling fee (%)
+          <input id="sellFee" type="number"
+                 value="0.5" min="0" max="100" step="0.1">
+        </label>
+
+      </div>
+
+      <div class="results crypto-results">
+
+        <div class="result-grid">
+
+          <div>
+            <span>Cryptocurrency purchased</span>
+            <strong id="quantityResult">0</strong>
+          </div>
+
+          <div>
+            <span>Buying fee</span>
+            <strong id="buyFeeResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Total investment cost</span>
+            <strong id="costResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Gross future value</span>
+            <strong id="grossValueResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Estimated selling fee</span>
+            <strong id="sellFeeResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Net future value</span>
+            <strong id="netValueResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Potential return on investment</span>
+            <strong id="roiResult">0.00%</strong>
+          </div>
+
+          <div>
+            <span>Break-even future price</span>
+            <strong id="breakEvenResult">$0.00</strong>
+          </div>
+
+        </div>
+
+        <div class="main-result">
+          <span>Potential investment profit or loss</span>
+          <strong id="profitResult">$0.00</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="info">
+
+      <h2>What is a Crypto Investment Calculator?</h2>
+
+      <p>
+        A crypto investment calculator helps estimate what
+        an investment in cryptocurrency could be worth if
+        its market price changes.
+      </p>
+
+      <p>
+        Enter the price at which you purchase cryptocurrency,
+        the amount invested and an expected future price.
+        The calculator estimates your investment's future
+        value, profit or loss and percentage return.
+      </p>
+
+      <h2>How is crypto investment profit calculated?</h2>
+
+      <p>
+        First, divide the amount invested by the purchase
+        price to calculate how many cryptocurrency units
+        you acquire.
+      </p>
+
+      <p>
+        Multiply those units by the expected future price
+        to estimate their future market value.
+      </p>
+
+      <p>
+        Deduct the estimated selling fee and your total
+        original investment cost, including buying fees,
+        to calculate potential profit or loss.
+      </p>
+
+      <h2>Crypto investment example</h2>
+
+      <p>
+        Suppose you invest $1,000 in cryptocurrency when
+        it costs $50,000 per coin.
+      </p>
+
+      <p>
+        If its price increases to $75,000, your 0.02 coins
+        would have a gross future value of $1,500.
+      </p>
+
+      <p>
+        With a 0.5% buying fee and a 0.5% selling fee,
+        your potential profit would be $487.50.
+      </p>
+
+      <h2>How are trading fees included?</h2>
+
+      <p>
+        The buying fee is added to the investment amount.
+        For example, a $1,000 cryptocurrency purchase with
+        a 0.5% buying fee costs $1,005 in total.
+      </p>
+
+      <p>
+        The selling fee is deducted from the estimated
+        future market value. Both fees are included
+        when calculating profit and return on investment.
+      </p>
+
+      <h2>What is the break-even future price?</h2>
+
+      <p>
+        The break-even future price is the cryptocurrency
+        price required to recover your initial investment
+        and trading fees after selling.
+      </p>
+
+      <p>
+        A future price above break-even would produce
+        a profit, while a lower price would produce a loss.
+      </p>
+
+      <h2>Can this calculator predict cryptocurrency prices?</h2>
+
+      <p>
+        No. The expected future price is an assumption
+        entered by you, not a forecast.
+      </p>
+
+      <p>
+        Cryptocurrency markets are highly volatile.
+        Prices can change rapidly and investments can
+        lose substantial value.
+      </p>
+
+      <h2>What costs are excluded?</h2>
+
+      <p>
+        This calculator does not include capital gains
+        taxes, network fees, exchange spreads, slippage
+        or currency conversion charges.
+      </p>
+
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 Calculatics</div>
+</footer>
+
+<script>
+
+  const money = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  const quantityFormat = value =>
+    new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 8
+    }).format(value);
+
+  function getNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) ? Math.max(0, value) : 0;
+  }
+
+  function calculate() {
+
+    const buyPrice = getNumber("buyPrice");
+    const investment = getNumber("investment");
+    const futurePrice = getNumber("futurePrice");
+
+    const buyFeeRate =
+      Math.min(100, getNumber("buyFee")) / 100;
+
+    const sellFeeRate =
+      Math.min(100, getNumber("sellFee")) / 100;
+
+    // Calculate cryptocurrency purchased
+
+    const quantity =
+      buyPrice > 0 ? investment / buyPrice : 0;
+
+    // Calculate initial investment costs
+
+    const buyingFee =
+      investment * buyFeeRate;
+
+    const totalCost =
+      investment + buyingFee;
+
+    // Calculate estimated future value
+
+    const grossValue =
+      quantity * futurePrice;
+
+    const sellingFee =
+      grossValue * sellFeeRate;
+
+    const netValue =
+      grossValue - sellingFee;
+
+    // Calculate potential profit
+
+    const profit =
+      netValue - totalCost;
+
+    const roi =
+      totalCost > 0 && buyPrice > 0
+        ? (profit / totalCost) * 100
+        : null;
+
+    // Calculate break-even future price
+
+    const breakEven =
+      quantity > 0 && sellFeeRate < 1
+        ? totalCost / (quantity * (1 - sellFeeRate))
+        : null;
+
+    // Update results
+
+    document.getElementById("quantityResult").textContent =
+      quantityFormat(quantity);
+
+    document.getElementById("buyFeeResult").textContent =
+      money(buyingFee);
+
+    document.getElementById("costResult").textContent =
+      money(totalCost);
+
+    document.getElementById("grossValueResult").textContent =
+      money(grossValue);
+
+    document.getElementById("sellFeeResult").textContent =
+      money(sellingFee);
+
+    document.getElementById("netValueResult").textContent =
+      money(netValue);
+
+    document.getElementById("roiResult").textContent =
+      roi === null ? "N/A" : roi.toFixed(2) + "%";
+
+    document.getElementById("breakEvenResult").textContent =
+      breakEven === null ? "N/A" : money(breakEven);
+
+    document.getElementById("profitResult").textContent =
+      buyPrice > 0 ? money(profit) : "N/A";
+
+  }
+
+  document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculate);
+  });
+
+  calculate();
+
+</script>
+
+</body>
+</html>
+
