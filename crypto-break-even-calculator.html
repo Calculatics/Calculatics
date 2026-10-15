@@ -1,1 +1,368 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Crypto Break-Even Calculator | Calculatics</title>
+  <meta name="description" content="Free crypto break-even calculator. Calculate the cryptocurrency selling price needed to break even after buying and selling fees, and estimate profit at a target price.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="back" href="index.html">← All calculators</a>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div class="container">
+
+    <a class="backlink" href="index.html">← All calculators</a>
+
+    <h1>Crypto Break-Even Calculator</h1>
+
+    <p class="intro">
+      Calculate the cryptocurrency selling price needed to
+      break even after trading fees. Enter your purchase
+      price, investment amount, buying and selling fees,
+      and target selling price to see your results.
+    </p>
+
+    <section class="calculator">
+
+      <div class="form">
+
+        <label>
+          Cryptocurrency purchase price ($)
+          <input id="buyPrice" type="number"
+                 value="50000" min="0.00000001" step="any">
+        </label>
+
+        <label>
+          Amount invested ($)
+          <input id="investment" type="number"
+                 value="1000" min="0" step="any">
+        </label>
+
+        <label>
+          Buying fee (%)
+          <input id="buyFee" type="number"
+                 value="0.5" min="0" max="100" step="0.1">
+        </label>
+
+        <label>
+          Selling fee (%)
+          <input id="sellFee" type="number"
+                 value="0.5" min="0" max="100" step="0.1">
+        </label>
+
+        <label>
+          Target selling price ($)
+          <input id="targetPrice" type="number"
+                 value="60000" min="0" step="any">
+        </label>
+
+      </div>
+
+      <div class="results crypto-results">
+
+        <div class="result-grid">
+
+          <div>
+            <span>Cryptocurrency purchased</span>
+            <strong id="quantityResult">0</strong>
+          </div>
+
+          <div>
+            <span>Buying fee</span>
+            <strong id="buyFeeResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Total purchase cost</span>
+            <strong id="costResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Gross break-even sale value</span>
+            <strong id="grossBreakEvenResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Selling fee at break-even</span>
+            <strong id="breakEvenFeeResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Required price increase</span>
+            <strong id="increaseResult">0.00%</strong>
+          </div>
+
+          <div>
+            <span>Net proceeds at target price</span>
+            <strong id="targetProceedsResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Profit or loss at target price</span>
+            <strong id="targetProfitResult">$0.00</strong>
+          </div>
+
+        </div>
+
+        <div class="main-result">
+          <span>Break-even selling price</span>
+          <strong id="breakEvenResult">$0.00</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="info">
+
+      <h2>What is a crypto break-even price?</h2>
+
+      <p>
+        Your cryptocurrency break-even price is the selling
+        price at which you recover your original investment
+        and trading fees without making a profit or loss.
+      </p>
+
+      <p>
+        Because exchanges may charge fees when you buy
+        and sell cryptocurrency, the break-even price
+        is usually higher than your purchase price.
+      </p>
+
+      <h2>How is crypto break-even calculated?</h2>
+
+      <p>
+        First, calculate the quantity of cryptocurrency
+        purchased by dividing the investment amount by
+        the purchase price.
+      </p>
+
+      <p>
+        Next, add the buying fee to your investment cost.
+        Finally, calculate the selling price needed so
+        that the proceeds after selling fees equal your
+        total purchase cost.
+      </p>
+
+      <p>
+        Break-even price = Total purchase cost ÷
+        [Cryptocurrency quantity × (1 − Selling fee rate)]
+      </p>
+
+      <h2>Crypto break-even example</h2>
+
+      <p>
+        Suppose you invest $1,000 in cryptocurrency
+        at $50,000 per coin, with a 0.5% buying fee
+        and a 0.5% selling fee.
+      </p>
+
+      <p>
+        You purchase 0.02 coins and pay $5 in buying
+        fees, bringing your total purchase cost to $1,005.
+      </p>
+
+      <p>
+        To recover that cost after selling fees,
+        the cryptocurrency must reach approximately
+        $50,502.51 per coin.
+      </p>
+
+      <h2>Why is the break-even price higher than the purchase price?</h2>
+
+      <p>
+        Trading fees increase the cost of buying and
+        reduce the money received when selling.
+        Your cryptocurrency must therefore increase
+        enough in value to cover both fees.
+      </p>
+
+      <h2>What does required price increase mean?</h2>
+
+      <p>
+        Required price increase shows the percentage
+        the cryptocurrency's price must rise from
+        your purchase price to reach break-even.
+      </p>
+
+      <p>
+        It includes the effects of both buying and
+        selling fees entered in the calculator.
+      </p>
+
+      <h2>How does the target selling price work?</h2>
+
+      <p>
+        Enter a possible future selling price to estimate
+        the net proceeds and profit or loss if you sell
+        at that price.
+      </p>
+
+      <p>
+        This allows you to compare your target price
+        with the minimum price needed to break even.
+      </p>
+
+      <h2>Does this calculator include taxes?</h2>
+
+      <p>
+        No. It does not include capital gains taxes,
+        blockchain network fees, exchange spreads,
+        slippage or currency conversion costs.
+      </p>
+
+      <p>
+        Cryptocurrency prices are volatile and can
+        fall substantially. Results are estimates,
+        not predictions of future market prices.
+      </p>
+
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 Calculatics</div>
+</footer>
+
+<script>
+
+  const money = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  const quantityFormat = value =>
+    new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 8
+    }).format(value);
+
+  function getNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) ? Math.max(0, value) : 0;
+  }
+
+  function calculate() {
+
+    const buyPrice = getNumber("buyPrice");
+    const investment = getNumber("investment");
+    const targetPrice = getNumber("targetPrice");
+
+    const buyFeeRate =
+      Math.min(100, getNumber("buyFee")) / 100;
+
+    const sellFeeRate =
+      Math.min(100, getNumber("sellFee")) / 100;
+
+    // Calculate quantity and purchase cost
+
+    const quantity =
+      buyPrice > 0 ? investment / buyPrice : 0;
+
+    const buyingFee =
+      investment * buyFeeRate;
+
+    const totalCost =
+      investment + buyingFee;
+
+    // Calculate break-even selling price
+
+    const validBreakEven =
+      quantity > 0 && sellFeeRate < 1;
+
+    const breakEvenPrice =
+      validBreakEven
+        ? totalCost / (quantity * (1 - sellFeeRate))
+        : null;
+
+    const grossBreakEven =
+      breakEvenPrice === null
+        ? null
+        : quantity * breakEvenPrice;
+
+    const breakEvenSellingFee =
+      grossBreakEven === null
+        ? null
+        : grossBreakEven * sellFeeRate;
+
+    const requiredIncrease =
+      breakEvenPrice === null || buyPrice <= 0
+        ? null
+        : ((breakEvenPrice - buyPrice) / buyPrice) * 100;
+
+    // Calculate profit at target price
+
+    const targetGrossValue =
+      quantity * targetPrice;
+
+    const targetSellingFee =
+      targetGrossValue * sellFeeRate;
+
+    const targetNetProceeds =
+      targetGrossValue - targetSellingFee;
+
+    const targetProfit =
+      targetNetProceeds - totalCost;
+
+    // Update results
+
+    document.getElementById("quantityResult").textContent =
+      quantityFormat(quantity);
+
+    document.getElementById("buyFeeResult").textContent =
+      money(buyingFee);
+
+    document.getElementById("costResult").textContent =
+      money(totalCost);
+
+    document.getElementById("grossBreakEvenResult").textContent =
+      grossBreakEven === null ? "N/A" : money(grossBreakEven);
+
+    document.getElementById("breakEvenFeeResult").textContent =
+      breakEvenSellingFee === null
+        ? "N/A"
+        : money(breakEvenSellingFee);
+
+    document.getElementById("increaseResult").textContent =
+      requiredIncrease === null
+        ? "N/A"
+        : requiredIncrease.toFixed(2) + "%";
+
+    document.getElementById("targetProceedsResult").textContent =
+      buyPrice > 0 ? money(targetNetProceeds) : "N/A";
+
+    document.getElementById("targetProfitResult").textContent =
+      buyPrice > 0 ? money(targetProfit) : "N/A";
+
+    document.getElementById("breakEvenResult").textContent =
+      breakEvenPrice === null ? "N/A" : money(breakEvenPrice);
+
+  }
+
+  document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculate);
+  });
+
+  calculate();
+
+</script>
+
+</body>
+</html>
+
