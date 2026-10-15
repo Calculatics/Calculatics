@@ -1,1 +1,329 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Crypto Profit Calculator | Calculatics</title>
+  <meta name="description" content="Free crypto profit calculator. Calculate cryptocurrency profit or loss, trading fees, percentage returns and break-even selling prices.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="back" href="index.html">← All calculators</a>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div class="container">
+
+    <a class="backlink" href="index.html">← All calculators</a>
+
+    <h1>Crypto Profit Calculator</h1>
+
+    <p class="intro">
+      Calculate your cryptocurrency profit or loss, including
+      buying and selling fees. Enter your details in the white
+      box and see your results update automatically.
+    </p>
+
+    <section class="calculator">
+
+      <div class="form">
+
+        <label>
+          Cryptocurrency purchase price ($)
+          <input id="buyPrice" type="number"
+                 value="50000" min="0.00000001" step="any">
+        </label>
+
+        <label>
+          Cryptocurrency selling price ($)
+          <input id="sellPrice" type="number"
+                 value="65000" min="0" step="any">
+        </label>
+
+        <label>
+          Amount invested ($)
+          <input id="investment" type="number"
+                 value="1000" min="0" step="any">
+        </label>
+
+        <label>
+          Buying fee (%)
+          <input id="buyFee" type="number"
+                 value="0.5" min="0" max="100" step="0.1">
+        </label>
+
+        <label>
+          Selling fee (%)
+          <input id="sellFee" type="number"
+                 value="0.5" min="0" max="100" step="0.1">
+        </label>
+
+      </div>
+
+      <div class="results crypto-results">
+
+        <div class="result-grid">
+
+          <div>
+            <span>Cryptocurrency purchased</span>
+            <strong id="quantityResult">0</strong>
+          </div>
+
+          <div>
+            <span>Buying fee</span>
+            <strong id="buyFeeResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Total purchase cost</span>
+            <strong id="purchaseCostResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Gross selling value</span>
+            <strong id="grossSaleResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Selling fee</span>
+            <strong id="sellFeeResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Net selling proceeds</span>
+            <strong id="netSaleResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Return on investment</span>
+            <strong id="roiResult">0.00%</strong>
+          </div>
+
+          <div>
+            <span>Break-even selling price</span>
+            <strong id="breakEvenResult">$0.00</strong>
+          </div>
+
+        </div>
+
+        <div class="main-result">
+          <span>Crypto profit or loss</span>
+          <strong id="profitResult">$0.00</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="info">
+
+      <h2>How the Crypto Profit Calculator works</h2>
+
+      <p>
+        This free calculator estimates how much money you
+        make or lose when buying and selling cryptocurrency,
+        including percentage-based trading fees.
+      </p>
+
+      <p>
+        Enter the price per coin when purchased, the price
+        when sold, the amount invested and the fees charged
+        by your cryptocurrency exchange.
+      </p>
+
+      <h2>How to calculate crypto profit</h2>
+
+      <p>
+        Cryptocurrency profit or loss is calculated by
+        subtracting your total purchase cost from your
+        net selling proceeds.
+      </p>
+
+      <p>
+        Your gross selling value is the number of coins
+        purchased multiplied by the selling price.
+        The selling fee is deducted from that amount.
+      </p>
+
+      <h2>How are cryptocurrency trading fees calculated?</h2>
+
+      <p>
+        The amount invested is used to buy cryptocurrency
+        before fees. The buying fee is added to your
+        purchase cost, while the selling fee is deducted
+        from your selling proceeds.
+      </p>
+
+      <h2>Crypto profit calculation example</h2>
+
+      <p>
+        Suppose you invest $1,000 in cryptocurrency
+        at $50,000 per coin and sell it at $65,000
+        per coin.
+      </p>
+
+      <p>
+        You purchase 0.02 coins, which are worth
+        $1,300 at the selling price.
+      </p>
+
+      <p>
+        With a 0.5% buying fee and a 0.5% selling fee,
+        the total profit is $288.50.
+      </p>
+
+      <h2>What is the break-even crypto price?</h2>
+
+      <p>
+        Your break-even selling price is the price
+        at which you recover your total purchase
+        cost after selling fees.
+      </p>
+
+      <p>
+        Selling above this price produces a profit,
+        while selling below it produces a loss.
+      </p>
+
+      <h2>Does this calculator include taxes?</h2>
+
+      <p>
+        No. This calculator does not include capital
+        gains taxes, network fees, spreads, slippage
+        or currency conversion charges.
+      </p>
+
+      <p>
+        Cryptocurrency markets are volatile.
+        These calculations are estimates and
+        are not predictions of future returns.
+      </p>
+
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 Calculatics</div>
+</footer>
+
+<script>
+
+  const money = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  const priceMoney = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 8
+    }).format(value);
+
+  const quantityFormat = value =>
+    new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 8
+    }).format(value);
+
+  function getNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) ? Math.max(0, value) : 0;
+  }
+
+  function calculate() {
+
+    const buyPrice = getNumber("buyPrice");
+    const sellPrice = getNumber("sellPrice");
+    const investment = getNumber("investment");
+
+    const buyFeeRate =
+      Math.min(100, getNumber("buyFee")) / 100;
+
+    const sellFeeRate =
+      Math.min(100, getNumber("sellFee")) / 100;
+
+    const quantity =
+      buyPrice > 0 ? investment / buyPrice : 0;
+
+    const buyingFee =
+      investment * buyFeeRate;
+
+    const purchaseCost =
+      investment + buyingFee;
+
+    const grossSale =
+      quantity * sellPrice;
+
+    const sellingFee =
+      grossSale * sellFeeRate;
+
+    const netSale =
+      grossSale - sellingFee;
+
+    const profit =
+      netSale - purchaseCost;
+
+    const roi =
+      purchaseCost > 0 && buyPrice > 0
+        ? (profit / purchaseCost) * 100
+        : null;
+
+    const breakEven =
+      quantity > 0 && sellFeeRate < 1
+        ? purchaseCost / (quantity * (1 - sellFeeRate))
+        : null;
+
+    document.getElementById("quantityResult").textContent =
+      quantityFormat(quantity);
+
+    document.getElementById("buyFeeResult").textContent =
+      money(buyingFee);
+
+    document.getElementById("purchaseCostResult").textContent =
+      money(purchaseCost);
+
+    document.getElementById("grossSaleResult").textContent =
+      money(grossSale);
+
+    document.getElementById("sellFeeResult").textContent =
+      money(sellingFee);
+
+    document.getElementById("netSaleResult").textContent =
+      money(netSale);
+
+    document.getElementById("roiResult").textContent =
+      roi === null ? "N/A" : roi.toFixed(2) + "%";
+
+    document.getElementById("breakEvenResult").textContent =
+      breakEven === null ? "N/A" : priceMoney(breakEven);
+
+    document.getElementById("profitResult").textContent =
+      buyPrice > 0 ? money(profit) : "N/A";
+
+  }
+
+  document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculate);
+  });
+
+  calculate();
+
+</script>
+
+</body>
+</html>
+
