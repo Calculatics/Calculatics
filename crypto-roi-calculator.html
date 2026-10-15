@@ -1,1 +1,349 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Crypto ROI Calculator | Calculatics</title>
+  <meta name="description" content="Free crypto ROI calculator. Calculate cryptocurrency return on investment, net profit or loss, trading fees and investment performance.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="back" href="index.html">← All calculators</a>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div class="container">
+
+    <a class="backlink" href="index.html">← All calculators</a>
+
+    <h1>Crypto ROI Calculator</h1>
+
+    <p class="intro">
+      Calculate the return on investment (ROI) from buying
+      and selling cryptocurrency. Enter your investment amount,
+      purchase price, selling price and trading fees to see
+      your percentage return and net profit or loss.
+    </p>
+
+    <section class="calculator">
+
+      <div class="form">
+
+        <label>
+          Initial investment ($)
+          <input id="investment" type="number"
+                 value="1000" min="0" step="any">
+        </label>
+
+        <label>
+          Cryptocurrency purchase price ($)
+          <input id="buyPrice" type="number"
+                 value="50000" min="0.00000001" step="any">
+        </label>
+
+        <label>
+          Cryptocurrency selling price ($)
+          <input id="sellPrice" type="number"
+                 value="75000" min="0" step="any">
+        </label>
+
+        <label>
+          Buying fee (%)
+          <input id="buyFee" type="number"
+                 value="0.5" min="0" max="100" step="0.1">
+        </label>
+
+        <label>
+          Selling fee (%)
+          <input id="sellFee" type="number"
+                 value="0.5" min="0" max="100" step="0.1">
+        </label>
+
+      </div>
+
+      <div class="results crypto-results">
+
+        <div class="result-grid">
+
+          <div>
+            <span>Cryptocurrency purchased</span>
+            <strong id="quantityResult">0</strong>
+          </div>
+
+          <div>
+            <span>Buying fee</span>
+            <strong id="buyFeeResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Total investment cost</span>
+            <strong id="costResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Gross selling value</span>
+            <strong id="grossResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Selling fee</span>
+            <strong id="sellFeeResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Net selling proceeds</span>
+            <strong id="netResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Net profit or loss</span>
+            <strong id="profitResult">$0.00</strong>
+          </div>
+
+          <div>
+            <span>Price change</span>
+            <strong id="priceChangeResult">0.00%</strong>
+          </div>
+
+        </div>
+
+        <div class="main-result">
+          <span>Crypto return on investment (ROI)</span>
+          <strong id="roiResult">0.00%</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="info">
+
+      <h2>What is crypto ROI?</h2>
+
+      <p>
+        Cryptocurrency return on investment (ROI) measures
+        how much an investment has gained or lost relative
+        to its original cost.
+      </p>
+
+      <p>
+        ROI is expressed as a percentage, making it easier
+        to compare investments of different sizes.
+      </p>
+
+      <h2>How is cryptocurrency ROI calculated?</h2>
+
+      <p>
+        Cryptocurrency ROI is calculated by dividing your
+        net profit or loss by your total investment cost
+        and multiplying the result by 100.
+      </p>
+
+      <p>
+        ROI (%) = (Net Profit / Total Investment Cost) × 100
+      </p>
+
+      <p>
+        This calculator includes buying and selling fees
+        when calculating your net investment return.
+      </p>
+
+      <h2>Crypto ROI example</h2>
+
+      <p>
+        Suppose you purchase $1,000 of cryptocurrency when
+        its price is $50,000 per coin.
+      </p>
+
+      <p>
+        You later sell when the price reaches $75,000.
+        Your cryptocurrency has a gross selling value
+        of $1,500.
+      </p>
+
+      <p>
+        With a 0.5% buying fee and a 0.5% selling fee,
+        your net profit is $487.50.
+      </p>
+
+      <p>
+        Your total investment cost is $1,005, giving
+        an ROI of approximately 48.51%.
+      </p>
+
+      <h2>What is the difference between price change and ROI?</h2>
+
+      <p>
+        Price change measures how much the cryptocurrency's
+        market price has increased or decreased.
+      </p>
+
+      <p>
+        ROI measures the actual percentage return on
+        your investment after the trading fees included
+        in this calculator.
+      </p>
+
+      <p>
+        For example, a cryptocurrency price increase of
+        50% may result in an investment ROI below 50%
+        because of buying and selling fees.
+      </p>
+
+      <h2>Can cryptocurrency ROI be negative?</h2>
+
+      <p>
+        Yes. A negative ROI means your investment has
+        lost money after costs.
+      </p>
+
+      <p>
+        Even if a cryptocurrency's price remains unchanged,
+        trading fees can result in a negative ROI.
+      </p>
+
+      <h2>Does this calculator include taxes?</h2>
+
+      <p>
+        No. This calculator does not include capital
+        gains taxes, network fees, exchange spreads,
+        slippage or currency conversion charges.
+      </p>
+
+      <p>
+        Cryptocurrency investments are volatile and
+        can lose substantial value. Past performance
+        does not guarantee future returns.
+      </p>
+
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 Calculatics</div>
+</footer>
+
+<script>
+
+  const money = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  const quantityFormat = value =>
+    new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 8
+    }).format(value);
+
+  function getNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) ? Math.max(0, value) : 0;
+  }
+
+  function calculate() {
+
+    const investment = getNumber("investment");
+    const buyPrice = getNumber("buyPrice");
+    const sellPrice = getNumber("sellPrice");
+
+    const buyFeeRate =
+      Math.min(100, getNumber("buyFee")) / 100;
+
+    const sellFeeRate =
+      Math.min(100, getNumber("sellFee")) / 100;
+
+    // Calculate cryptocurrency purchased
+
+    const quantity =
+      buyPrice > 0 ? investment / buyPrice : 0;
+
+    // Calculate initial investment costs
+
+    const buyingFee =
+      investment * buyFeeRate;
+
+    const totalCost =
+      investment + buyingFee;
+
+    // Calculate selling proceeds
+
+    const grossSale =
+      quantity * sellPrice;
+
+    const sellingFee =
+      grossSale * sellFeeRate;
+
+    const netSale =
+      grossSale - sellingFee;
+
+    // Calculate net profit and ROI
+
+    const profit =
+      netSale - totalCost;
+
+    const roi =
+      totalCost > 0 && buyPrice > 0
+        ? (profit / totalCost) * 100
+        : null;
+
+    const priceChange =
+      buyPrice > 0
+        ? ((sellPrice - buyPrice) / buyPrice) * 100
+        : null;
+
+    // Update results
+
+    document.getElementById("quantityResult").textContent =
+      quantityFormat(quantity);
+
+    document.getElementById("buyFeeResult").textContent =
+      money(buyingFee);
+
+    document.getElementById("costResult").textContent =
+      money(totalCost);
+
+    document.getElementById("grossResult").textContent =
+      money(grossSale);
+
+    document.getElementById("sellFeeResult").textContent =
+      money(sellingFee);
+
+    document.getElementById("netResult").textContent =
+      money(netSale);
+
+    document.getElementById("profitResult").textContent =
+      buyPrice > 0 ? money(profit) : "N/A";
+
+    document.getElementById("priceChangeResult").textContent =
+      priceChange === null ? "N/A" : priceChange.toFixed(2) + "%";
+
+    document.getElementById("roiResult").textContent =
+      roi === null ? "N/A" : roi.toFixed(2) + "%";
+
+  }
+
+  document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculate);
+  });
+
+  calculate();
+
+</script>
+
+</body>
+</html>
+
