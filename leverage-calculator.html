@@ -1,0 +1,481 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Leverage Calculator | Calculatics</title>
+  <meta name="description" content="Free trading leverage calculator. Calculate position value, required margin, profit and loss, and return on margin for leveraged long and short trades.">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .lev-form {
+      display: grid;
+      gap: 20px;
+      margin: 28px 0;
+    }
+
+    .lev-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .lev-form input,
+    .lev-form select {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font: inherit;
+      background: #ffffff;
+    }
+
+    .lev-form small {
+      display: block;
+      margin-top: 6px;
+      color: #64748b;
+    }
+
+    .lev-results {
+      margin: 28px 0 40px;
+      padding: 28px;
+      border-radius: 14px;
+      background: #1e40af;
+      color: #ffffff;
+    }
+
+    .lev-results .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .lev-results .result-grid div {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .lev-results span {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 15px;
+    }
+
+    .lev-results strong {
+      color: #ffffff;
+      font-size: 22px;
+    }
+
+    .lev-results .main-result {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .lev-results .main-result strong {
+      font-size: 40px;
+    }
+
+    .lev-warning {
+      color: #b91c1c;
+      font-size: 14px;
+      margin: 10px 0 0;
+    }
+
+    @media (max-width: 600px) {
+      .lev-results .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lev-results {
+        padding: 24px;
+      }
+
+      .lev-results .main-result strong {
+        font-size: 34px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="back" href="index.html">← All calculators</a>
+  </div>
+</header>
+
+<main class="calc-page">
+  <div class="container">
+
+    <a class="backlink" href="index.html">← All calculators</a>
+
+    <h1>Leverage Calculator</h1>
+
+    <p class="intro">
+      Calculate the margin required to open a leveraged
+      trading position and estimate how price changes
+      affect your profit, loss and return on margin.
+    </p>
+
+    <div class="lev-form">
+
+      <div>
+        <label for="direction">Trade Direction</label>
+        <select id="direction">
+          <option value="long">Long (Buy)</option>
+          <option value="short">Short (Sell)</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="entry">Entry Price ($)</label>
+        <input id="entry" type="number" min="0" step="any" value="100">
+      </div>
+
+      <div>
+        <label for="exit">Exit Price ($)</label>
+        <input id="exit" type="number" min="0" step="any" value="110">
+      </div>
+
+      <div>
+        <label for="units">Position Size (Units)</label>
+        <input id="units" type="number" min="0" step="any" value="20">
+        <small>Number of shares, coins or other units traded.</small>
+      </div>
+
+      <div>
+        <label for="leverage">Leverage (×)</label>
+        <input id="leverage" type="number" min="1" step="any" value="5">
+        <small>For example, enter 5 for 5× leverage.</small>
+      </div>
+
+    </div>
+
+    <div class="lev-results" aria-live="polite">
+
+      <div class="result-grid">
+
+        <div>
+          <span>Position Value</span>
+          <strong id="positionValue">$2,000.00</strong>
+        </div>
+
+        <div>
+          <span>Required Initial Margin</span>
+          <strong id="margin">$400.00</strong>
+        </div>
+
+        <div>
+          <span>Price Change</span>
+          <strong id="priceChange">10.00%</strong>
+        </div>
+
+        <div>
+          <span>Return on Margin</span>
+          <strong id="marginReturn">50.00%</strong>
+        </div>
+
+        <div>
+          <span>Initial Margin Rate</span>
+          <strong id="marginRate">20.00%</strong>
+        </div>
+
+        <div>
+          <span>Estimated Margin After P&amp;L</span>
+          <strong id="remainingMargin">$600.00</strong>
+        </div>
+
+      </div>
+
+      <div class="main-result">
+        <span>Gross Profit / Loss</span>
+        <strong id="pnl">$200.00</strong>
+      </div>
+
+    </div>
+
+    <p class="lev-warning" id="warning" role="status"></p>
+
+    <section class="info">
+
+      <h2>What is trading leverage?</h2>
+
+      <p>
+        Leverage allows traders to control a position
+        larger than the amount of capital initially
+        committed as margin.
+      </p>
+
+      <p>
+        For example, 5× leverage means a trader
+        can control a $5,000 position using
+        $1,000 of initial margin, assuming
+        a 20% initial margin requirement.
+      </p>
+
+      <h2>How to calculate required margin</h2>
+
+      <p>
+        Required initial margin is calculated by
+        dividing the position's opening notional
+        value by the leverage multiple.
+      </p>
+
+      <p>
+        <strong>
+          Required Margin = Position Value ÷ Leverage
+        </strong>
+      </p>
+
+      <h2>How leverage affects trading profits</h2>
+
+      <p>
+        Leverage magnifies percentage gains and
+        losses relative to the margin committed.
+        It does not change the gross dollar profit
+        or loss on a position of a fixed size.
+      </p>
+
+      <p>
+        For a long trade, profit or loss is calculated
+        by subtracting the entry price from the
+        exit price and multiplying by position size.
+      </p>
+
+      <p>
+        For a short trade, the price difference
+        is reversed.
+      </p>
+
+      <h2>Leverage calculation example</h2>
+
+      <p>
+        Suppose you buy 20 units at $100 each,
+        creating a $2,000 position.
+      </p>
+
+      <p>
+        With 5× leverage, your initial margin
+        is $400.
+      </p>
+
+      <p>
+        If the price rises to $110, your gross
+        profit is $200, representing a 50%
+        return on your initial margin.
+      </p>
+
+      <p>
+        However, if the price falls to $90,
+        your gross loss is $200, equivalent
+        to 50% of your initial margin.
+      </p>
+
+      <h2>What is effective leverage?</h2>
+
+      <p>
+        Effective leverage compares the notional
+        value of a position with the capital
+        supporting it.
+      </p>
+
+      <p>
+        <strong>
+          Effective Leverage = Position Value ÷ Capital Committed
+        </strong>
+      </p>
+
+      <p>
+        In this calculator, the selected leverage
+        determines the required initial margin.
+        Actual effective account leverage may
+        differ depending on account equity
+        and other open positions.
+      </p>
+
+      <h2>Important risks of leveraged trading</h2>
+
+      <p>
+        Leveraged trading can lead to rapid
+        losses, margin calls and forced liquidation.
+        Losses may exceed initial margin,
+        depending on the product and broker.
+      </p>
+
+      <p>
+        The estimated margin after profit or loss
+        is a simplified illustration, not a
+        liquidation or account-equity calculation.
+      </p>
+
+      <p>
+        This calculator does not include maintenance
+        margin, liquidation thresholds, fees,
+        spreads, funding costs, interest, taxes
+        or currency conversions.
+      </p>
+
+      <p>
+        It assumes a linear-priced instrument
+        where each one-dollar price change
+        per unit produces a one-dollar change
+        in profit or loss.
+      </p>
+
+      <p>
+        Results are educational estimates,
+        not financial advice.
+      </p>
+
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">© 2026 Calculatics</div>
+</footer>
+
+<script>
+  const directionInput = document.getElementById("direction");
+  const entryInput = document.getElementById("entry");
+  const exitInput = document.getElementById("exit");
+  const unitsInput = document.getElementById("units");
+  const leverageInput = document.getElementById("leverage");
+
+  const money = value =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+
+  function clearResults() {
+    [
+      "positionValue",
+      "margin",
+      "priceChange",
+      "marginReturn",
+      "marginRate",
+      "remainingMargin",
+      "pnl"
+    ].forEach(id => {
+      document.getElementById(id).textContent = "—";
+    });
+  }
+
+  function calculate() {
+    const direction = directionInput.value;
+    const entry = Number(entryInput.value);
+    const exit = Number(exitInput.value);
+    const units = Number(unitsInput.value);
+    const leverage = Number(leverageInput.value);
+
+    const warning = document.getElementById("warning");
+
+    const filled = [
+      entryInput,
+      exitInput,
+      unitsInput,
+      leverageInput
+    ].every(input => input.value.trim() !== "");
+
+    const valid =
+      filled &&
+      [entry, exit, units, leverage].every(Number.isFinite) &&
+      entry > 0 &&
+      exit > 0 &&
+      units > 0 &&
+      leverage >= 1;
+
+    if (!valid) {
+      clearResults();
+      warning.textContent =
+        "Enter valid values. Prices and position size must be positive, and leverage must be at least 1×.";
+      return;
+    }
+
+    const positionValue = entry * units;
+    const margin = positionValue / leverage;
+
+    const priceChange = ((exit - entry) / entry) * 100;
+
+    const pnl = direction === "long"
+      ? (exit - entry) * units
+      : (entry - exit) * units;
+
+    const marginReturn = (pnl / margin) * 100;
+    const marginRate = (1 / leverage) * 100;
+    const remainingMargin = margin + pnl;
+
+    const results = [
+      positionValue,
+      margin,
+      priceChange,
+      pnl,
+      marginReturn,
+      marginRate,
+      remainingMargin
+    ];
+
+    if (!results.every(Number.isFinite)) {
+      clearResults();
+      warning.textContent =
+        "The entered values are too large to calculate reliably.";
+      return;
+    }
+
+    document.getElementById("positionValue").textContent =
+      money(positionValue);
+
+    document.getElementById("margin").textContent =
+      money(margin);
+
+    document.getElementById("priceChange").textContent =
+      priceChange.toFixed(2) + "%";
+
+    document.getElementById("marginReturn").textContent =
+      marginReturn.toFixed(2) + "%";
+
+    document.getElementById("marginRate").textContent =
+      marginRate.toFixed(2) + "%";
+
+    document.getElementById("remainingMargin").textContent =
+      money(remainingMargin);
+
+    document.getElementById("pnl").textContent =
+      money(pnl);
+
+    if (remainingMargin <= 0) {
+      warning.textContent =
+        "Warning: The estimated loss equals or exceeds initial margin. Liquidation may occur before the selected exit price.";
+    } else {
+      warning.textContent = "";
+    }
+  }
+
+  [
+    directionInput,
+    entryInput,
+    exitInput,
+    unitsInput,
+    leverageInput
+  ].forEach(input => {
+    input.addEventListener("input", calculate);
+    input.addEventListener("change", calculate);
+  });
+
+  calculate();
+</script>
+
+</body>
+</html>
