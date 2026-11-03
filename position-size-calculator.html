@@ -73,9 +73,9 @@
     }
 
     .position-results .main-result {
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      margin: 0 0 20px;
+      padding: 0 0 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -104,6 +104,102 @@
         font-size: 34px;
       }
     }
+
+    /* Position Size Calculator mobile-first layout pilot */
+    .position-workspace {
+      display: flex;
+      flex-direction: column;
+    }
+    .position-results {
+      background: #1e40af;
+    }
+    .position-results .main-result {
+      background: transparent !important;
+      color: #fff;
+      border-radius: 0;
+    }
+    .position-lower-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 22px;
+      align-items: start;
+      margin: 24px 0 44px;
+    }
+    .position-lower-layout > .calc-journey {
+      grid-column: 1;
+      grid-row: 1;
+      margin: 0;
+    }
+    .position-lower-layout > .info {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0;
+      min-width: 0;
+    }
+    .position-lower-layout .calc-journey-list {
+      grid-template-columns: 1fr;
+    }
+    @media (max-width: 800px) {
+      .position-lower-layout {
+        grid-template-columns: 1fr;
+      }
+      .position-lower-layout > .calc-journey,
+      .position-lower-layout > .info {
+        grid-column: 1;
+        grid-row: auto;
+      }
+      .position-lower-layout > .calc-journey { order: 0; }
+      .position-lower-layout > .info { order: 1; }
+    }
+    @media (max-width: 600px) {
+      /* Show the answer before the form, without requiring a scroll to find it. */
+      .position-workspace > .position-results { order: 0; }
+      .position-workspace > .position-form { order: 1; }
+      .position-results {
+        margin: 10px 0 16px;
+        padding: 18px;
+      }
+      .position-results .main-result {
+        margin: 0 0 14px;
+        padding: 0 0 12px;
+      }
+      .position-results .main-result strong { font-size: 38px; }
+      .position-results .result-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 12px;
+      }
+      .position-results span { font-size: 12px; }
+      .position-results strong { font-size: 17px; overflow-wrap: anywhere; }
+      .position-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin: 8px 0 14px;
+      }
+      .position-form > div { min-width: 0; }
+      .position-form label {
+        font-size: 13px;
+        line-height: 1.35;
+        margin-bottom: 6px;
+      }
+      .position-form input {
+        padding: 11px 10px;
+        font-size: 16px;
+      }
+      .position-form small { font-size: 11px; line-height: 1.35; }
+      .calc-page .backlink { display: none; }
+      .calc-page h1 {
+        font-size: clamp(25px, 7vw, 34px);
+        line-height: 1.14;
+        margin: 12px 0 8px;
+      }
+      .calc-page .intro {
+        font-size: 14px;
+        line-height: 1.45;
+        margin: 0 0 10px;
+      }
+      .position-lower-layout { margin-top: 18px; }
+    }
   </style>
 </head>
 
@@ -129,6 +225,7 @@
       and stop-loss price.
     </p>
 
+    <div class="position-workspace">
     <div class="position-form">
 
       <div>
@@ -156,6 +253,11 @@
 
     <div class="position-results" aria-live="polite">
 
+      <div class="main-result">
+        <span>Position Size (Units)</span>
+        <strong id="positionSize">20.00</strong>
+      </div>
+
       <div class="result-grid">
 
         <div>
@@ -180,15 +282,15 @@
 
       </div>
 
-      <div class="main-result">
-        <span>Position Size (Units)</span>
-        <strong id="positionSize">20.00</strong>
-      </div>
+
 
     </div>
 
+    </div><!-- End position workspace -->
+
     <p class="position-warning" id="warning" role="status"></p>
 
+    <div class="position-lower-layout">
     <section class="info">
 
       <h2>What is position sizing?</h2>
@@ -269,8 +371,6 @@
 
     </section>
 
-  </div>
-
 <!-- Calculator journey: contextual internal links -->
 <section class="calc-journey" aria-labelledby="journey-heading">
   <h2 id="journey-heading">What to calculate next?</h2>
@@ -287,6 +387,8 @@
   </div>
 </section>
 <!-- End calculator journey -->
+    </div><!-- End lower layout -->
+  </div><!-- End container -->
 </main>
 
 <footer>
