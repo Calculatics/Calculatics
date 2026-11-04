@@ -152,9 +152,9 @@
       .position-lower-layout > .info { order: 1; }
     }
     @media (max-width: 600px) {
-      /* Show the answer before the form, without requiring a scroll to find it. */
-      .position-workspace > .position-results { order: 0; }
-      .position-workspace > .position-form { order: 1; }
+      /* Inputs first, followed by the main answer in the results panel. */
+      .position-workspace > .position-form { order: 0; }
+      .position-workspace > .position-results { order: 1; }
       .position-results {
         margin: 10px 0 16px;
         padding: 18px;
@@ -200,6 +200,20 @@
       }
       .position-lower-layout { margin-top: 18px; }
     }
+
+    .brand-mobile { display: none; }
+    @media (max-width: 600px) {
+      .site-header .nav { min-height: 48px; padding-top: 8px; padding-bottom: 8px; }
+      .site-header .brand { font-size: 15px; font-weight: 700; letter-spacing: 0; }
+      .brand-desktop { display: none; }
+      .brand-mobile { display: inline; }
+      .site-header .back { font-size: 13px; }
+      .calc-page { padding-top: 10px; }
+      .calc-page .container { padding-top: 0; }
+      .position-form { margin-top: 6px; margin-bottom: 8px; }
+      .position-form > div { margin: 0; }
+      .position-results { margin-top: 6px; }
+    }
   </style>
 </head>
 
@@ -207,7 +221,7 @@
 
 <header class="site-header">
   <div class="container nav">
-    <a class="brand" href="index.html">Calculatics.com</a>
+    <a class="brand" href="index.html"><span class="brand-desktop">Calculatics.com</span><span class="brand-mobile">Home</span></a>
     <a class="back" href="index.html">← All calculators</a>
   </div>
 </header>
