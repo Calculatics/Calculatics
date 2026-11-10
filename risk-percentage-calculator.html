@@ -101,6 +101,21 @@
         font-size: 34px;
       }
     }
+  
+    /* Desktop only: inputs on the left, blue results on the right. */
+    @media (min-width: 901px) {
+      .trading-desktop-workspace {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+      }
+      .risk-form, .risk-results {
+        min-width: 0;
+        margin-top: 0;
+      }
+      .risk-results { margin-bottom: 0; }
+    }
   </style>
   <link rel="canonical" href="https://calculatics.com/risk-percentage-calculator">
 </head>
@@ -127,6 +142,7 @@
       stop-loss price and position size.
     </p>
 
+    <div class="trading-desktop-workspace">
     <div class="risk-form">
 
       <div>
@@ -201,6 +217,7 @@
         <strong id="riskPercent">1.00%</strong>
       </div>
 
+    </div>
     </div>
 
     <p class="risk-warning" id="warning" role="status"></p>
