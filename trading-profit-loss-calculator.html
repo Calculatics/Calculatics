@@ -101,6 +101,21 @@
         font-size: 34px;
       }
     }
+  
+    /* Desktop only: inputs on the left, blue results on the right. */
+    @media (min-width: 901px) {
+      .trading-desktop-workspace {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+      }
+      .pnl-form, .pnl-results {
+        min-width: 0;
+        margin-top: 0;
+      }
+      .pnl-results { margin-bottom: 0; }
+    }
   </style>
   <link rel="canonical" href="https://calculatics.com/trading-profit-loss-calculator">
 </head>
@@ -127,6 +142,7 @@
       position size and trading fee percentage.
     </p>
 
+    <div class="trading-desktop-workspace">
     <div class="pnl-form">
 
       <div>
@@ -205,6 +221,7 @@
         <strong id="netPnl">$195.80</strong>
       </div>
 
+    </div>
     </div>
 
     <p class="pnl-warning" id="warning" role="status"></p>
