@@ -33,15 +33,21 @@
     <span>✓ No sign up required</span>
   </div>
 
-  <label class="search">
-    <span>⌕</span>
+  <form class="search" id="calculator-search" role="search">
     <input
       id="search"
       type="search"
       placeholder="Search calculators…"
       aria-label="Search calculators"
+      autocomplete="off"
     >
-  </label>
+    <button class="search-submit" type="submit" aria-label="Search calculators" title="Search calculators">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="10.8" cy="10.8" r="6.6"></circle>
+        <path d="m16 16 5 5"></path>
+      </svg>
+    </button>
+  </form>
 
   <p class="browse-prompt">(or scroll down)</p>
 
@@ -51,7 +57,7 @@
 
   </div>
 </section>
-<div class="container" id="results"></div>
+<div class="container" id="results" role="status" aria-live="polite"></div>
 <section class="category category-finance" id="finance">
   <div class="container">
 
