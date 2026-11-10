@@ -1043,3 +1043,6 @@
 .search-result-link:hover,.search-result-link:focus-visible{border-color:#64748b;box-shadow:0 6px 20px rgba(16,24,40,.08)}
 .search-result-link strong{font-size:16px}
 .search-result-link span,.search-results-empty{color:var(--muted);font-size:14px}
+
+/* Highlight the matching keyword within homepage search results. */
+.search-result-link mark.search-match{background:#fef08a;color:#111827;border-radius:3px;padding:0 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}

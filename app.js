@@ -19,6 +19,27 @@ const calculators = [...document.querySelectorAll(".category")].flatMap(section 
   });
 });
 
+// Highlight only the matching text, without inserting user input as HTML.
+function appendHighlightedText(element, text, query) {
+  const index = text.toLowerCase().indexOf(query);
+  if (index === -1) {
+    element.textContent = text;
+    return;
+  }
+  let from = 0;
+  let match = index;
+  while (match !== -1) {
+    element.append(document.createTextNode(text.slice(from, match)));
+    const highlight = document.createElement("mark");
+    highlight.className = "search-match";
+    highlight.textContent = text.slice(match, match + query.length);
+    element.append(highlight);
+    from = match + query.length;
+    match = text.toLowerCase().indexOf(query, from);
+  }
+  element.append(document.createTextNode(text.slice(from)));
+}
+
 function showSearchResults() {
   if (!results || !searchInput) return;
   const query = searchInput.value.trim().toLowerCase();
@@ -53,9 +74,9 @@ function showSearchResults() {
     link.className = "search-result-link";
     link.href = slug;
     const title = document.createElement("strong");
-    title.textContent = name;
+    appendHighlightedText(title, name, query);
     const subtitle = document.createElement("span");
-    subtitle.textContent = category;
+    appendHighlightedText(subtitle, category, query);
     link.append(title, subtitle);
     grid.append(link);
   }
