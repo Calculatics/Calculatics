@@ -1,1 +1,81 @@
-const search=document.querySelector('#search');const cards=[...document.querySelectorAll('.card')];search?.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();document.querySelectorAll('.category').forEach(section=>{let visible=0;section.querySelectorAll('.card').forEach(card=>{const show=!q||card.textContent.toLowerCase().includes(q);card.style.display=show?'flex':'none';if(show)visible++});section.style.display=visible?'block':'none'})});document.querySelector('#year').textContent=new Date().getFullYear();
+// Homepage calculator search: show results only when the user submits.
+const searchForm = document.querySelector("#calculator-search");
+const searchInput = document.querySelector("#search");
+const results = document.querySelector("#results");
+
+const calculatorPaths = {
+  "Risk/Reward Calculator": "risk-reward-calculator",
+  "Profit & Loss Calculator": "trading-profit-loss-calculator",
+  "ROI Calculator": "roi-calculator"
+};
+
+const calculators = [...document.querySelectorAll(".category")].flatMap(section => {
+  const category = section.querySelector("h2")?.textContent.trim() || "";
+  return [...section.querySelectorAll(".category-calculators span")].map(item => {
+    const name = item.textContent.trim();
+    const slug = calculatorPaths[name] ||
+      name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return { name, category, slug };
+  });
+});
+
+function showSearchResults() {
+  if (!results || !searchInput) return;
+  const query = searchInput.value.trim().toLowerCase();
+  results.replaceChildren();
+
+  // Do not hide or rearrange homepage categories while someone is typing.
+  if (!query) return;
+
+  const matches = calculators.filter(({ name, category }) =>
+    (name + " " + category).toLowerCase().includes(query)
+  );
+
+  const heading = document.createElement("h2");
+  heading.className = "search-results-heading";
+  heading.textContent = matches.length
+    ? `Search results (${matches.length})`
+    : "No matching calculators";
+  results.append(heading);
+
+  if (!matches.length) {
+    const message = document.createElement("p");
+    message.className = "search-results-empty";
+    message.textContent = "Try another keyword or browse the categories below.";
+    results.append(message);
+    return;
+  }
+
+  const grid = document.createElement("div");
+  grid.className = "search-results-grid";
+  for (const { name, category, slug } of matches) {
+    const link = document.createElement("a");
+    link.className = "search-result-link";
+    link.href = slug;
+    const title = document.createElement("strong");
+    title.textContent = name;
+    const subtitle = document.createElement("span");
+    subtitle.textContent = category;
+    link.append(title, subtitle);
+    grid.append(link);
+  }
+  results.append(grid);
+}
+
+searchForm?.addEventListener("submit", event => {
+  event.preventDefault();
+  showSearchResults();
+  if (searchInput?.value.trim()) {
+    results?.scrollIntoView({ behavior: "smooth", block: "start" });
+  } else {
+    searchInput?.focus();
+  }
+});
+
+searchInput?.addEventListener("input", () => {
+  // Clear old results when the query is cleared; do not filter categories.
+  if (!searchInput.value.trim()) results?.replaceChildren();
+});
+
+const year = document.querySelector("#year");
+if (year) year.textContent = new Date().getFullYear();
