@@ -102,6 +102,21 @@
         font-size: 34px;
       }
     }
+  
+    /* Desktop only: inputs on the left, blue results on the right. */
+    @media (min-width: 901px) {
+      .trading-desktop-workspace {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+      }
+      .pip-form, .pip-results {
+        min-width: 0;
+        margin-top: 0;
+      }
+      .pip-results { margin-bottom: 0; }
+    }
   </style>
   <link rel="canonical" href="https://calculatics.com/pip-value-calculator">
 </head>
@@ -128,6 +143,7 @@
       Estimate profit, loss and stop-loss risk instantly.
     </p>
 
+    <div class="trading-desktop-workspace">
     <div class="pip-form">
 
       <div>
@@ -227,6 +243,7 @@
         <strong id="pipValue">$10.00</strong>
       </div>
 
+    </div>
     </div>
 
     <p class="pip-warning" id="warning" role="status"></p>
